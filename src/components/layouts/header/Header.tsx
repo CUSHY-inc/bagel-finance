@@ -1,4 +1,6 @@
-import { Text, VStack, HStack, Image } from "@chakra-ui/react";
+import { HStack, Image } from "@chakra-ui/react";
+import WalletConnect from "./WalletConnect";
+import BalanceButton from "./BalanceButton";
 
 export default function Header() {
   return (
@@ -13,38 +15,14 @@ export default function Header() {
       spacing={4}
       zIndex={1}
     >
-      <VStack
-        width="100%"
-        flex={1}
-        bgColor="grey"
-        borderRadius="full"
-        spacing={0}
-        p={1}
-      >
-        <Text fontSize="xs">Balance</Text>
-        <Text fontSize="sm" as="b">
-          - TON
-        </Text>
-      </VStack>
+      <BalanceButton />
       <Image
         borderRadius="full"
         boxSize="48px"
         src="/images/bagel-finance-icon.png"
         alt="bagel-finance-icon"
       />
-      <VStack
-        width="100%"
-        flex={1}
-        bgColor="grey"
-        borderRadius="full"
-        spacing={0}
-        p={1}
-      >
-        <Text fontSize="xs">Wallet</Text>
-        <Text fontSize="sm" as="b">
-          Connect
-        </Text>
-      </VStack>
+      <WalletConnect />
     </HStack>
   );
 }
