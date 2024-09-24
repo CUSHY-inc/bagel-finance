@@ -1,39 +1,50 @@
 "use client";
 
-import { Button, Flex } from "@chakra-ui/react";
-import {
-  useIsConnectionRestored,
-  useTonAddress,
-  useTonConnectUI,
-} from "@tonconnect/ui-react";
+import { Box, Button, Flex, Text, VStack } from "@chakra-ui/react";
+import { usePathname, useRouter } from "next/navigation";
+import { FaDollarSign, FaUser } from "react-icons/fa";
 
 export default function Footer() {
-  const isConnectionRestored = useIsConnectionRestored();
-  const [tonConnectUI] = useTonConnectUI();
-  const address = useTonAddress();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navItems = [
+    { label: "Indexes", icon: <FaDollarSign />, href: "/indexes" },
+    { label: "Profile", icon: <FaUser />, href: "/profile" },
+  ];
 
   return (
-    <>
-      {!address && isConnectionRestored && (
-        <Flex
-          as="footer"
-          position="fixed"
-          bottom="0"
-          width="100%"
-          justifyContent="center"
-          alignItems="center"
-          zIndex={1}
-        >
+    <Box
+      position="fixed"
+      bottom={0}
+      width="100%"
+      zIndex={1}
+      p={4}
+      mb="env(safe-area-inset-bottom)"
+      boxShadow="md"
+    >
+      <Flex
+        justify="space-around"
+        align="center"
+        bgColor="gray.600"
+        p={2}
+        borderRadius="full"
+      >
+        {navItems.map((item) => (
           <Button
-            w="100%"
-            colorScheme="blue"
-            size="lg"
-            onClick={() => tonConnectUI.openModal()}
+            key={item.label}
+            variant="ghost"
+            fontWeight="normal"
+            onClick={() => router.push(item.href)}
+            color={pathname.startsWith(item.href) ? "blue.200" : undefined}
           >
-            Connect
+            <VStack spacing={1}>
+              {item.icon}
+              <Text fontSize="xs">{item.label}</Text>
+            </VStack>
           </Button>
-        </Flex>
-      )}
-    </>
+        ))}
+      </Flex>
+    </Box>
   );
 }
