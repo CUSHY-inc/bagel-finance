@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "ngrok": "ngrok http --domain=whole-newt-absolute.ngrok-free.app 3000"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
