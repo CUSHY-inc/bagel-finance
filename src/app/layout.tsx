@@ -1,7 +1,7 @@
 import Footer from "@/components/layouts/footer/Footer";
 import Providers from "@/components/layouts/providers/Providers";
 import { fonts } from "@/styles/fonts";
-import { Container } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,13 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={fonts.poppins.className}>
+    <html lang="en" style={{ height: "100%" }}>
+      <body className={fonts.poppins.className} style={{ height: "100%" }}>
         <Providers>
-          <Container py="72px" mx="auto">
+          <Box maxW={640} mx="auto" h="100%" position="relative">
             {children}
-          </Container>
-          <Footer />
+            <Footer />
+          </Box>
         </Providers>
       </body>
     </html>

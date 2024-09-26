@@ -1,50 +1,103 @@
 "use client";
 
-import { Box, Button, Flex, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Image,
+  StackDivider,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { FaDollarSign, FaUser } from "react-icons/fa";
+import { createAvatar } from "@dicebear/core";
+import { dicebearStyle } from "@/lib/const";
 
 export default function Footer() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const avatarType = dicebearStyle;
   const navItems = [
-    { label: "Indexes", icon: <FaDollarSign />, href: "/indexes" },
-    { label: "Profile", icon: <FaUser />, href: "/profile" },
+    {
+      label: "Home",
+      avatar: createAvatar(avatarType, {
+        seed: "Home",
+      }),
+      href: "/",
+    },
+    {
+      label: "Earn",
+      avatar: createAvatar(avatarType, {
+        seed: "Earn",
+      }),
+      href: "/earn",
+    },
+    {
+      label: "Friends",
+      avatar: createAvatar(avatarType, {
+        seed: "Friends",
+      }),
+      href: "/friends",
+    },
+    {
+      label: "Profile",
+      avatar: createAvatar(avatarType, {
+        seed: "Profile",
+      }),
+      href: "/profile",
+    },
   ];
 
   return (
     <Box
-      position="fixed"
+      position="absolute"
+      left={0}
+      right={0}
       bottom={0}
-      width="100%"
       zIndex={1}
       p={4}
-      mb="env(safe-area-inset-bottom)"
-      boxShadow="md"
+      pb={8}
     >
-      <Flex
+      <HStack
         justify="space-around"
         align="center"
-        bgColor="gray.600"
+        bgColor="gray.800"
         p={2}
-        borderRadius="full"
+        borderRadius={16}
+        boxShadow="md"
+        divider={<StackDivider />}
+        alignItems="center"
+        justifyContent="stretch"
       >
         {navItems.map((item) => (
-          <Button
+          <VStack
+            pt={1}
+            spacing={0}
             key={item.label}
-            variant="ghost"
-            fontWeight="normal"
+            cursor="pointer"
             onClick={() => router.push(item.href)}
-            color={pathname.startsWith(item.href) ? "blue.200" : undefined}
+            flex={1}
+            bgColor={
+              item.href === "/"
+                ? pathname === "/"
+                  ? "gray.700"
+                  : ""
+                : pathname.startsWith(item.href)
+                ? "gray.700"
+                : ""
+            }
+            borderRadius={8}
           >
-            <VStack spacing={1}>
-              {item.icon}
-              <Text fontSize="xs">{item.label}</Text>
-            </VStack>
-          </Button>
+            <Image
+              src={item.avatar.toDataUri()}
+              alt={item.avatar.toString()}
+              w={8}
+              borderRadius="full"
+            />
+            <Text fontSize="xs">{item.label}</Text>
+          </VStack>
         ))}
-      </Flex>
+      </HStack>
     </Box>
   );
 }
