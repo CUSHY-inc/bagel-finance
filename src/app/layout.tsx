@@ -1,5 +1,4 @@
 import Footer from "@/components/layouts/footer/Footer";
-import Header from "@/components/layouts/header/Header";
 import Providers from "@/components/layouts/providers/Providers";
 import { fonts } from "@/styles/fonts";
 import { Container } from "@chakra-ui/react";
@@ -19,7 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={fonts.poppins.className}>
         <Providers>
-          <Header />
           <Container py="72px" mx="auto">
             {children}
           </Container>
