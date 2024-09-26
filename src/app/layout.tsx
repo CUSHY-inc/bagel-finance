@@ -1,4 +1,4 @@
-import Footer from "@/components/layouts/footer/Footer";
+import Footer from "@/components/layouts/Footer";
 import Providers from "@/components/layouts/providers/Providers";
 import { fonts } from "@/styles/fonts";
 import { Box } from "@chakra-ui/react";

@@ -1,5 +1,14 @@
-import { Box } from "@chakra-ui/react";
+import PageTitle from "@/components/common/PageTitle";
+import BackGround from "@/components/layouts/BackGround";
+import NoBackButton from "@/components/telegram/NoBackButton";
+import { Text } from "@chakra-ui/react";
 
 export default function Page() {
-  return <Box bgGradient="linear(to-b, blue.500, black)" h="100%"></Box>;
+  return (
+    <BackGround color="blue.500">
+      <NoBackButton />
+      <PageTitle title="Friends" />
+      <Text textAlign="center">Coming soon...</Text>
+    </BackGround>
+  );
 }

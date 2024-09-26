@@ -68,10 +68,10 @@ export default function Footer() {
         divider={<StackDivider />}
         alignItems="center"
         justifyContent="stretch"
+        h={16}
       >
         {navItems.map((item) => (
           <VStack
-            pt={1}
             spacing={0}
             key={item.label}
             cursor="pointer"

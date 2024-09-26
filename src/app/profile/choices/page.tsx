@@ -1,12 +1,12 @@
 import PageTitle from "@/components/common/PageTitle";
+import BackGround from "@/components/layouts/BackGround";
 import BackButton from "@/components/telegram/BackButton";
-import { Box } from "@chakra-ui/react";
 
 export default function Page() {
   return (
-    <Box bgGradient="linear(to-b, blue.500, black, black)" h="100%" pb={32}>
+    <BackGround color="blue.500">
       <BackButton />
       <PageTitle title="Previous choices" />
-    </Box>
+    </BackGround>
   );
 }
