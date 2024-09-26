@@ -12,6 +12,8 @@
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/next-js": "^2.2.0",
     "@chakra-ui/react": "^2.8.2",
+    "@dicebear/collection": "^9.2.2",
+    "@dicebear/core": "^9.2.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@orbs-network/ton-access": "^2.3.3",
