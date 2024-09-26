@@ -1,10 +1,10 @@
 import ChakraUIProvider from "./ChakraUIProvider";
-import TonConnectProvider from "./TonConnectProvider";
+import TelegramAppProvider from "./TelegramAppProvider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ChakraUIProvider>
-      <TonConnectProvider>{children}</TonConnectProvider>
+      <TelegramAppProvider>{children}</TelegramAppProvider>
     </ChakraUIProvider>
   );
 }
