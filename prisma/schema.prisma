@@ -19,4 +19,75 @@ model User {
   allowsWriteToPm Boolean?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
+  votes           Vote[]
+}
+
+model Round {
+  id          String   @id @default(cuid())
+  title       String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  choices     Choice[]
+  votes       Vote[]
+}
+
+model Choice {
+  id           String        @id @default(cuid())
+  roundId      String
+  title        String
+  result       Float?
+  isWinner     Boolean?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  choiceTokens ChoiceToken[]
+  round        Round         @relation(fields: [roundId], references: [id])
+  votes        Vote[]
+
+  @@index([roundId])
+}
+
+model Token {
+  id           String       @id @default(uuid())
+  name         String
+  symbol       String       @unique
+  chain        String
+  contractAddr String?
+  coinGeckoId  String       @unique
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @default(now()) @updatedAt
+  choiceTokens ChoiceToken[]
+}
+
+model ChoiceToken {
+  id         String   @id @default(uuid())
+  choiceId   String
+  tokenId    String
+  proportion Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  choice     Choice   @relation(fields: [choiceId], references: [id])
+  token      Token    @relation(fields: [tokenId], references: [id])
+
+  @@unique([choiceId, tokenId])
+  @@index([choiceId])
+  @@index([tokenId])
+}
+
+model Vote {
+  id        String   @id @default(cuid())
+  userId    String
+  roundId   String
+  choiceId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  round     Round    @relation(fields: [roundId], references: [id])
+  choice    Choice   @relation(fields: [choiceId], references: [id])
+
+  @@unique([userId, roundId])
+  
+  @@index([roundId])
+  @@index([choiceId])
 }
