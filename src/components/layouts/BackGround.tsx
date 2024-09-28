@@ -1,5 +1,4 @@
 import { Box } from "@chakra-ui/react";
-import { PropsWithChildren } from "react";
 
 export default function BackGround({
   children,
@@ -9,7 +8,12 @@ export default function BackGround({
   color: string;
 }) {
   return (
-    <Box bgGradient={`linear(to-b, ${color}, black, black)`} h="100%" pb={28}>
+    <Box
+      bgGradient={`linear(to-b, ${color}, black, black)`}
+      h="100%"
+      pb={28}
+      overflowY="auto"
+    >
       {children}
     </Box>
   );
