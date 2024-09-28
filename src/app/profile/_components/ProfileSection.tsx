@@ -1,19 +1,17 @@
 "use client";
 
 import { HStack, Text, VStack } from "@chakra-ui/react";
-import { LuDonut, LuHistory, LuChevronRight } from "react-icons/lu";
+import { LuHistory, LuChevronRight } from "react-icons/lu";
 import WalletConnect from "./WalletConnect";
 import { useRouter } from "next/navigation";
+import BagelPoint from "./BagelPoint";
 
 export default function ProfileSection() {
   const router = useRouter();
 
   return (
     <VStack align="stretch" p={2}>
-      <HStack p={2} spacing={4}>
-        <LuDonut size={24} />
-        <Text flex={1}>$BGL 33.3</Text>
-      </HStack>
+      <BagelPoint />
       <WalletConnect />
       <HStack
         p={2}
