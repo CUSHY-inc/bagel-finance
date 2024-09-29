@@ -6,9 +6,12 @@ export const choice = () => {
     data: roundIds.flatMap((roundId, index) => {
       return choiceIds[index].map((choiceId) => {
         return {
-          id: choiceId,
           roundId: roundId,
-          title: choiceId,
+          title: `choice${choiceId}`,
+          image: "/images/btc-eth-index.png",
+          result: choiceId % 3 === 1 ? 10 : -5,
+          isWinner: choiceId % 3 === 1,
+          voteRate: 33.3,
         };
       });
     }),

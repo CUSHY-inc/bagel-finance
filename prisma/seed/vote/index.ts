@@ -7,17 +7,18 @@ export const vote = () => {
       {
         userId,
         roundId: "round1",
-        choiceId: "choice1",
+        choiceId: 1,
+        bet: 1000,
+        isCorrect: true,
+        payout: 3000,
       },
       {
         userId,
         roundId: "round2",
-        choiceId: "choice5",
-      },
-      {
-        userId,
-        roundId: "round3",
-        choiceId: "choice9",
+        choiceId: 5,
+        bet: 1000,
+        isCorrect: false,
+        payout: 0,
       },
     ],
   });

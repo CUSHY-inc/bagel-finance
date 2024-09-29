@@ -1,11 +1,11 @@
-export const userId = "6060318968";
+export const userId = "99281932";
 
-export const roundIds = ["round1", "round2", "round3", "round4"];
+export const roundIds = ["round1", "round2", "round3"];
 
 export const choiceIds = roundIds.map((_, idx) => [
-  `choice${idx * 3 + 1}`,
-  `choice${idx * 3 + 2}`,
-  `choice${idx * 3 + 3}`,
+  idx * 3 + 1,
+  idx * 3 + 2,
+  idx * 3 + 3,
 ]);
 
 export const tokens = [
