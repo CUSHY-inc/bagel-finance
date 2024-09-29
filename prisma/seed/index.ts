@@ -5,6 +5,7 @@ import { choice } from "./choice";
 import { token } from "./token";
 import { choiceToken } from "./choiceToken";
 import { vote } from "./vote";
+import { point } from "./point";
 
 export const prisma = new PrismaClient();
 
@@ -17,6 +18,7 @@ const main = async () => {
     token(),
     choiceToken(),
     vote(),
+    point(),
   ]);
   console.log(`Seeding finished.`);
 };

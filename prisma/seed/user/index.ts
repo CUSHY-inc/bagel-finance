@@ -6,10 +6,10 @@ export const user = () => {
     data: [
       {
         id: userId,
-        username: "",
-        firstName: "",
-        lastName: "",
-        languageCode: "",
+        username: "ruemura3",
+        firstName: "Ryo",
+        lastName: "Fujita",
+        languageCode: "en",
       },
     ],
   });

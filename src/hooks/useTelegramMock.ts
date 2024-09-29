@@ -5,6 +5,16 @@ import {
   retrieveLaunchParams,
 } from "@telegram-apps/sdk-react";
 
+const seedUser = {
+  id: 6060318968,
+  first_name: "Ryo",
+  last_name: "Fujita",
+  username: "ruemura3",
+  language_code: "en",
+  is_premium: true,
+  allows_write_to_pm: true,
+};
+
 /**
  * Mocks Telegram environment in development mode.
  */
@@ -33,18 +43,7 @@ export function useTelegramMock(): void {
 
     if (shouldMock) {
       const initDataRaw = new URLSearchParams([
-        [
-          "user",
-          JSON.stringify({
-            id: 99281932,
-            first_name: "Andrew",
-            last_name: "Rogue",
-            username: "rogue",
-            language_code: "en",
-            is_premium: true,
-            allows_write_to_pm: true,
-          }),
-        ],
+        ["user", JSON.stringify(seedUser)],
         [
           "hash",
           "89d6079ad6762351f38c6dbbc41bb53048019256a9443988af7a48bcad16ba31",
