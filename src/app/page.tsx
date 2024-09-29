@@ -1,10 +1,14 @@
 import NoBackButton from "@/components/telegram/NoBackButton";
-import { Box, Button, VStack } from "@chakra-ui/react";
+import BagelPoint from "./_components/BagelPoint";
+import PlayArea from "./_components/PlayArea";
+import BackGround from "@/components/layouts/BackGround";
 
 export default function Page() {
   return (
-    <Box bgGradient="linear(to-b, blue.500, black, black)" h="100%" pb={28}>
+    <BackGround color="blue.500">
       <NoBackButton />
-    </Box>
+      <BagelPoint />
+      <PlayArea />
+    </BackGround>
   );
 }
