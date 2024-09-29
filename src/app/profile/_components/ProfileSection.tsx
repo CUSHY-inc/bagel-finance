@@ -17,7 +17,7 @@ export default function ProfileSection() {
         p={2}
         spacing={4}
         cursor="pointer"
-        onClick={() => router.push("/profile/choices")}
+        onClick={() => router.push("/profile/previous-choices")}
       >
         <LuHistory size={24} />
         <Text flex={1}>Previous choices</Text>

@@ -1,3 +1,4 @@
+import JSONBig from "json-bigint";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -10,7 +11,9 @@ export async function GET(
     const user = await prisma.point.findUnique({
       where: { userId },
     });
-    return NextResponse.json(user);
+    return new Response(JSONBig.stringify(user), {
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (e) {
     console.error("Unexpected error:", e);
     return NextResponse.json(
