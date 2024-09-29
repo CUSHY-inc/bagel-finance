@@ -1,17 +1,15 @@
 import { StackDivider, VStack } from "@chakra-ui/react";
 import ProfileSection from "./_components/ProfileSection";
 import PageTitle from "@/components/common/PageTitle";
-import NoBackButton from "@/components/telegram/NoBackButton";
-import BackGround from "@/components/layouts/BackGround";
+import BaseScreen from "@/components/layouts/BaseScreen";
 
 export default function Page() {
   return (
-    <BackGround color="blue.500">
-      <NoBackButton />
+    <BaseScreen color="blue.500">
       <PageTitle title="Profile" />
       <VStack align="stretch" divider={<StackDivider />}>
         <ProfileSection />
       </VStack>
-    </BackGround>
+    </BaseScreen>
   );
 }

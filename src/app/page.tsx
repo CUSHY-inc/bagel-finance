@@ -1,14 +1,12 @@
-import NoBackButton from "@/components/telegram/NoBackButton";
 import BagelPoint from "./_components/BagelPoint";
 import PlayArea from "./_components/PlayArea";
-import BackGround from "@/components/layouts/BackGround";
+import BaseScreen from "@/components/layouts/BaseScreen";
 
 export default function Page() {
   return (
-    <BackGround color="blue.500">
-      <NoBackButton />
+    <BaseScreen color="blue.500">
       <BagelPoint />
       <PlayArea />
-    </BackGround>
+    </BaseScreen>
   );
 }
