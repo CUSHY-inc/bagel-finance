@@ -20,6 +20,7 @@
     "@dicebear/core": "^9.2.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@nivo/pie": "^0.87.0",
     "@orbs-network/ton-access": "^2.3.3",
     "@prisma/client": "^5.19.1",
     "@telegram-apps/react-router-integration": "^1.0.1",
