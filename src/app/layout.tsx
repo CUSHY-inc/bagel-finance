@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "bagel finance",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;

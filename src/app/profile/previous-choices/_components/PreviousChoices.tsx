@@ -11,7 +11,7 @@ import {
   StackDivider,
   Stat,
   Text,
-  useToken,
+  useTheme,
   VStack,
 } from "@chakra-ui/react";
 import { Choice, Vote } from "@prisma/client";
@@ -81,9 +81,10 @@ function ChoiceDisplay({
   choice: Choice;
   vote?: Vote;
 }) {
-  const [green] = useToken("colors", ["green.500"]);
-  const [red] = useToken("colors", ["red.500"]);
-  const [gray] = useToken("colors", ["gray.500"]);
+  const theme = useTheme();
+  const green = theme.colors.green[500];
+  const red = theme.colors.red[500];
+  const gray = theme.colors.gray[500];
   const bgColor = choice.isWinner
     ? vote?.choiceId === choice.id
       ? `${green}33`
@@ -213,7 +214,7 @@ export default function PreviousChoices() {
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<PreviousChoice[]>(
     userId
-      ? `/api/rounds?includeChoices=true&userId=${userId}&ltDate=${new Date()}`
+      ? `/api/rounds?includeChoices=true&userId=${userId}&ltEndDate=${new Date()}`
       : null,
     fetcher
   );

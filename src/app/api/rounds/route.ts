@@ -6,10 +6,10 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const includeChoices = searchParams.get("includeChoices") === "true";
-    const ltDate = searchParams.get("ltDate");
+    const ltEndDate = searchParams.get("ltEndDate");
     const userId = searchParams.get("userId");
     const rounds = await prisma.round.findMany({
-      where: { endDate: { lt: ltDate ? new Date(ltDate) : undefined } },
+      where: { endDate: { lt: ltEndDate ? new Date(ltEndDate) : undefined } },
       orderBy: { startDate: "desc" },
       include: {
         votes: { where: { userId: userId ?? undefined } },
