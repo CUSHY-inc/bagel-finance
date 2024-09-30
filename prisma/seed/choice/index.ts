@@ -9,6 +9,7 @@ export const choice = () => {
           roundId: roundId,
           title: `choice${choiceId}`,
           image: "/images/btc-eth-index.png",
+          description: `The Super Hyper Ultra Mega Epic Awesome Index No. ${choiceId}`,
           result: choiceId % 3 === 1 ? 10 : -5,
           isWinner: choiceId % 3 === 1,
           voteRate: 33.3,

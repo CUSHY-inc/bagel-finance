@@ -46,6 +46,7 @@ model Choice {
   id           Int           @id @default(autoincrement())
   roundId      String
   title        String
+  description  String
   image        String
   result       Float?
   isWinner     Boolean?
