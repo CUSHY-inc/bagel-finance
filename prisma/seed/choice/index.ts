@@ -7,7 +7,7 @@ export const choice = () => {
       return choiceIds[index].map((choiceId) => {
         return {
           roundId: roundId,
-          title: `choice${choiceId}`,
+          title: `Super index No. ${choiceId}`,
           image: "/images/btc-eth-index.png",
           description: `The Super Hyper Ultra Mega Epic Awesome Index No. ${choiceId}`,
           result: choiceId % 3 === 1 ? 10 : -5,
