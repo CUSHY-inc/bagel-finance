@@ -1,6 +1,6 @@
 export const userId = "6060318968";
 
-export const roundIds = ["round1", "round2", "round3"];
+export const roundIds = ["round1", "round2", "round3", "round4"];
 
 export const choiceIds = roundIds.map((_, idx) => [
   idx * 3 + 1,
@@ -22,5 +22,12 @@ export const tokens = [
     symbol: "ETC",
     chain: "Ethereum",
     coinGeckoId: "ethereum",
+  },
+  {
+    id: "token3",
+    name: "Tether",
+    symbol: "USDT",
+    chain: "Ethereum",
+    coinGeckoId: "tether",
   },
 ];
