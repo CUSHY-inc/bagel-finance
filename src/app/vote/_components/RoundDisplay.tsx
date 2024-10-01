@@ -1,7 +1,7 @@
 "use client";
 
 import { Text, VStack } from "@chakra-ui/react";
-import ChoiceCard from "./ChoiceCard";
+import ChoiceCard, { LoadingChoiceCard } from "./ChoiceCard";
 import useSWR from "swr";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { fetcher } from "@/lib/swr";
@@ -23,10 +23,6 @@ export default function RoundDisplay() {
     fetcher
   );
 
-  if (isLoading) {
-    return <></>;
-  }
-
   if (error) {
     return (
       <Text my={16} fontSize="xl" textAlign="center">
@@ -37,8 +33,10 @@ export default function RoundDisplay() {
 
   return (
     <VStack p={4} spacing={4}>
-      {data ? (
-        data.choices.map((choice, idx) => (
+      {isLoading ? (
+        [0, 1, 2].map((idx) => <LoadingChoiceCard key={idx} />)
+      ) : data ? (
+        data.choices.map((choice) => (
           <ChoiceCard key={choice.id} choice={choice} />
         ))
       ) : (
