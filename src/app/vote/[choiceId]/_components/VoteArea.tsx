@@ -5,13 +5,6 @@ import { fetcher } from "@/lib/swr";
 import { createVote } from "@/services/createVote";
 import { ChoiceWithDetails } from "@/types/prisma";
 import {
-  AlertDialog,
-  AlertDialogBody,
-  AlertDialogCloseButton,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
   Box,
   Button,
   ButtonGroup,

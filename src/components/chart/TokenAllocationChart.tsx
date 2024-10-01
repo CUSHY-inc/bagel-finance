@@ -1,7 +1,7 @@
 "use client";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { LegendDatum, ResponsivePie } from "@nivo/pie";
+import { ResponsivePie } from "@nivo/pie";
 
 export default function TokenAllocationChart({
   data,

@@ -3,15 +3,7 @@ import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
 import ChangePercentage from "@/components/text/ChangePercentage";
 import { fetcher } from "@/lib/swr";
 import { ChoiceWithDetails } from "@/types/prisma";
-import {
-  Box,
-  Grid,
-  GridItem,
-  Skeleton,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, Skeleton, Text, VStack } from "@chakra-ui/react";
 import useSWR from "swr";
 
 export default function TokenAllocation({
@@ -19,7 +11,6 @@ export default function TokenAllocation({
 }: {
   choice?: ChoiceWithDetails;
 }) {
-  const disclosure = useDisclosure();
   const { data, error, isLoading } = useSWR<ChoiceChangePercentage>(
     choice ? `/api/coin-gecko/choices/${choice.id}` : null,
     fetcher

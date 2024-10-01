@@ -26,7 +26,7 @@ export default function BaseAlertDialog({
   yesButtonText?: string;
   yesButtonColor?: string;
   noButtonText?: string;
-  onClick?: () => {};
+  onClick?: () => void;
 }) {
   const cancelRef = useRef(null);
 
