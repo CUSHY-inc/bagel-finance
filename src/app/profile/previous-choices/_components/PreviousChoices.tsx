@@ -1,5 +1,6 @@
 "use client";
 
+import ChangePercentage from "@/components/text/ChangePercentage";
 import { fetcher } from "@/lib/swr";
 import { PreviousChoice } from "@/types/prisma";
 import {
@@ -124,25 +125,13 @@ function ChoiceDisplay({
         borderRadius={8}
         boxSize="48px"
         src={choice.image}
-        alt="bagel-finance-icon"
+        alt={choice.title}
       />
       <Box flex={1}>
         <Text>{choice.title}</Text>
         <HStack>
           <Stat>
-            <Text
-              fontSize="sm"
-              color={
-                choice.result
-                  ? choice.result > 0
-                    ? "green.500"
-                    : "red.500"
-                  : "gray.500"
-              }
-            >
-              {choice.result ? (choice.result > 0 ? "+" : "") : "±"}
-              {choice.result}%
-            </Text>
+            <ChangePercentage result={choice.result} zeroColor="gray.500" />
           </Stat>
           <Text fontSize="sm" color="gray">
             {choice.voteRate}% votes
