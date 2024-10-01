@@ -12,17 +12,17 @@ import {
   CardBody,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import TokenAllocationChart from "./TokenAllocationChart";
 import { ChoiceWithDetails } from "@/types/prisma";
 import useSWR from "swr";
 import { fetcher } from "@/lib/swr";
 import { ChoiceChangePercentage } from "@/app/api/coin-gecko/choices/[choiceId]/route";
 import ChangePercentage from "@/components/text/ChangePercentage";
+import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
 
 export function LoadingChoiceCard() {
   return (
-    <Card w="100%" borderRadius={16} overflow="hidden">
-      <Skeleton w="100%" h={200} />
+    <Card borderRadius={16} overflow="hidden">
+      <Skeleton h={200} />
       <CardBody>
         <VStack align="stretch">
           <Box>
@@ -77,10 +77,9 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
 
   return (
     <Card
-      w="100%"
       borderRadius={16}
-      cursor="pointer"
       overflow="hidden"
+      cursor="pointer"
       onClick={() => router.push(`/vote/${choice.id}`)}
     >
       <Image

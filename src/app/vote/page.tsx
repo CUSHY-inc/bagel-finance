@@ -4,7 +4,7 @@ import RoundDisplay from "./_components/RoundDisplay";
 
 export default function Page() {
   return (
-    <BaseScreen color="gray.500">
+    <BaseScreen color="gray.500" hasBackButton>
       <VStack p={4}>
         <Text fontSize="3xl" as="b" textAlign="center" w="100%">
           Choose the most profitable index
