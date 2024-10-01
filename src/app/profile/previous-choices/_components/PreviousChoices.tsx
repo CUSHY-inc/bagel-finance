@@ -123,7 +123,8 @@ function ChoiceDisplay({
       </Stack>
       <Image
         borderRadius={8}
-        boxSize="48px"
+        boxSize={12}
+        objectFit="cover"
         src={choice.image}
         alt={choice.title}
       />

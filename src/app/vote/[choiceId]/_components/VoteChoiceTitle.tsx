@@ -33,8 +33,8 @@ export default function VoteChoiceTitle({
       <Image
         src={choice?.image}
         alt={choice?.title}
-        w={32}
-        h={32}
+        boxSize={32}
+        objectFit="cover"
         borderRadius="full"
       />
       <Box>
