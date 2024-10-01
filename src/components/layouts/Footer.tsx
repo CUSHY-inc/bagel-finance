@@ -79,7 +79,7 @@ export default function Footer() {
             flex={1}
             bgColor={
               item.href === "/"
-                ? pathname === "/" || pathname === "/vote"
+                ? pathname === "/" || pathname.startsWith("/vote")
                   ? "gray.700"
                   : ""
                 : pathname.startsWith(item.href)
