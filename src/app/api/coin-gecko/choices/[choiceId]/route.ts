@@ -14,15 +14,21 @@ export async function GET(
   { params }: { params: { choiceId: string } }
 ) {
   try {
-    const choiceId = params.choiceId;
+    const choiceId = Number(params.choiceId);
+    if (isNaN(choiceId)) {
+      return NextResponse.json(
+        { error: `The choice ID must be a number` },
+        { status: 400 }
+      );
+    }
     const choice = await prisma.choice.findUnique({
       where: { id: Number(choiceId) },
       include: { choiceTokens: { include: { token: true } } },
     });
     if (!choice) {
       return NextResponse.json(
-        { error: "Missing 'ids' query parameter" },
-        { status: 400 }
+        { error: `The choice with ID ${choiceId} was not found` },
+        { status: 404 }
       );
     }
     const data = await fetchCoinGecko("/coins/markets", {
