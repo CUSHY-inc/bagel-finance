@@ -1,7 +1,7 @@
 "use client";
 
 import { fetcher } from "@/lib/swr";
-import { HStack, Skeleton, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text } from "@chakra-ui/react";
 import { Point } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { LuDonut } from "react-icons/lu";
@@ -15,18 +15,17 @@ export default function BagelPoint() {
   );
 
   return (
-    <VStack p={4} spacing={0}>
-      {isLoading ? (
-        <Skeleton fontSize="4xl">1000000</Skeleton>
-      ) : (
-        <Text flex={1} textAlign="center" fontSize="4xl" as="b">
-          {error ? "Error" : data ? data.bagel : 0}
-        </Text>
-      )}
-      <HStack justifyContent="center">
-        <LuDonut size={16} />
-        <Text>$BAGEL</Text>
-      </HStack>
-    </VStack>
+    <HStack justifyContent="center" pb={8}>
+      <LuDonut size={40} />
+      <Text fontSize="5xl" as="b">
+        {isLoading
+          ? "-"
+          : error
+          ? "Error"
+          : data
+          ? data.bagel.toLocaleString()
+          : 0}
+      </Text>
+    </HStack>
   );
 }
