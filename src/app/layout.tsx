@@ -5,8 +5,8 @@ import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "bagel finance",
-  description: "bagel finance",
+  title: "Bagel Finance",
+  description: "Bagel Finance",
 };
 
 export default function Layout({
