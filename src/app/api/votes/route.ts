@@ -15,10 +15,24 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const vote = await prisma.vote.create({
-      data: { userId, roundId, choiceId, bet: BigInt(bet) },
+    const point = await prisma.point.findUnique({ where: { userId } });
+    if (!point?.bagel || point.bagel - BigInt(bet) <= 0) {
+      return NextResponse.json(
+        { error: "Invalid bet amount" },
+        { status: 400 }
+      );
+    }
+    const res = await prisma.$transaction(async (prisma) => {
+      const vote = await prisma.vote.create({
+        data: { userId, roundId, choiceId, bet: BigInt(bet) },
+      });
+      const updatedPoint = await prisma.point.update({
+        where: { userId },
+        data: { bagel: point.bagel - BigInt(bet) },
+      });
+      return { vote, point: updatedPoint };
     });
-    return new Response(JSONBig.stringify(vote), {
+    return new Response(JSONBig.stringify(res), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {

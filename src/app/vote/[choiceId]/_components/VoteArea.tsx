@@ -23,7 +23,7 @@ import {
 import { Point } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { use, useState } from "react";
 import useSWR from "swr";
 
 function ConfirmationDialog({
@@ -117,18 +117,13 @@ function LoadingVoteArea() {
 export default function VoteArea({ choice }: { choice?: ChoiceWithDetails }) {
   const initData = useInitData();
   const userId = initData?.user?.id;
-  const [bagel, setBagel] = useState(1);
   const { data, error, isLoading } = useSWR<Point>(
     userId ? `/api/users/${userId}/point` : null,
     fetcher
   );
   const userPoint = Number(data ? data.bagel : 0);
+  const [bagel, setBagel] = useState(userPoint);
   const disclosure = useDisclosure();
-
-  function setBagelByButton(divideBy: number) {
-    const point = Math.round(userPoint / divideBy);
-    setBagel(point === 0 ? 1 : point);
-  }
 
   if (error) {
     return (
@@ -172,9 +167,13 @@ export default function VoteArea({ choice }: { choice?: ChoiceWithDetails }) {
             isAttached
             variant="outline"
           >
-            <Button onClick={() => setBagelByButton(4)}>25%</Button>
-            <Button onClick={() => setBagelByButton(2)}>50%</Button>
-            <Button onClick={() => setBagelByButton(1)}>MAX</Button>
+            <Button onClick={() => setBagel(Math.round(userPoint / 4))}>
+              25%
+            </Button>
+            <Button onClick={() => setBagel(Math.round(userPoint / 2))}>
+              50%
+            </Button>
+            <Button onClick={() => setBagel(Math.round(userPoint))}>MAX</Button>
           </ButtonGroup>
         </HStack>
         <Button
@@ -182,6 +181,7 @@ export default function VoteArea({ choice }: { choice?: ChoiceWithDetails }) {
           size="lg"
           colorScheme="blue"
           onClick={disclosure.onOpen}
+          isDisabled={bagel === 0}
         >
           Bet
         </Button>

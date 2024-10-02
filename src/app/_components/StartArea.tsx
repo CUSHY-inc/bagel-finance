@@ -10,12 +10,15 @@ import {
   Image,
   Skeleton,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { CurrentRoundInfo } from "../api/users/[userId]/votes/now/route";
+import { Point } from "@prisma/client";
+import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
 
 function LoadingStartArea() {
   return (
@@ -43,8 +46,9 @@ function LoadingStartArea() {
   );
 }
 
-export default function StartArea() {
+export default function StartArea({ point }: { point?: Point }) {
   const router = useRouter();
+  const disclosure = useDisclosure();
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<CurrentRoundInfo>(
@@ -57,6 +61,14 @@ export default function StartArea() {
           (60 * 1000)
       )
     : null;
+
+  function onClick() {
+    if (point && point.bagel > BigInt(0)) {
+      router.push("/vote");
+    } else {
+      disclosure.onOpen();
+    }
+  }
 
   if (isLoading) {
     return <LoadingStartArea />;
@@ -94,7 +106,7 @@ export default function StartArea() {
         w="100%"
         size="lg"
         colorScheme="blue"
-        onClick={() => router.push("/vote")}
+        onClick={onClick}
         isDisabled={!!data?.vote || !!error || isLoading}
       >
         {data?.vote
@@ -103,6 +115,11 @@ export default function StartArea() {
             : "Next round not scheduled"
           : "Choose your way"}
       </Button>
+      <BaseAlertDialog
+        disclosure={disclosure}
+        title="You don't have any $BAGEL"
+        body="Wait until the next daily bonus!"
+      />
     </VStack>
   );
 }
