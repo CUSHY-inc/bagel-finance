@@ -23,9 +23,9 @@ export default function Home() {
       justifyContent="center"
       alignItems="center"
       h="100%"
-      p={8}
+      p={4}
     >
-      <Image boxSize={48} src="/images/bagel-cat.png" alt="" />
+      <Image boxSize={64} src="/images/bagel-cat.png" alt="" />
       <BagelPoint point={data} error={error} />
       <StartArea point={data} />
     </VStack>

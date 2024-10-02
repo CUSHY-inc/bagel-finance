@@ -6,11 +6,9 @@ import {
   useInitData,
   useLaunchParams,
 } from "@telegram-apps/sdk-react";
-import { Flex, Text } from "@chakra-ui/react";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { useEffect, useRef } from "react";
 import { upsertUser } from "@/services/upsertUser";
-import { useDidMount } from "@/hooks/useDidMount";
 import { useTelegramMock } from "@/hooks/useTelegramMock";
 
 function Root({ children }: { children: React.ReactNode }) {
@@ -41,8 +39,6 @@ export default function TelegramAppProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const didMount = useDidMount();
-
   if (process.env.NODE_ENV === "development") {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useTelegramMock();
@@ -55,15 +51,11 @@ export default function TelegramAppProvider({
     }
   }, [debug]);
 
-  return didMount ? (
+  return (
     <TonConnectUIProvider manifestUrl={process.env.NEXT_PUBLIC_MANIFEST_URL}>
       <SDKProvider debug={debug}>
         <Root>{children}</Root>
       </SDKProvider>
     </TonConnectUIProvider>
-  ) : (
-    <Flex height="100vh" alignItems="center" justifyContent="center">
-      <Text>Loading...</Text>
-    </Flex>
   );
 }
