@@ -10,7 +10,7 @@ type RoundInfo = Round & {
   choices: ChoiceWithDetails[];
 };
 
-type VoteWithRoundAndChoice = Vote & {
+type VoteWithRoundAndChoiceWithDetails = Vote & {
   round: Round;
-  choice: Choice;
+  choice: ChoiceWithDetails;
 };

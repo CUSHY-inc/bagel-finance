@@ -2,12 +2,7 @@
 
 import { fetcher } from "@/lib/swr";
 import {
-  Box,
   Button,
-  Card,
-  CardBody,
-  HStack,
-  Image,
   Skeleton,
   Text,
   useDisclosure,
@@ -18,26 +13,15 @@ import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { CurrentRoundInfo } from "../../api/users/[userId]/votes/now/route";
 import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
+import ChosenCard, { LoadingChosenCard } from "@/components/card/ChosenCard";
 
 function LoadingStartArea() {
   return (
     <VStack align="stretch" w="100%">
-      <Card>
-        <CardBody>
-          <VStack align="stretch">
-            <Skeleton fontSize="lg" as="b">
-              Current your choice
-            </Skeleton>
-            <HStack justifyContent="space-between" spacing={4}>
-              <Skeleton borderRadius={8} boxSize={12} />
-              <Box flex={1}>
-                <Skeleton as="b">Super index No. 1</Skeleton>
-                <Skeleton fontSize="sm">3,000 $BAGEL</Skeleton>
-              </Box>
-            </HStack>
-          </VStack>
-        </CardBody>
-      </Card>
+      <Skeleton fontSize="lg" as="b">
+        Current your choice
+      </Skeleton>
+      <LoadingChosenCard />
       <Button w="100%" size="lg" colorScheme="blue">
         <Skeleton>Choose your way</Skeleton>
       </Button>
@@ -79,33 +63,13 @@ export default function StartArea() {
 
   return (
     data && (
-      <VStack align="stretch" w="100%">
-        <Card>
-          <CardBody>
-            <VStack align="stretch">
-              <Text fontSize="lg" as="b" textAlign="center">
-                Current your choice
-              </Text>
-              {data.vote ? (
-                <HStack justifyContent="space-between" spacing={4}>
-                  <Image
-                    borderRadius={8}
-                    boxSize={12}
-                    objectFit="cover"
-                    src={data.vote.choice.image}
-                    alt={data.vote.choice.title}
-                  />
-                  <Box flex={1}>
-                    <Text as="b">{data.vote.choice.title}</Text>
-                    <Text fontSize="sm">{data.vote.bet} $BAGEL</Text>
-                  </Box>
-                </HStack>
-              ) : (
-                <Text textAlign="center">Choose your way from below</Text>
-              )}
-            </VStack>
-          </CardBody>
-        </Card>
+      <VStack align="stretch" w="100%" spacing={4}>
+        <VStack spacing={0} align="stretch">
+          <Text fontSize="lg" as="b" textAlign="center" w="100%">
+            Current your choice
+          </Text>
+          <ChosenCard vote={data.vote} />
+        </VStack>
         <Button
           w="100%"
           size="lg"

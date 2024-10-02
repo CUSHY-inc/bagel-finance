@@ -1,11 +1,11 @@
 import JSONBig from "json-bigint";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { VoteWithRoundAndChoice } from "@/types/prisma";
+import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
 import { Point, Round } from "@prisma/client";
 
 export type CurrentRoundInfo = {
-  vote: VoteWithRoundAndChoice;
+  vote: VoteWithRoundAndChoiceWithDetails;
   nextRound: Round;
   point: Point;
 };
@@ -22,7 +22,10 @@ export async function GET(
         userId,
         round: { startDate: { lte: now }, endDate: { gt: now } },
       },
-      include: { round: true, choice: true },
+      include: {
+        round: true,
+        choice: { include: { choiceTokens: { include: { token: true } } } },
+      },
     });
     const nextRound = await prisma.round.findFirst({
       where: { startDate: { gte: now } },

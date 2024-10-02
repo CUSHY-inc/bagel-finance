@@ -7,6 +7,20 @@ import { useInitData } from "@telegram-apps/sdk-react";
 import { fetcher } from "@/lib/swr";
 import { RoundInfo } from "@/types/prisma";
 
+function LoadingVote() {
+  return (
+    <>
+      <Box>
+        <Skeleton fontSize="sm">The measurement period is</Skeleton>
+        <Skeleton fontSize="sm">next 00:00 - 03:00</Skeleton>
+      </Box>
+      {[0, 1, 2].map((idx) => (
+        <LoadingChoiceCard key={idx} />
+      ))}
+    </>
+  );
+}
+
 function NotOpen() {
   return (
     <Text my={16} fontSize="xl" textAlign="center">
@@ -28,21 +42,12 @@ export default function Vote() {
   }
 
   return (
-    <VStack p={4} align="stretch">
+    <VStack p={4} align="stretch" spacing={4}>
       <Text fontSize="3xl" as="b" textAlign="center">
         Choose the most profitable index
       </Text>
-
       {isLoading ? (
-        <>
-          <Box>
-            <Skeleton fontSize="sm">The measurement period is</Skeleton>
-            <Skeleton fontSize="sm">next 00:00 - 03:00</Skeleton>
-          </Box>
-          {[0, 1, 2].map((idx) => (
-            <LoadingChoiceCard key={idx} />
-          ))}
-        </>
+        <LoadingVote />
       ) : data ? (
         <>
           <Box>

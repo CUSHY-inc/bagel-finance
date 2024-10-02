@@ -11,7 +11,7 @@ export default function Home() {
       justifyContent="center"
       alignItems="center"
       h="100%"
-      p={6}
+      p={4}
     >
       <BagelPoint />
       <Image boxSize={40} src="/images/bagel-cat.png" alt="" />
