@@ -47,7 +47,7 @@ function ConfirmationDialog({
       choiceId: choice.id,
       bet: bagel,
     });
-    router.push("/");
+    router.push("/voted");
   }
 
   return choice ? (
