@@ -1,16 +1,10 @@
 import BaseScreen from "@/components/layouts/BaseScreen";
-import { Text, VStack } from "@chakra-ui/react";
-import RoundDisplay from "./_components/RoundDisplay";
+import Vote from "./_components/Vote";
 
 export default function Page() {
   return (
-    <BaseScreen color="gray.500" hasBackButton>
-      <VStack p={4}>
-        <Text fontSize="3xl" as="b" textAlign="center" w="100%">
-          Choose the most profitable index
-        </Text>
-      </VStack>
-      <RoundDisplay />
+    <BaseScreen hasBackButton>
+      <Vote />
     </BaseScreen>
   );
 }

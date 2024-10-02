@@ -2,11 +2,12 @@ import JSONBig from "json-bigint";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { VoteWithRoundAndChoice } from "@/types/prisma";
-import { Round } from "@prisma/client";
+import { Point, Round } from "@prisma/client";
 
 export type CurrentRoundInfo = {
   vote: VoteWithRoundAndChoice;
   nextRound: Round;
+  point: Point;
 };
 
 export async function GET(
@@ -27,7 +28,8 @@ export async function GET(
       where: { startDate: { gte: now } },
       orderBy: { startDate: "asc" },
     });
-    return new Response(JSONBig.stringify({ vote, nextRound }), {
+    const point = await prisma.point.findUnique({ where: { userId } });
+    return new Response(JSONBig.stringify({ vote, nextRound, point }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {

@@ -5,9 +5,11 @@ import { ResponsivePie } from "@nivo/pie";
 
 export default function TokenAllocationChart({
   data,
+  arcLabel,
   hasRightLegends,
 }: {
   data?: { id: string; label: string; value: number }[];
+  arcLabel?: string;
   hasRightLegends?: boolean;
 }) {
   const { color, bgColor } = useThemeColor();
@@ -27,14 +29,14 @@ export default function TokenAllocationChart({
       }}
       colors={{ scheme: "tableau10" }}
       margin={{ top: 4, right: hasRightLegends ? 160 : 4, bottom: 4, left: 4 }}
+      valueFormat="=-.1f"
       innerRadius={0.5}
-      padAngle={2}
+      padAngle={1}
       cornerRadius={4}
       sortByValue={true}
-      borderWidth={2}
-      arcLabel="id"
+      borderWidth={1}
+      arcLabel={arcLabel}
       enableArcLinkLabels={false}
-      enableArcLabels={true}
       legends={
         hasRightLegends
           ? [

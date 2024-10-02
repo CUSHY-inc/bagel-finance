@@ -1,6 +1,7 @@
 "use client";
 
 import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
+import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import { fetcher } from "@/lib/swr";
 import { createVote } from "@/services/createVote";
 import { ChoiceWithDetails } from "@/types/prisma";
@@ -23,7 +24,7 @@ import {
 import { Point } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 
 function ConfirmationDialog({
@@ -69,7 +70,7 @@ function ConfirmationDialog({
 
 function LoadingVoteArea() {
   return (
-    <Card borderRadius={16}>
+    <Card>
       <CardBody>
         <Skeleton fontSize="xl" as="b">
           Vote with
@@ -122,21 +123,23 @@ export default function VoteArea({ choice }: { choice?: ChoiceWithDetails }) {
     fetcher
   );
   const userPoint = Number(data ? data.bagel : 0);
-  const [bagel, setBagel] = useState(userPoint);
+  const [bagel, setBagel] = useState(0);
   const disclosure = useDisclosure();
 
   if (error) {
     return (
-      <Text my={16} fontSize="xl" textAlign="center">
-        Something went wrong...
-      </Text>
+      <Card>
+        <CardBody>
+          <SomethingWentWrong />
+        </CardBody>
+      </Card>
     );
   }
 
   return isLoading ? (
     <LoadingVoteArea />
   ) : (
-    <Card borderRadius={16}>
+    <Card>
       <CardBody>
         <Text fontSize="xl" as="b">
           Vote with

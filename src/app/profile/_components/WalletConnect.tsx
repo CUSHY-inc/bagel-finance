@@ -32,7 +32,7 @@ function DisconnectButton() {
 
   return (
     <>
-      <Button size="sm" borderRadius="full" onClick={onOpen}>
+      <Button size="sm" colorScheme="gray" onClick={onOpen}>
         Disconnect
       </Button>
       <AlertDialog
@@ -110,7 +110,7 @@ export default function WalletConnect() {
           ) : (
             <Button
               size="sm"
-              borderRadius="full"
+              colorScheme="blue"
               onClick={() => tonConnectUI.openModal()}
             >
               Connect
@@ -118,7 +118,7 @@ export default function WalletConnect() {
           )}
         </>
       ) : (
-        <Button size="sm" borderRadius="full">
+        <Button size="sm" colorScheme="gray">
           <Skeleton>Connect</Skeleton>
         </Button>
       )}

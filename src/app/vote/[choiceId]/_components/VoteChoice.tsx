@@ -7,6 +7,7 @@ import useSWR from "swr";
 import VoteArea from "./VoteArea";
 import VoteChoiceTitle from "./VoteChoiceTitle";
 import TokenAllocation from "./TokenAllocation";
+import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 
 export default function VoteChoice({ choiceId }: { choiceId: string }) {
   const { data, error, isLoading } = useSWR<ChoiceWithDetails>(
@@ -15,11 +16,7 @@ export default function VoteChoice({ choiceId }: { choiceId: string }) {
   );
 
   if (error) {
-    return (
-      <Text my={16} fontSize="xl" textAlign="center">
-        Something went wrong...
-      </Text>
-    );
+    return <SomethingWentWrong />;
   }
 
   return (

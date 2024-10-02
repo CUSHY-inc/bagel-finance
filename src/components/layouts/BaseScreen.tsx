@@ -8,12 +8,13 @@ export default function BaseScreen({
   hasBackButton,
 }: {
   children: React.ReactNode;
-  color: string;
+  color?: string;
   hasBackButton?: boolean;
 }) {
   return (
     <Box
-      bgGradient={`linear(to-b, ${color}, black, black)`}
+      bgGradient={color ? `linear(to-b, ${color}, black, black)` : undefined}
+      bg={color ? undefined : "black"}
       h="100%"
       pb={28}
       overflowY="auto"

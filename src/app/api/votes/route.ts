@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
       );
     }
     const point = await prisma.point.findUnique({ where: { userId } });
+    console.log(point?.bagel, BigInt(bet))
     if (!point?.bagel || point.bagel - BigInt(bet) <= 0) {
       return NextResponse.json(
         { error: "Invalid bet amount" },

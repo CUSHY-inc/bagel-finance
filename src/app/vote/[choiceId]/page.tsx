@@ -3,7 +3,7 @@ import VoteChoice from "./_components/VoteChoice";
 
 export default function Page({ params }: { params: { choiceId: string } }) {
   return (
-    <BaseScreen color="gray.500" hasBackButton>
+    <BaseScreen hasBackButton>
       <VoteChoice choiceId={params.choiceId} />
     </BaseScreen>
   );

@@ -1,49 +1,34 @@
 "use client";
 
-import {
-  Box,
-  HStack,
-  Image,
-  StackDivider,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { Box, HStack, StackDivider, Text, VStack } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { createAvatar } from "@dicebear/core";
-import { dicebearStyle } from "@/lib/const";
+import { LuCoins, LuHome, LuUserCircle, LuUsers } from "react-icons/lu";
 
 export default function Footer() {
   const router = useRouter();
   const pathname = usePathname();
+  const { mainColor } = useThemeColor();
 
-  const avatarType = dicebearStyle;
   const navItems = [
     {
       label: "Home",
-      avatar: createAvatar(avatarType, {
-        seed: "Home",
-      }),
+      icon: <LuHome size={24} />,
       href: "/",
     },
     {
       label: "Earn",
-      avatar: createAvatar(avatarType, {
-        seed: "Earn",
-      }),
+      icon: <LuCoins size={24} />,
       href: "/earn",
     },
     {
-      label: "Friends",
-      avatar: createAvatar(avatarType, {
-        seed: "Friends",
-      }),
-      href: "/friends",
+      label: "Frens",
+      icon: <LuUsers size={24} />,
+      href: "/frens",
     },
     {
       label: "Profile",
-      avatar: createAvatar(avatarType, {
-        seed: "Profile",
-      }),
+      icon: <LuUserCircle size={24} />,
       href: "/profile",
     },
   ];
@@ -61,14 +46,13 @@ export default function Footer() {
       <HStack
         justify="space-around"
         align="center"
-        bgColor="gray.800"
+        bgColor="gray.700"
         p={2}
-        borderRadius={16}
+        borderRadius={8}
+        border="1px"
+        borderColor="gray.600"
         boxShadow="md"
         divider={<StackDivider />}
-        alignItems="center"
-        justifyContent="stretch"
-        h={16}
       >
         {navItems.map((item) => (
           <VStack
@@ -77,23 +61,18 @@ export default function Footer() {
             cursor="pointer"
             onClick={() => router.push(item.href)}
             flex={1}
-            bgColor={
+            color={
               item.href === "/"
                 ? pathname === "/" || pathname.startsWith("/vote")
-                  ? "gray.700"
+                  ? mainColor
                   : ""
                 : pathname.startsWith(item.href)
-                ? "gray.700"
+                ? mainColor
                 : ""
             }
             borderRadius={8}
           >
-            <Image
-              src={item.avatar.toDataUri()}
-              alt={item.avatar.toString()}
-              w={8}
-              borderRadius="full"
-            />
+            {item.icon}
             <Text fontSize="xs">{item.label}</Text>
           </VStack>
         ))}

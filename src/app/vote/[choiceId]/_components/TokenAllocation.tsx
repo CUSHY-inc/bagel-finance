@@ -1,5 +1,6 @@
 import { ChoiceChangePercentage } from "@/app/api/coin-gecko/choices/[choiceId]/route";
 import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
+import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import ChangePercentage from "@/components/text/ChangePercentage";
 import { fetcher } from "@/lib/swr";
 import { ChoiceWithDetails } from "@/types/prisma";
@@ -22,7 +23,7 @@ export default function TokenAllocation({
         Index info
       </Text>
       {error ? (
-        <Text textAlign="center">Data fetching error...</Text>
+        <SomethingWentWrong />
       ) : (
         <Grid w="100%" gap={4} templateColumns="repeat(4, 1fr)">
           <GridItem colSpan={1}>

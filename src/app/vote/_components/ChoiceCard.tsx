@@ -21,8 +21,8 @@ import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
 
 export function LoadingChoiceCard() {
   return (
-    <Card borderRadius={16} overflow="hidden">
-      <Skeleton h={200} />
+    <Card overflow="hidden">
+      <Skeleton h={160} />
       <CardBody>
         <VStack align="stretch">
           <Box>
@@ -32,7 +32,7 @@ export function LoadingChoiceCard() {
             <Skeleton>Choice Description</Skeleton>
           </Box>
           <Grid placeItems="center" gap={4} templateColumns="repeat(2, 1fr)">
-            <Skeleton w={160} h={160} />
+            <Skeleton w={120} h={120} />
             <Box>
               <Grid gap={4} templateColumns="repeat(2, 1fr)">
                 <GridItem colSpan={1}>
@@ -77,14 +77,13 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
 
   return (
     <Card
-      borderRadius={16}
       overflow="hidden"
       cursor="pointer"
       onClick={() => router.push(`/vote/${choice.id}`)}
     >
       <Image
         width="100%"
-        maxH={200}
+        maxH={160}
         objectFit="cover"
         src={choice.image}
         alt={choice.title}
@@ -98,13 +97,14 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
             <Text>{choice.description}</Text>
           </Box>
           <Grid placeItems="center" gap={4} templateColumns="repeat(2, 1fr)">
-            <Box w={160} h={160}>
+            <Box w={120} h={120}>
               <TokenAllocationChart
                 data={choice.choiceTokens.map((choiceToken) => ({
                   id: choiceToken.token.symbol,
                   label: choiceToken.token.symbol,
                   value: choiceToken.proportion,
                 }))}
+                arcLabel="id"
               />
             </Box>
             <Box>
