@@ -16,7 +16,7 @@ import {
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { CurrentRoundInfo } from "../api/users/[userId]/votes/now/route";
+import { CurrentRoundInfo } from "../../api/users/[userId]/votes/now/route";
 import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
 
 function LoadingStartArea() {

@@ -20,7 +20,6 @@ export default function Layout({
         <Providers>
           <Box maxW={640} mx="auto" h="100%" position="relative">
             {children}
-            <Footer />
           </Box>
         </Providers>
       </body>
