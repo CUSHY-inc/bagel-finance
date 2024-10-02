@@ -1,6 +1,7 @@
 "use client";
 
 import { shortenStr } from "@/lib/common";
+import { upsertWallet } from "@/services/upsertWallet";
 import {
   HStack,
   VStack,
@@ -15,6 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
+import { useInitData } from "@telegram-apps/sdk-react";
 import {
   useIsConnectionRestored,
   useTonAddress,
@@ -69,11 +71,26 @@ export default function WalletConnect() {
   const isConnectionRestored = useIsConnectionRestored();
   const [tonConnectUI] = useTonConnectUI();
   const address = useTonAddress();
+  const initData = useInitData();
+  const walletConnectedRef = useRef(false);
+
+  tonConnectUI.onStatusChange(async (wallet) => {
+    if (initData?.user?.id && wallet && address) {
+      if (walletConnectedRef.current) {
+        return;
+      }
+      upsertWallet({
+        userId: initData.user.id.toString(),
+        address: wallet.account.address,
+        humanReadable: address,
+      });
+      walletConnectedRef.current = true;
+    }
+  });
 
   return (
-    
     <HStack p={2} spacing={4}>
-      <LuWallet size={24} />
+      <LuWallet size={32} />
       <VStack flex={1} alignItems="start" spacing={0}>
         {isConnectionRestored ? (
           <>

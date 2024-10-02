@@ -16,13 +16,15 @@ export default function BagelPoint() {
 
   return (
     <HStack p={2} spacing={4}>
-      <LuDonut size={24} />
+      <LuDonut size={32} />
       <HStack w="100%">
         <Text flex={1}>$BAGEL</Text>
         {isLoading ? (
           <Skeleton>1000000</Skeleton>
         ) : (
-          <Text as="b">{error ? "Error" : data ? data.bagel : 0}</Text>
+          <Text as="b">
+            {error ? "Error" : data ? data.bagel.toLocaleString() : 0}
+          </Text>
         )}
       </HStack>
     </HStack>

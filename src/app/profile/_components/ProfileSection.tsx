@@ -19,7 +19,7 @@ export default function ProfileSection() {
         cursor="pointer"
         onClick={() => router.push("/profile/previous-choices")}
       >
-        <LuHistory size={24} />
+        <LuHistory size={32} />
         <Text flex={1}>Previous choices</Text>
         <LuChevronRight />
       </HStack>
