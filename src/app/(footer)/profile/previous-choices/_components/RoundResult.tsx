@@ -5,6 +5,7 @@ import { HStack, Skeleton, Text, VStack } from "@chakra-ui/react";
 import { LuDonut } from "react-icons/lu";
 import ChoiceResult, { LoadingChoiceResult } from "./ChoiceResult";
 import { getPeriodString } from "@/lib/common";
+import { Vote } from "@prisma/client";
 
 export function LoadingRoundResult() {
   return (
@@ -18,7 +19,7 @@ export function LoadingRoundResult() {
       </HStack>
       <VStack align="stretch">
         {[0, 1, 2].map((idx) => (
-          <LoadingChoiceResult />
+          <LoadingChoiceResult key={idx} />
         ))}
       </VStack>
       <VStack align="stretch">
@@ -31,6 +32,31 @@ export function LoadingRoundResult() {
         </HStack>
       </VStack>
     </VStack>
+  );
+}
+
+function ResultText({ vote }: { vote?: Vote }) {
+  return (
+    <Text
+      fontSize="sm"
+      color={
+        vote
+          ? vote.isCorrect === true
+            ? "green.500"
+            : vote.isCorrect === false
+            ? "red.500"
+            : "gray.500"
+          : "gray.500"
+      }
+    >
+      {vote
+        ? vote.isCorrect === true
+          ? "Winner"
+          : vote.isCorrect === false
+          ? "Loser"
+          : "Calculating..."
+        : "Skipped"}
+    </Text>
   );
 }
 
@@ -52,12 +78,7 @@ export default function RoundResult({
           {periodString.date}
         </Text>
         <Text flex={1}>{periodString.time}</Text>
-        <Text
-          fontSize="sm"
-          color={vote ? (vote.isCorrect ? "green.500" : "red.500") : "gray.500"}
-        >
-          {vote ? (vote.isCorrect ? "Winner" : "Loser") : "Skipped"}
-        </Text>
+        <ResultText vote={vote} />
       </HStack>
       <VStack align="stretch">
         {previousChoice.choices.map((choice, idx) => (
@@ -71,7 +92,11 @@ export default function RoundResult({
         <HStack>
           <LuDonut size={32} />
           <Text fontSize="lg" as="b">
-            +{vote?.payout?.toLocaleString() ?? 0} $BAGEL
+            {vote
+              ? vote.payout !== null
+                ? `+${vote.payout.toLocaleString() ?? 0} $BAGEL`
+                : "Calculating..."
+              : "Skipped"}
           </Text>
         </HStack>
       </VStack>

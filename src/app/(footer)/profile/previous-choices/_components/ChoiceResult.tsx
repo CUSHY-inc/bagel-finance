@@ -49,28 +49,30 @@ export default function ChoiceResult({
   const theme = useTheme();
   const green = theme.colors.green[500];
   const red = theme.colors.red[500];
+  const yellow = theme.colors.yellow[500];
   const gray = theme.colors.gray[500];
-  const bgColor = choice.isWinner
-    ? vote?.choiceId === choice.id
-      ? `${green}33`
-      : `${gray}33`
-    : vote?.choiceId === choice.id
-    ? `${red}33`
-    : "transparent";
-  const color = choice.isWinner
-    ? vote?.choiceId === choice.id
-      ? "green.500"
-      : "gray.500"
-    : vote?.choiceId === choice.id
-    ? "red.500"
-    : "transparent";
+  const getColor = (hasAlpha: boolean = false) => {
+    let color = "transparent";
+    if (vote) {
+      if (vote.isCorrect === null) {
+        if (vote.choiceId === choice.id) {
+          color = yellow;
+        }
+      } else if (choice.isWinner) {
+        color = vote.choiceId === choice.id ? green : red;
+      }
+    } else if (choice.isWinner) {
+      color = gray;
+    }
+    return color + (hasAlpha ? "33" : "");
+  };
 
   return (
     <HStack
       justifyContent="space-between"
-      bg={bgColor}
+      bg={getColor(true)}
       border="1px"
-      borderColor={color}
+      borderColor={getColor()}
       borderRadius={8}
       p={2}
     >
@@ -78,7 +80,7 @@ export default function ChoiceResult({
         w={8}
         h={8}
         borderRadius="full"
-        bg={color}
+        bg={getColor()}
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -97,7 +99,9 @@ export default function ChoiceResult({
         <HStack justifyContent="space-between">
           <ChangePercentage result={choice.result} zeroColor="gray.500" />
           <Text fontSize="sm" color="gray">
-            {choice.voteRate?.toFixed(1)}% votes
+            {choice.voteRate
+              ? `${choice.voteRate.toFixed(1)}% votes`
+              : "Calculating..."}
           </Text>
         </HStack>
       </Box>

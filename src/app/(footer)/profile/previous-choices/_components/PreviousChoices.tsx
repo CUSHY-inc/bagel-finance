@@ -12,9 +12,7 @@ export default function PreviousChoices() {
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<PreviousChoice[]>(
-    userId
-      ? `/api/rounds?includeChoices=true&userId=${userId}&ltEndDate=${new Date()}`
-      : null,
+    userId ? `/api/users/${userId}/previous-choices` : null,
     fetcher
   );
 
@@ -29,7 +27,7 @@ export default function PreviousChoices() {
         Your previous choices
       </Text>
       {isLoading ? (
-        [0, 1, 2].map(() => <LoadingRoundResult />)
+        [0, 1, 2].map((idx) => <LoadingRoundResult key={idx} />)
       ) : error ? (
         <SomethingWentWrong />
       ) : (

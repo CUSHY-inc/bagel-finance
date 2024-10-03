@@ -9,7 +9,7 @@ import { checkResult } from "@/services/checkResult";
 import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
 import { VStack, Button, Image, Text } from "@chakra-ui/react";
 import { useInitData } from "@telegram-apps/sdk-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import useSWR, { mutate } from "swr";
 
@@ -22,13 +22,9 @@ export default function Page() {
     fetcher
   );
 
-  async function onClick() {
+  async function onClick(userId: string, roundId: string) {
     router.push("/profile/previous-choices");
-    await checkResult({
-      userId: userId?.toString()!,
-      roundId: data?.roundId!,
-      isChecked: true,
-    });
+    await checkResult({ userId, roundId, isChecked: true });
     await mutate(`/api/users/${userId}/votes/result`);
   }
 
@@ -36,7 +32,7 @@ export default function Page() {
     if (!data) {
       router.replace("/");
     }
-  }, [data]);
+  }, [data, router]);
 
   if (isLoading) {
     return <Loading />;
@@ -65,7 +61,7 @@ export default function Page() {
           size={"lg"}
           colorScheme={data.isCorrect ? "green" : "red"}
           w={"100%"}
-          onClick={onClick}
+          onClick={() => onClick(data.userId, data.roundId)}
         >
           Continue
         </Button>

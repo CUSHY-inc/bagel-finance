@@ -24,7 +24,7 @@ export default function Page() {
     if (data) {
       router.replace("/result");
     }
-  }, [data]);
+  }, [data, router]);
 
   if (isLoading) {
     return <Loading />;
