@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { initBackButton } from "@telegram-apps/sdk-react";
+import { useEffect, useState } from "react";
 
 /**
  * @return True, if component was mounted.
@@ -8,6 +9,7 @@ export function useDidMount(): boolean {
 
   useEffect(() => {
     setDidMount(true);
+    initBackButton();
   }, []);
 
   return didMount;
