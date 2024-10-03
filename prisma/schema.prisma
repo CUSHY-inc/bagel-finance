@@ -55,6 +55,7 @@ model Round {
 model Choice {
   id           Int           @id @default(autoincrement())
   roundId      String
+  idx          Int
   title        String
   description  String
   image        String
