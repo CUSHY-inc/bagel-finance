@@ -4,6 +4,7 @@ import { PreviousChoice } from "@/types/prisma";
 import { HStack, Skeleton, Text, VStack } from "@chakra-ui/react";
 import { LuDonut } from "react-icons/lu";
 import ChoiceResult, { LoadingChoiceResult } from "./ChoiceResult";
+import { getPeriodString } from "@/lib/common";
 
 export function LoadingRoundResult() {
   return (
@@ -38,29 +39,19 @@ export default function RoundResult({
 }: {
   previousChoice: PreviousChoice;
 }) {
-  const startDate = new Date(previousChoice.startDate);
-  const endDate = new Date(previousChoice.endDate);
-  const startMonth = startDate.toLocaleString("en-US", { month: "short" });
-  const startDay = startDate.toLocaleString("en-US", { day: "numeric" });
-  const startTime = startDate.toLocaleString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-  const endTime = endDate.toLocaleString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  const periodString = getPeriodString(
+    new Date(previousChoice.startDate),
+    new Date(previousChoice.endDate)
+  );
   const vote = previousChoice.votes[0];
 
   return (
     <VStack py={4} spacing={4} align="stretch" w="100%">
       <HStack justifyContent="space-between">
         <Text fontSize="xl" as="b">
-          {`${startMonth}. ${startDay}`}
+          {periodString.date}
         </Text>
-        <Text flex={1}>{`${startTime} ~ ${endTime}`}</Text>
+        <Text flex={1}>{periodString.time}</Text>
         <Text
           fontSize="sm"
           color={vote ? (vote.isCorrect ? "green.500" : "red.500") : "gray.500"}

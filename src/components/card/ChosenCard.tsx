@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import TokenAllocationChart from "../chart/TokenAllocationChart";
 import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
+import { getPeriodString } from "@/lib/common";
 
 export function LoadingChosenCard() {
   return (
@@ -30,6 +31,11 @@ export default function ChosenCard({
 }: {
   vote?: VoteWithRoundAndChoiceWithDetails;
 }) {
+  const periodString = getPeriodString(
+    vote ? new Date(vote.round.startDate) : undefined,
+    vote ? new Date(vote?.round.endDate) : undefined
+  );
+
   return (
     <Card direction={"row"} overflow="hidden" w={"100%"}>
       {vote ? (
@@ -44,7 +50,10 @@ export default function ChosenCard({
           <HStack justifyContent="space-between" flex={1} p={2}>
             <Box flex={1}>
               <Text as="b">{vote.choice.title}</Text>
-              <Text fontSize="sm">{vote.bet} $BAGEL</Text>
+              <Text fontSize="xs">
+                {`${periodString.date} ${periodString.time}`}
+              </Text>
+              <Text fontSize="xs">{vote.bet} $BAGEL</Text>
             </Box>
             <Box w={16} h={16}>
               <TokenAllocationChart
