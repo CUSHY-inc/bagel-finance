@@ -15,16 +15,7 @@ import { Choice, Vote } from "@prisma/client";
 export function LoadingChoiceResult() {
   return (
     <HStack justifyContent="space-between" p={2}>
-      <Stack
-        w={8}
-        h={8}
-        borderRadius="full"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Skeleton>1</Skeleton>
-      </Stack>
+      <Skeleton w={8} h={8} borderRadius="full" />
       <Skeleton borderRadius={8} boxSize="48px" />
       <Box flex={1}>
         <Skeleton>choice1</Skeleton>
@@ -38,11 +29,9 @@ export function LoadingChoiceResult() {
 }
 
 export default function ChoiceResult({
-  idx,
   choice,
   vote,
 }: {
-  idx: number;
   choice: Choice;
   vote?: Vote;
 }) {
@@ -85,7 +74,7 @@ export default function ChoiceResult({
         alignItems="center"
         justifyContent="center"
       >
-        <Text>{idx + 1}</Text>
+        <Text>{choice.idx}</Text>
       </Stack>
       <Image
         borderRadius={8}

@@ -76,6 +76,7 @@ export default function TokenAllocation({
             value: choiceToken.proportion,
           }))}
           hasRightLegends
+          idx={choice?.idx}
         />
       </Box>
     </VStack>

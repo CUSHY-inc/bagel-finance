@@ -92,7 +92,7 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
         <VStack align="stretch">
           <Box>
             <Text fontSize="xl" as="b">
-              {choice.title}
+              {choice.idx}. {choice.title}
             </Text>
             <Text>{choice.description}</Text>
           </Box>
@@ -105,6 +105,7 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
                   value: choiceToken.proportion,
                 }))}
                 arcLabel="id"
+                idx={choice.idx}
               />
             </Box>
             <Box>

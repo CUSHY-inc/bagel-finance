@@ -81,8 +81,8 @@ export default function RoundResult({
         <ResultText vote={vote} />
       </HStack>
       <VStack align="stretch">
-        {previousChoice.choices.map((choice, idx) => (
-          <ChoiceResult key={choice.id} idx={idx} choice={choice} vote={vote} />
+        {previousChoice.choices.map((choice) => (
+          <ChoiceResult key={choice.id} choice={choice} vote={vote} />
         ))}
       </VStack>
       <VStack align="stretch">

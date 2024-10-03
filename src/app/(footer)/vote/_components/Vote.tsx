@@ -11,8 +11,11 @@ function LoadingVote() {
   return (
     <>
       <Box>
-        <Skeleton fontSize="sm">The measurement period is</Skeleton>
-        <Skeleton fontSize="sm">next 00:00 - 03:00</Skeleton>
+        <Skeleton fontSize="sm">
+          The measurement period is
+          <br />
+          next 00:00 - 03:00
+        </Skeleton>
       </Box>
       {[0, 1, 2].map((idx) => (
         <LoadingChoiceCard key={idx} />
@@ -53,8 +56,7 @@ export default function Vote() {
           <Box>
             <Text fontSize="sm" textAlign="center">
               The measurement period is
-            </Text>
-            <Text fontSize="sm" textAlign="center">
+              <br />
               {`next ${new Date(
                 data.startDate
               ).toLocaleTimeString()} - ${new Date(

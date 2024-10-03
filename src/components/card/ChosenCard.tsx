@@ -64,6 +64,7 @@ export default function ChosenCard({
                 }))}
                 arcLabel="id"
                 enableArcLabels={false}
+                idx={vote.choice.idx}
               />
             </Box>
           </HStack>

@@ -3,16 +3,24 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { ResponsivePie } from "@nivo/pie";
 
+const colors: ("set1" | "tableau10" | "category10")[] = [
+  "set1",
+  "tableau10",
+  "category10",
+];
+
 export default function TokenAllocationChart({
   data,
   arcLabel,
   enableArcLabels,
   hasRightLegends,
+  idx,
 }: {
   data?: { id: string; label: string; value: number }[];
   arcLabel?: string;
   enableArcLabels?: boolean;
   hasRightLegends?: boolean;
+  idx?: number;
 }) {
   const { color, bgColor } = useThemeColor();
 
@@ -29,7 +37,7 @@ export default function TokenAllocationChart({
           },
         },
       }}
-      colors={{ scheme: "tableau10" }}
+      colors={{ scheme: idx ? colors[idx - 1] : "set1" }}
       margin={{ top: 4, right: hasRightLegends ? 160 : 4, bottom: 4, left: 4 }}
       valueFormat="=-.1f"
       innerRadius={0.5}

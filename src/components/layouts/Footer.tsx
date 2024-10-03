@@ -46,7 +46,7 @@ export default function Footer() {
       <HStack
         justify="space-around"
         align="center"
-        bgColor="gray.700"
+        bgColor="gray.800"
         p={2}
         borderRadius={8}
         border="1px"
