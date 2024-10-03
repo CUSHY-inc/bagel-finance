@@ -1,10 +1,13 @@
+import { AlertProvider } from "./AlertProvider";
 import ChakraUIProvider from "./ChakraUIProvider";
 import TelegramAppProvider from "./TelegramAppProvider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ChakraUIProvider>
-      <TelegramAppProvider>{children}</TelegramAppProvider>
+      <AlertProvider>
+        <TelegramAppProvider>{children}</TelegramAppProvider>
+      </AlertProvider>
     </ChakraUIProvider>
   );
 }
