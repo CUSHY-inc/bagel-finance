@@ -1,13 +1,13 @@
 import { handleFailed, handleSucceed } from "..";
 import { User } from "@prisma/client";
 
-export async function createVote(body: {
+export async function bet(body: {
   userId: string;
   roundId: string;
   choiceId: number;
   bet: number;
 }): Promise<User> {
-  return fetch("/api/votes/", {
+  return fetch("/api/votes/bet", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

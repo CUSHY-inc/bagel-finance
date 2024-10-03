@@ -3,7 +3,7 @@
 import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import { fetcher } from "@/lib/swr";
-import { createVote } from "@/services/createVote";
+import { bet } from "@/services/bet";
 import { ChoiceWithDetails } from "@/types/prisma";
 import {
   Box,
@@ -41,7 +41,7 @@ function ConfirmationDialog({
   const userId = initData?.user?.id;
 
   async function vote(choice: ChoiceWithDetails) {
-    await createVote({
+    await bet({
       userId: userId!.toString(),
       roundId: choice.roundId,
       choiceId: choice.id,
