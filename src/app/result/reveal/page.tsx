@@ -53,7 +53,7 @@ export default function Page() {
         </Text>
         <Image
           boxSize={64}
-          src={`/images/bagel-cat-${data.isCorrect ? "won" : "lost"}.png`}
+          src={`/images/bagel-cat-${data.isCorrect ? "won" : "lost"}.gif`}
           alt=""
         />
         <ChosenCard vote={data} />
