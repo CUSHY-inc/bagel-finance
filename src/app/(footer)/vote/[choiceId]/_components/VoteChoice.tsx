@@ -2,7 +2,7 @@
 
 import { fetcher } from "@/lib/swr";
 import { ChoiceWithDetails } from "@/types/prisma";
-import { Text, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import useSWR from "swr";
 import VoteArea from "./VoteArea";
 import VoteChoiceTitle from "./VoteChoiceTitle";
