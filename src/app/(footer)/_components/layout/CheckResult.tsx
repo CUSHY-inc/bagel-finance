@@ -5,9 +5,9 @@ import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import Loading from "../loading";
-import Error from "../error";
 import { useEffect } from "react";
+import Loading from "@/app/loading";
+import Error from "@/app/error";
 
 export default function CheckResult({
   children,

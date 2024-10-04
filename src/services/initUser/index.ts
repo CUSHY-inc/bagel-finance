@@ -1,10 +1,12 @@
 import { User as TgUser } from "@telegram-apps/sdk-react";
 import { handleFailed, handleSucceed } from "..";
-import { User } from "@prisma/client";
+import { Login, Point, User } from "@prisma/client";
 
-export async function upsertUser(tgUser: TgUser): Promise<User> {
-  return fetch(`/api/users/${tgUser.id}`, {
-    method: "PUT",
+export async function initUser(
+  tgUser: TgUser
+): Promise<{ user: User; login: Login; point: Point }> {
+  return fetch(`/api/users/${tgUser.id}/init`, {
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(tgUser),
   })
