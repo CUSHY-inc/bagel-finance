@@ -11,6 +11,7 @@ export const vote = () => {
         bet: 1000,
         isCorrect: true,
         payout: 3000,
+        isChecked: true,
       },
       {
         userId,
@@ -19,6 +20,7 @@ export const vote = () => {
         bet: 1000,
         isCorrect: false,
         payout: 0,
+        isChecked: true,
       },
     ],
   });

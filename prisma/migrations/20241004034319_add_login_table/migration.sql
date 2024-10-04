@@ -1,0 +1,16 @@
+-- AlterTable
+ALTER TABLE `Point` MODIFY `bagel` BIGINT NOT NULL DEFAULT 0;
+
+-- CreateTable
+CREATE TABLE `Login` (
+    `userId` VARCHAR(191) NOT NULL,
+    `lastBonusDate` DATETIME(3) NULL,
+    `bonusDay` INTEGER NOT NULL DEFAULT 0,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`userId`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Login` ADD CONSTRAINT `Login_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

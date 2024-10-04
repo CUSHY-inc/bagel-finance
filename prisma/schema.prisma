@@ -19,14 +19,24 @@ model User {
   allowsWriteToPm Boolean?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @default(now()) @updatedAt
+  login           Login?
   point           Point?
   wallet          Wallet?
   votes           Vote[]
 }
 
+model Login {
+  userId        String    @id
+  lastBonusDate DateTime? 
+  bonusDay      Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  user          User      @relation(fields: [userId], references: [id])
+}
+
 model Point {
   userId    String   @id
-  bagel     BigInt
+  bagel     BigInt   @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   user      User     @relation(fields: [userId], references: [id])
