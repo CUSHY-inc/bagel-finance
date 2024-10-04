@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import {
   Alert,
   AlertIcon,
@@ -8,6 +8,7 @@ import {
   AlertDescription,
   CloseButton,
   Box,
+  Slide,
 } from "@chakra-ui/react";
 
 type AlertState = {
@@ -37,6 +38,8 @@ export const useAlert = (): AlertContextType => {
 
 export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   const [alert, setAlert] = useState<AlertState | null>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const showAlert = (
     status: AlertState["status"],
@@ -44,26 +47,65 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
     description?: string
   ) => {
     setAlert({ status, title, description });
+    setIsVisible(true);
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+
+    timerRef.current = setTimeout(() => {
+      closeAlert();
+    }, 3000);
   };
 
   const closeAlert = () => {
-    setAlert(null);
+    setIsVisible(false);
+
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
+    setTimeout(() => {
+      setAlert(null);
+    }, 200);
   };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, []);
 
   return (
     <AlertContext.Provider value={{ showAlert, closeAlert }}>
       {children}
       {alert && (
-        <Box position="fixed" top={0} left={0} right={0} zIndex={2} p={4}>
-          <Alert status={alert.status} variant="left-accent">
-            <AlertIcon />
-            <Box flex={1}>
-              <AlertTitle>{alert.title}</AlertTitle>
-              <AlertDescription>{alert.description}</AlertDescription>
-            </Box>
-            <CloseButton onClick={closeAlert} />
-          </Alert>
-        </Box>
+        <Slide in={isVisible} style={{ zIndex: 9999 }} direction="left">
+          <Box position="fixed" top={4} left={0} right={0} px={4}>
+            <Alert
+              status={alert.status}
+              variant="left-accent"
+              borderRadius="md"
+            >
+              <AlertIcon />
+              <Box flex={1}>
+                <AlertTitle>{alert.title}</AlertTitle>
+                {alert.description && (
+                  <AlertDescription>{alert.description}</AlertDescription>
+                )}
+              </Box>
+              <CloseButton
+                onClick={closeAlert}
+                position="absolute"
+                right="8px"
+                top="8px"
+              />
+            </Alert>
+          </Box>
+        </Slide>
       )}
     </AlertContext.Provider>
   );
