@@ -17,11 +17,13 @@ import ChosenCard, { LoadingChosenCard } from "@/components/card/ChosenCard";
 
 function LoadingStartArea() {
   return (
-    <VStack align="stretch" w="100%">
-      <Skeleton fontSize="lg" as="b">
-        Current your choice
-      </Skeleton>
-      <LoadingChosenCard />
+    <VStack align="stretch" w="100%" spacing={4}>
+      <VStack align="stretch">
+        <Skeleton fontSize="lg" as="b">
+          Current your choice
+        </Skeleton>
+        <LoadingChosenCard />
+      </VStack>
       <Button w="100%" size="lg" colorScheme="blue">
         <Skeleton>Choose your way</Skeleton>
       </Button>
@@ -64,7 +66,7 @@ export default function StartArea() {
   return (
     data && (
       <VStack align="stretch" w="100%" spacing={4}>
-        <VStack spacing={0} align="stretch">
+        <VStack align="stretch">
           <Text fontSize="lg" as="b" textAlign="center" w="100%">
             Current your choice
           </Text>

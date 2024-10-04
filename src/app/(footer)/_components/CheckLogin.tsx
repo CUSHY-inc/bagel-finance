@@ -35,7 +35,7 @@ export default function CheckLogin({
     }
   }, [isDaily, isFirst, router]);
 
-  if (isLoading) {
+  if (isLoading || isFirst || isDaily) {
     return <Loading />;
   }
 

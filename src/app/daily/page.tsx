@@ -1,7 +1,7 @@
 "use client";
 
 import BaseScreen from "@/components/layouts/BaseScreen";
-import { useAlert } from "@/components/layouts/providers/AlertProvider";
+import { useAlert } from "@/app/_components/AlertProvider";
 import { fetcher } from "@/lib/swr";
 import { Button, Image, Text, VStack } from "@chakra-ui/react";
 import { Login } from "@prisma/client";
