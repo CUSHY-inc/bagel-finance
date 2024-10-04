@@ -36,6 +36,9 @@ export default function Page() {
   resetTime.setUTCHours(0, 0, 0, 0);
   const isDaily =
     data && (!data?.lastBonusDate || new Date(data.lastBonusDate) < resetTime);
+  const skipTime = new Date();
+  skipTime.setUTCHours(0, 0, 0, 0);
+  skipTime.setUTCDate(skipTime.getUTCDate() - 1);
 
   useEffect(() => {
     if (!isDaily) {
@@ -43,19 +46,16 @@ export default function Page() {
     }
   }, [isDaily, router]);
 
-  async function onClick() {
+  async function onClick(day: number) {
     if (!data) {
       return;
     }
     await dailyLogin({
       userId: data!.userId,
-      bagel: dailyBagels[data!.bonusDay - 1],
-      bonusDay: getNextBonusDay(data.bonusDay),
+      bagel: dailyBagels[day - 1],
+      bonusDay: getNextBonusDay(day),
     });
-    showAlert(
-      "success",
-      `You've got ${dailyBagels[data!.bonusDay - 1]} $BAGEL`
-    );
+    showAlert("success", `You've got ${dailyBagels[day - 1]} $BAGEL`);
     mutate(userId ? `/api/users/${userId}/login` : null);
   }
 
@@ -67,15 +67,31 @@ export default function Page() {
     return <Error />;
   }
 
+  const day = data.lastBonusDate
+    ? new Date(data.lastBonusDate) < skipTime
+      ? 1
+      : data.bonusDay
+    : 1;
+
   return (
     <BaseScreen color="blue.500">
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
-        <Text fontSize="3xl" as="b" textAlign="center">
-          Daily bonus!
-        </Text>
+        <VStack>
+          <Text fontSize="2xl" as="b" textAlign="center">
+            Daily bonus!
+          </Text>
+          <Text fontSize="5xl" as="b" textAlign="center">
+            Day {day}
+          </Text>
+        </VStack>
         <Image boxSize={64} src="/images/bagel-cat-money.png" alt="" />
-        <Button size={"lg"} colorScheme="blue" w={"100%"} onClick={onClick}>
-          Get {dailyBagels[data.bonusDay - 1]} $BAGEL
+        <Button
+          size={"lg"}
+          colorScheme="blue"
+          w={"100%"}
+          onClick={() => onClick(day)}
+        >
+          Get {dailyBagels[day - 1]} $BAGEL
         </Button>
       </VStack>
     </BaseScreen>
