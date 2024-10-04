@@ -23,9 +23,9 @@ export default function Page() {
   );
 
   async function onClick(userId: string, roundId: string) {
-    router.push("/profile/previous-choices");
     await checkResult({ userId, roundId, isChecked: true });
     await mutate(userId ? `/api/users/${userId}/votes/result` : null);
+    router.push("/profile/previous-choices");
   }
 
   useEffect(() => {

@@ -28,7 +28,7 @@ export default function CheckResult({
     }
   }, [data, router]);
 
-  if (isLoading || data === undefined) {
+  if (isLoading || data || data === undefined) {
     return <Loading />;
   }
 

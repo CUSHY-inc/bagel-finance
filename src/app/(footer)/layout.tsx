@@ -1,6 +1,7 @@
 import Footer from "@/components/layouts/Footer";
-import CheckLogin from "./_components/layout/CheckLogin";
-import CheckResult from "./_components/layout/CheckResult";
+import CheckLogin from "./_components/CheckLogin";
+import CheckResult from "./_components/CheckResult";
+import { Box } from "@chakra-ui/react";
 
 export default function Layout({
   children,
@@ -10,8 +11,10 @@ export default function Layout({
   return (
     <CheckLogin>
       <CheckResult>
-        {children}
-        <Footer />
+        <Box h={"100%"} pb={24}>
+          {children}
+          <Footer />
+        </Box>
       </CheckResult>
     </CheckLogin>
   );

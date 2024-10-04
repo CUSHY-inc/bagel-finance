@@ -6,20 +6,13 @@ export default function BaseScreen({
   children,
   color,
   hasBackButton,
-  footerPadding,
 }: {
   children: React.ReactNode;
   color?: string;
   hasBackButton?: boolean;
-  footerPadding?: boolean;
 }) {
   return (
-    <Box
-      bg={color ? color : "black"}
-      h="100%"
-      pb={footerPadding ? 28 : 0}
-      overflowY="auto"
-    >
+    <Box bg={color} h="100%" overflowY="auto">
       {hasBackButton ? <BackButton /> : <NoBackButton />}
       {children}
     </Box>

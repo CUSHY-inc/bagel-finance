@@ -3,7 +3,7 @@ import Vote from "./_components/Vote";
 
 export default function Page() {
   return (
-    <BaseScreen hasBackButton footerPadding>
+    <BaseScreen hasBackButton>
       <Vote />
     </BaseScreen>
   );
