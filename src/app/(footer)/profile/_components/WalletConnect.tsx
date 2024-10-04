@@ -75,14 +75,14 @@ export default function WalletConnect() {
   const walletConnectedRef = useRef(false);
 
   tonConnectUI.onStatusChange(async (wallet) => {
-    if (initData?.user?.id && wallet && address) {
+    console.log(initData?.user?.id, wallet, address);
+    if (initData?.user?.id && wallet) {
       if (walletConnectedRef.current) {
         return;
       }
       upsertWallet({
         userId: initData.user.id.toString(),
         address: wallet.account.address,
-        humanReadable: address,
       });
       walletConnectedRef.current = true;
     }

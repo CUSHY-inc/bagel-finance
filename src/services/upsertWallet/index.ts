@@ -4,7 +4,6 @@ import { Wallet } from "@prisma/client";
 export async function upsertWallet(body: {
   userId: string;
   address: string;
-  humanReadable: string;
 }): Promise<Wallet> {
   return fetch(`/api/users/${body.userId}/wallet`, {
     method: "PUT",

@@ -6,8 +6,7 @@ export async function PUT(req: NextRequest) {
     const body = await req.json();
     const userId = body.userId;
     const address = body.address;
-    const humanReadable = body.humanReadable;
-    if (!userId || !address || !humanReadable) {
+    if (!userId || !address) {
       return NextResponse.json(
         { error: "Invalid request body" },
         { status: 400 }
@@ -15,8 +14,8 @@ export async function PUT(req: NextRequest) {
     }
     const wallet = await prisma.wallet.upsert({
       where: { userId },
-      update: { address, humanReadable },
-      create: { userId, address, humanReadable },
+      update: { address },
+      create: { userId, address },
     });
     return NextResponse.json(wallet);
   } catch (e) {
