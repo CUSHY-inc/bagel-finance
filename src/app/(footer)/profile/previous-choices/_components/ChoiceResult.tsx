@@ -47,13 +47,26 @@ export default function ChoiceResult({
         if (vote.choiceId === choice.id) {
           color = yellow;
         }
-      } else if (choice.isWinner) {
-        color = vote.choiceId === choice.id ? green : red;
+      } else {
+        if (vote.isCorrect) {
+          if (vote.choiceId === choice.id) {
+            color = green;
+          }
+        } else {
+          if (choice.isWinner) {
+            color = gray;
+          }
+          if (vote.choiceId === choice.id) {
+            color = red;
+          }
+        }
       }
-    } else if (choice.isWinner) {
-      color = gray;
+    } else {
+      if (choice.isWinner) {
+        color = gray;
+      }
     }
-    return color + (hasAlpha ? "33" : "");
+    return color + (hasAlpha && color !== "transparent" ? "33" : "");
   };
 
   return (
@@ -88,7 +101,7 @@ export default function ChoiceResult({
         <HStack justifyContent="space-between">
           <ChangePercentage result={choice.result} zeroColor="gray.500" />
           <Text fontSize="sm" color="gray">
-            {choice.voteRate
+            {choice.voteRate !== null
               ? `${choice.voteRate.toFixed(1)}% votes`
               : "Calculating..."}
           </Text>
