@@ -26,7 +26,7 @@ export default function ChangePercentage({
     : zeroColor ?? textColor;
   const displayText =
     result !== undefined && result !== null
-      ? `${result > 0 ? "+" : result < 0 ? "" : "±"}${result.toFixed(2)}%`
+      ? `${result > 0 ? "+" : result < 0 ? "" : "±"}${result.toFixed(3)}%`
       : "-";
 
   return (

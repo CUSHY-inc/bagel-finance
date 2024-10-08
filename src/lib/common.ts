@@ -33,3 +33,7 @@ export function getPeriodString(startDate?: Date, endDate?: Date) {
     time: `${startTime} ~ ${endTime}`,
   };
 }
+
+export function dateToTimestamp(date: Date) {
+  return Math.floor(date.getTime() / 1000);
+}
