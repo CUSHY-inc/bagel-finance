@@ -7,9 +7,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const userId = body.userId;
     const roundId = body.roundId;
-    const choiceId = Number(body.choiceId);
+    const choiceId = body.choiceId;
     const bet = Number(body.bet);
-    if (!userId || !roundId || isNaN(choiceId) || isNaN(bet)) {
+    if (!userId || !roundId || !choiceId || isNaN(bet)) {
       return NextResponse.json(
         { error: "Invalid request body" },
         { status: 400 }

@@ -31,7 +31,7 @@ model Login {
   bonusDay      Int       @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now()) @updatedAt
-  user          User      @relation(fields: [userId], references: [id])
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Point {
@@ -39,7 +39,7 @@ model Point {
   bagel     BigInt   @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Wallet {
@@ -47,14 +47,14 @@ model Wallet {
   address       String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now()) @updatedAt
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Round {
-  id          String   @id @default(cuid())
+  id          String   @id
   title       String
-  startDate   DateTime
-  endDate     DateTime
+  startDate   DateTime @unique
+  endDate     DateTime @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
   choices     Choice[]
@@ -62,8 +62,8 @@ model Round {
 }
 
 model Choice {
-  id           Int           @id @default(autoincrement())
-  roundId      String
+  id           String        @id
+  roundId      String        
   idx          Int
   title        String
   description  String
@@ -74,33 +74,33 @@ model Choice {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @default(now()) @updatedAt
   choiceTokens ChoiceToken[]
-  round        Round         @relation(fields: [roundId], references: [id])
+  round        Round         @relation(fields: [roundId], references: [id], onDelete: Cascade)
   votes        Vote[]
 
   @@index([roundId])
+  @@unique([roundId, idx])
 }
 
 model Token {
-  id           String       @id @default(cuid())
+  id           String        @id
   name         String
-  symbol       String       @unique
-  chain        String
-  contractAddr String?
-  coinGeckoId  String       @unique
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @default(now()) @updatedAt
+  symbol       String
+  webSlug     String
+  image        String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
   choiceTokens ChoiceToken[]
 }
 
 model ChoiceToken {
   id         String   @id @default(cuid())
-  choiceId   Int
+  choiceId   String
   tokenId    String
   proportion Float
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now()) @updatedAt
-  choice     Choice   @relation(fields: [choiceId], references: [id])
-  token      Token    @relation(fields: [tokenId], references: [id])
+  choice     Choice   @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  token      Token    @relation(fields: [tokenId], references: [id], onDelete: Cascade)
 
   @@unique([choiceId, tokenId])
   @@index([choiceId])
@@ -111,16 +111,16 @@ model Vote {
   id        String   @id @default(cuid())
   userId    String
   roundId   String
-  choiceId  Int
+  choiceId  String
   bet       BigInt
   isCorrect Boolean?
   payout    BigInt?
   isChecked Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-  round     Round    @relation(fields: [roundId], references: [id])
-  choice    Choice   @relation(fields: [choiceId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  round     Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  choice    Choice   @relation(fields: [choiceId], references: [id], onDelete: Cascade)
 
   @@unique([userId, roundId])
   

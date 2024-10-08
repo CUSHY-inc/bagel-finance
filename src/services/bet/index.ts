@@ -4,7 +4,7 @@ import { User } from "@prisma/client";
 export async function bet(body: {
   userId: string;
   roundId: string;
-  choiceId: number;
+  choiceId: string;
   bet: number;
 }): Promise<User> {
   return fetch("/api/votes/bet", {

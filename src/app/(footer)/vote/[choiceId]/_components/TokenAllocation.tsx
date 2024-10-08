@@ -1,4 +1,4 @@
-import { ChoiceChangePercentage } from "@/app/api/coin-gecko/choices/[choiceId]/route";
+import { ChoiceChangePercentage } from "@/app/api/coinGecko/choices/[choiceId]/route";
 import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import ChangePercentage from "@/components/text/ChangePercentage";
@@ -13,7 +13,7 @@ export default function TokenAllocation({
   choice?: ChoiceWithDetails;
 }) {
   const { data, error, isLoading } = useSWR<ChoiceChangePercentage>(
-    choice ? `/api/coin-gecko/choices/${choice.id}` : null,
+    choice ? `/api/coinGecko/choices/${choice.id}` : null,
     fetcher
   );
 
@@ -71,8 +71,8 @@ export default function TokenAllocation({
       <Box w="100%" h={160}>
         <TokenAllocationChart
           data={choice?.choiceTokens.map((choiceToken) => ({
-            id: choiceToken.token.symbol,
-            label: choiceToken.token.symbol,
+            id: choiceToken.token.symbol.toUpperCase(),
+            label: choiceToken.token.symbol.toUpperCase(),
             value: choiceToken.proportion,
           }))}
           hasRightLegends

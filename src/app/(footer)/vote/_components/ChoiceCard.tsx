@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { ChoiceWithDetails } from "@/types/prisma";
 import useSWR from "swr";
 import { fetcher } from "@/lib/swr";
-import { ChoiceChangePercentage } from "@/app/api/coin-gecko/choices/[choiceId]/route";
+import { ChoiceChangePercentage } from "@/app/api/coinGecko/choices/[choiceId]/route";
 import ChangePercentage from "@/components/text/ChangePercentage";
 import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
 
@@ -71,7 +71,7 @@ export function LoadingChoiceCard() {
 export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
   const router = useRouter();
   const { data, error, isLoading } = useSWR<ChoiceChangePercentage>(
-    `/api/coin-gecko/choices/${choice.id}`,
+    `/api/coinGecko/choices/${choice.id}`,
     fetcher
   );
 
@@ -100,8 +100,8 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
             <Box w={120} h={120}>
               <TokenAllocationChart
                 data={choice.choiceTokens.map((choiceToken) => ({
-                  id: choiceToken.token.symbol,
-                  label: choiceToken.token.symbol,
+                  id: choiceToken.token.symbol.toUpperCase(),
+                  label: choiceToken.token.symbol.toUpperCase(),
                   value: choiceToken.proportion,
                 }))}
                 arcLabel="id"

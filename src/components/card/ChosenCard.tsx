@@ -58,8 +58,8 @@ export default function ChosenCard({
             <Box w={16} h={16}>
               <TokenAllocationChart
                 data={vote.choice.choiceTokens.map((choiceToken) => ({
-                  id: choiceToken.token.symbol,
-                  label: choiceToken.token.symbol,
+                  id: choiceToken.token.symbol.toUpperCase(),
+                  label: choiceToken.token.symbol.toUpperCase(),
                   value: choiceToken.proportion,
                 }))}
                 arcLabel="id"

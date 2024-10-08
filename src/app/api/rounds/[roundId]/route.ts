@@ -1,16 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
+export async function DELETE(
   _: NextRequest,
-  { params }: { params: { choiceId: string } }
+  { params }: { params: { roundId: string } }
 ) {
   try {
-    const choice = await prisma.choice.findUnique({
-      where: { id: params.choiceId },
-      include: { choiceTokens: { include: { token: true } } },
-    });
-    return NextResponse.json(choice);
+    await prisma.round.delete({ where: { id: params.roundId } });
+    return new NextResponse(null, { status: 204 });
   } catch (e) {
     console.error("Unexpected error:", e);
     return NextResponse.json(

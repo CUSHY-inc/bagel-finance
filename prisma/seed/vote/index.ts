@@ -7,7 +7,7 @@ export const vote = () => {
       {
         userId,
         roundId: "round1",
-        choiceId: 1,
+        choiceId: "round1-1",
         bet: 1000,
         isCorrect: true,
         payout: 3000,
@@ -16,7 +16,7 @@ export const vote = () => {
       {
         userId,
         roundId: "round2",
-        choiceId: 5,
+        choiceId: "round2-2",
         bet: 1000,
         isCorrect: false,
         payout: 0,

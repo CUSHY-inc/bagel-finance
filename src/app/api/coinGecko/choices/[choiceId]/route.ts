@@ -14,28 +14,19 @@ export async function GET(
   { params }: { params: { choiceId: string } }
 ) {
   try {
-    const choiceId = Number(params.choiceId);
-    if (isNaN(choiceId)) {
-      return NextResponse.json(
-        { error: `The choice ID must be a number` },
-        { status: 400 }
-      );
-    }
     const choice = await prisma.choice.findUnique({
-      where: { id: Number(choiceId) },
+      where: { id: params.choiceId },
       include: { choiceTokens: { include: { token: true } } },
     });
     if (!choice) {
       return NextResponse.json(
-        { error: `The choice with ID ${choiceId} was not found` },
+        { error: `The choice with ID ${params.choiceId} was not found` },
         { status: 404 }
       );
     }
     const data = await fetchCoinGecko("/coins/markets", {
       vs_currency: "usd",
-      ids: choice.choiceTokens.map(
-        (choiceToken) => choiceToken.token.coinGeckoId
-      ),
+      ids: choice.choiceTokens.map((choiceToken) => choiceToken.token.id),
       price_change_percentage: ["1h", "24h", "7d", "30d"],
     });
     let changePercentage1h = 0;
@@ -44,7 +35,7 @@ export async function GET(
     let changePercentage30d = 0;
     for (const choiceToken of choice.choiceTokens) {
       const coinData = data.find(
-        (d: { id: string }) => d.id === choiceToken.token.coinGeckoId
+        (d: { id: string }) => d.id === choiceToken.token.id
       );
       if (!coinData) {
         throw Error("Internal server error");

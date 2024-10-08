@@ -2,32 +2,35 @@ export const userId = "6060318968";
 
 export const roundIds = ["round1", "round2", "round3", "round4"];
 
-export const choiceIds = roundIds.map((_, idx) => [
-  idx * 3 + 1,
-  idx * 3 + 2,
-  idx * 3 + 3,
+export const choiceIds = roundIds.map((roundId) => [
+  `${roundId}-1`,
+  `${roundId}-2`,
+  `${roundId}-3`,
 ]);
 
 export const tokens = [
   {
-    id: "token1",
+    id: "bitcoin",
     name: "Bitcoin",
-    symbol: "BTC",
-    chain: "Bitcoin",
-    coinGeckoId: "bitcoin",
+    symbol: "btc",
+    webSlug: "bitcoin",
+    image:
+      "https://coin-images.coingecko.com/coins/images/1/thumb/bitcoin.png?1696501400",
   },
   {
-    id: "token2",
+    id: "ethereum",
     name: "Ethereum",
-    symbol: "ETC",
-    chain: "Ethereum",
-    coinGeckoId: "ethereum",
+    symbol: "eth",
+    webSlug: "ethereum",
+    image:
+      "https://coin-images.coingecko.com/coins/images/279/thumb/ethereum.png?1696501628",
   },
   {
-    id: "token3",
+    id: "tether",
     name: "Tether",
-    symbol: "USDT",
-    chain: "Ethereum",
-    coinGeckoId: "tether",
+    symbol: "usdt",
+    webSlug: "tether",
+    image:
+      "https://coin-images.coingecko.com/coins/images/325/thumb/Tether.png?1696501661",
   },
 ];
