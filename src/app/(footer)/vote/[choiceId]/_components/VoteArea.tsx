@@ -25,7 +25,7 @@ import { Point } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 function ConfirmationDialog({
   disclosure,
@@ -47,10 +47,12 @@ function ConfirmationDialog({
       choiceId: choice.id,
       bet: bagel,
     });
+    mutate(userId ? `/api/users/${userId}/votes/now` : null);
     router.push("/voted");
   }
 
   return choice ? (
+    new Date(choice.round.startDate) < new Date() &&
     new Date(choice.round.endDate) > new Date() ? (
       <BaseAlertDialog
         disclosure={disclosure}
