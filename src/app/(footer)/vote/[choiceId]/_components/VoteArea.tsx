@@ -52,7 +52,6 @@ function ConfirmationDialog({
   }
 
   return choice ? (
-    new Date(choice.round.startDate) < new Date() &&
     new Date(choice.round.endDate) > new Date() ? (
       <BaseAlertDialog
         disclosure={disclosure}

@@ -46,7 +46,7 @@ export default function StartArea({ homeInfo }: { homeInfo?: HomeInfo }) {
           size="lg"
           colorScheme="blue"
           onClick={onClick}
-          // isDisabled={!!data?.currentVote || !!error || isLoading}
+          isDisabled={!!homeInfo.nextRound?.votes[0]}
         >
           {homeInfo.nextRound?.votes[0]
             ? nextRoundTime !== null
