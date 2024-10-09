@@ -35,7 +35,7 @@ export default function Home() {
       p={4}
     >
       <BagelPoint point={data?.point} />
-      <Image boxSize={40} src="/images/bagel-cat.png" alt="" />
+      <Image boxSize={40} src="/images/tonny.gif" alt="" />
       <StartArea homeInfo={data} />
     </VStack>
   );

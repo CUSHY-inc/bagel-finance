@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <BaseScreen color={"yellow.500"}>
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
-        <Image boxSize={64} src="/images/bagel-cat-money.png" alt="" />
+        <Image boxSize={64} src="/images/tonny.gif" alt="" />
         <Text fontSize="xl" as="b" textAlign="center">
           Your choice has been accepted!
         </Text>

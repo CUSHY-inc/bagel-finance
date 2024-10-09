@@ -84,7 +84,7 @@ export default function Page() {
             Day {day}
           </Text>
         </VStack>
-        <Image boxSize={64} src="/images/bagel-cat-money.png" alt="" />
+        <Image boxSize={64} src="/images/tonny-happy.gif" alt="" />
         <Button
           size={"lg"}
           colorScheme="blue"

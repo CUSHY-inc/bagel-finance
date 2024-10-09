@@ -53,7 +53,7 @@ export default function Page() {
           <br />
           Bagel Finance!
         </Text>
-        <Image boxSize={64} src="/images/bagel-cat-money.png" alt="" />
+        <Image boxSize={64} src="/images/tonny-happy.gif" alt="" />
         <Button size={"lg"} colorScheme="yellow" w={"100%"} onClick={onClick}>
           Get {bagel.toLocaleString()} $BAGEL
         </Button>
