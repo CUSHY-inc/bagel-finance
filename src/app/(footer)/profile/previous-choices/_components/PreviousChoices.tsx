@@ -30,13 +30,21 @@ export default function PreviousChoices() {
         [0, 1, 2].map((idx) => <LoadingRoundResult key={idx} />)
       ) : error ? (
         <SomethingWentWrong />
+      ) : data ? (
+        data.length === 0 ? (
+          <Text textAlign="center" p={4}>
+            No previous choices
+          </Text>
+        ) : (
+          data.map((previousChoice) => (
+            <RoundResult
+              key={previousChoice.id}
+              previousChoice={previousChoice}
+            />
+          ))
+        )
       ) : (
-        data?.map((previousChoice) => (
-          <RoundResult
-            key={previousChoice.id}
-            previousChoice={previousChoice}
-          />
-        ))
+        <></>
       )}
     </VStack>
   );
