@@ -1,38 +1,42 @@
 import JSONBig from "json-bigint";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
-import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
-import { Point, Round } from "@prisma/client";
-
-export type CurrentRoundInfo = {
-  vote: VoteWithRoundAndChoiceWithDetails;
-  nextRound: Round;
-  point: Point;
-};
 
 export async function GET(
   _: NextRequest,
   { params }: { params: { userId: string } }
 ) {
   try {
-    const userId = params.userId;
     const now = new Date();
-    const vote = await prisma.vote.findFirst({
-      where: {
-        userId,
-        round: { startDate: { lte: now }, endDate: { gt: now } },
-      },
+    const currentRound = await prisma.round.findFirst({
+      where: { startDate: { lte: now }, endDate: { gt: now } },
       include: {
-        round: true,
-        choice: { include: { choiceTokens: { include: { token: true } } } },
+        votes: {
+          where: { userId: params.userId },
+          include: {
+            choice: { include: { choiceTokens: { include: { token: true } } } },
+            round: true,
+          },
+        },
       },
     });
     const nextRound = await prisma.round.findFirst({
-      where: { startDate: { gte: now } },
+      where: { startDate: { gt: now } },
       orderBy: { startDate: "asc" },
+      include: {
+        votes: {
+          where: { userId: params.userId },
+          include: {
+            choice: { include: { choiceTokens: { include: { token: true } } } },
+            round: true,
+          },
+        },
+      },
     });
-    const point = await prisma.point.findUnique({ where: { userId } });
-    return new Response(JSONBig.stringify({ vote, nextRound, point }), {
+    const point = await prisma.point.findUnique({
+      where: { userId: params.userId },
+    });
+    return new Response(JSONBig.stringify({ currentRound, nextRound, point }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {

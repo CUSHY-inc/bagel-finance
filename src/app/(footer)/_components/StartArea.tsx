@@ -1,87 +1,56 @@
 "use client";
 
-import { fetcher } from "@/lib/swr";
-import {
-  Button,
-  Skeleton,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
-import { useInitData } from "@telegram-apps/sdk-react";
+import { Button, Text, useDisclosure, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
-import { CurrentRoundInfo } from "../../api/users/[userId]/votes/now/route";
 import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
-import ChosenCard, { LoadingChosenCard } from "@/components/card/ChosenCard";
+import ChosenCard, { NoChosenCard } from "@/components/card/ChosenCard";
+import { HomeInfo } from "@/types/prisma";
 
-function LoadingStartArea() {
-  return (
-    <VStack align="stretch" w="100%" spacing={4}>
-      <VStack align="stretch">
-        <Skeleton fontSize="lg" as="b">
-          Current your choice
-        </Skeleton>
-        <LoadingChosenCard />
-      </VStack>
-      <Button w="100%" size="lg" colorScheme="blue">
-        <Skeleton>Choose your way</Skeleton>
-      </Button>
-    </VStack>
-  );
-}
-
-export default function StartArea() {
+export default function StartArea({ homeInfo }: { homeInfo?: HomeInfo }) {
   const router = useRouter();
   const disclosure = useDisclosure();
-  const initData = useInitData();
-  const userId = initData?.user?.id;
-  const { data, error, isLoading } = useSWR<CurrentRoundInfo>(
-    userId ? `/api/users/${userId}/votes/now` : null,
-    fetcher
-  );
-  const nextRound = data?.nextRound
+  const nextRoundTime = homeInfo?.nextRound
     ? Math.ceil(
-        (new Date(data.nextRound.startDate).getTime() - new Date().getTime()) /
+        (new Date(homeInfo?.nextRound.startDate).getTime() -
+          new Date().getTime()) /
           (60 * 1000)
       )
     : null;
 
   function onClick() {
-    if (data?.point && data.point.bagel > BigInt(0)) {
+    if (homeInfo?.point && homeInfo.point.bagel > BigInt(0)) {
       router.push("/vote");
     } else {
       disclosure.onOpen();
     }
   }
 
-  if (isLoading) {
-    return <LoadingStartArea />;
-  }
-
-  if (error) {
-    throw error;
-  }
-
   return (
-    data && (
+    homeInfo && (
       <VStack align="stretch" w="100%" spacing={4}>
         <VStack align="stretch">
           <Text fontSize="lg" as="b" textAlign="center" w="100%">
-            Current your choice
+            Your choice
           </Text>
-          <ChosenCard vote={data.vote} />
+          {!homeInfo.currentRound?.votes[0] && !homeInfo.nextRound?.votes[0] ? (
+            <NoChosenCard />
+          ) : (
+            <>
+              <ChosenCard vote={homeInfo.currentRound?.votes[0]} />
+              <ChosenCard vote={homeInfo.nextRound?.votes[0]} />
+            </>
+          )}
         </VStack>
         <Button
           w="100%"
           size="lg"
           colorScheme="blue"
           onClick={onClick}
-          isDisabled={!!data?.vote || !!error || isLoading}
+          // isDisabled={!!data?.currentVote || !!error || isLoading}
         >
-          {data.vote
-            ? nextRound
-              ? `Next round in ${nextRound} min`
+          {homeInfo.nextRound?.votes[0]
+            ? nextRoundTime !== null
+              ? `Next round in ${nextRoundTime} min`
               : "Next round not scheduled"
             : "Choose your way"}
         </Button>

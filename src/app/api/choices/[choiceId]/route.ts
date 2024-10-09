@@ -8,7 +8,7 @@ export async function GET(
   try {
     const choice = await prisma.choice.findUnique({
       where: { id: params.choiceId },
-      include: { choiceTokens: { include: { token: true } } },
+      include: { choiceTokens: { include: { token: true } }, round: true },
     });
     return NextResponse.json(choice);
   } catch (e) {

@@ -5,10 +5,11 @@ export async function GET() {
   try {
     const now = new Date();
     const round = await prisma.round.findFirst({
-      where: { startDate: { lt: now }, endDate: { gt: now } },
+      where: { startDate: { gt: now } },
       include: {
         choices: { include: { choiceTokens: { include: { token: true } } } },
       },
+      orderBy: { startDate: "asc" },
     });
     return NextResponse.json(round);
   } catch (e) {

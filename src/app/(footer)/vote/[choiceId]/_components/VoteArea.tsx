@@ -4,7 +4,7 @@ import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import { fetcher } from "@/lib/swr";
 import { bet } from "@/services/bet";
-import { ChoiceWithDetails } from "@/types/prisma";
+import { RoundChoiceWithDetails } from "@/types/prisma";
 import {
   Box,
   Button,
@@ -33,14 +33,14 @@ function ConfirmationDialog({
   bagel,
 }: {
   disclosure: UseDisclosureReturn;
-  choice?: ChoiceWithDetails;
+  choice?: RoundChoiceWithDetails;
   bagel: number;
 }) {
   const router = useRouter();
   const initData = useInitData();
   const userId = initData?.user?.id;
 
-  async function vote(choice: ChoiceWithDetails) {
+  async function vote(choice: RoundChoiceWithDetails) {
     await bet({
       userId: userId!.toString(),
       roundId: choice.roundId,
@@ -51,14 +51,22 @@ function ConfirmationDialog({
   }
 
   return choice ? (
-    <BaseAlertDialog
-      disclosure={disclosure}
-      title={choice.title}
-      body="Are you sure you want to vote for this index?"
-      yesButtonText="Vote"
-      noButtonText="Cancel"
-      onClick={() => vote(choice)}
-    />
+    new Date(choice.round.endDate) > new Date() ? (
+      <BaseAlertDialog
+        disclosure={disclosure}
+        title={choice.title}
+        body="Are you sure you want to vote for this index?"
+        yesButtonText="Vote"
+        noButtonText="Cancel"
+        onClick={() => vote(choice)}
+      />
+    ) : (
+      <BaseAlertDialog
+        disclosure={disclosure}
+        title="Oops! Voting's Closed"
+        body="Looks like the voting period is over. Catch us next time for your chance to vote!"
+      />
+    )
   ) : (
     <BaseAlertDialog
       disclosure={disclosure}
@@ -115,7 +123,11 @@ function LoadingVoteArea() {
   );
 }
 
-export default function VoteArea({ choice }: { choice?: ChoiceWithDetails }) {
+export default function VoteArea({
+  choice,
+}: {
+  choice?: RoundChoiceWithDetails;
+}) {
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<Point>(

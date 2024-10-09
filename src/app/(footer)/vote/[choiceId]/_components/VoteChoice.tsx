@@ -1,7 +1,7 @@
 "use client";
 
 import { fetcher } from "@/lib/swr";
-import { ChoiceWithDetails } from "@/types/prisma";
+import { RoundChoiceWithDetails } from "@/types/prisma";
 import { VStack } from "@chakra-ui/react";
 import useSWR from "swr";
 import VoteArea from "./VoteArea";
@@ -10,7 +10,7 @@ import TokenAllocation from "./TokenAllocation";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 
 export default function VoteChoice({ choiceId }: { choiceId: string }) {
-  const { data, error, isLoading } = useSWR<ChoiceWithDetails>(
+  const { data, error, isLoading } = useSWR<RoundChoiceWithDetails>(
     `/api/choices/${choiceId}`,
     fetcher
   );

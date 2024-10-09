@@ -6,7 +6,7 @@ import ChosenCard from "@/components/card/ChosenCard";
 import BaseScreen from "@/components/layouts/BaseScreen";
 import { fetcher } from "@/lib/swr";
 import { checkResult } from "@/services/checkResult";
-import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
+import { VoteWithDetails } from "@/types/prisma";
 import { VStack, Button, Image, Text } from "@chakra-ui/react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
@@ -17,7 +17,7 @@ export default function Page() {
   const router = useRouter();
   const initData = useInitData();
   const userId = initData?.user?.id;
-  const { data, error, isLoading } = useSWR<VoteWithRoundAndChoiceWithDetails>(
+  const { data, error, isLoading } = useSWR<VoteWithDetails>(
     userId ? `/api/users/${userId}/votes/result` : null,
     fetcher
   );

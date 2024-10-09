@@ -1,7 +1,7 @@
 "use client";
 
 import { fetcher } from "@/lib/swr";
-import { VoteWithRoundAndChoiceWithDetails } from "@/types/prisma";
+import { VoteWithDetails } from "@/types/prisma";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
@@ -17,7 +17,7 @@ export default function CheckResult({
   const router = useRouter();
   const initData = useInitData();
   const userId = initData?.user?.id;
-  const { data, error, isLoading } = useSWR<VoteWithRoundAndChoiceWithDetails>(
+  const { data, error, isLoading } = useSWR<VoteWithDetails>(
     userId ? `/api/users/${userId}/votes/result` : null,
     fetcher
   );
