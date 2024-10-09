@@ -20,7 +20,7 @@ export async function POST(
       _sum: { bet: true },
     });
     const correctPointSum = await prisma.vote.aggregate({
-      where: { roundId: params.roundId },
+      where: { roundId: params.roundId, choiceId: choice.id },
       _sum: { bet: true },
     });
     const votes = await prisma.vote.findMany({
