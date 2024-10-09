@@ -36,7 +36,7 @@ export const useAlert = (): AlertContextType => {
   return context;
 };
 
-export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
+export const AlertLayout = ({ children }: { children: React.ReactNode }) => {
   const [alert, setAlert] = useState<AlertState | null>(null);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
