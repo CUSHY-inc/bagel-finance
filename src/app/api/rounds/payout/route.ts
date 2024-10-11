@@ -6,7 +6,7 @@ export async function POST() {
   try {
     const date = new Date(new Date().getTime() - 2.5 * 60 * 1000);
     const rounds = await prisma.round.findMany({
-      where: { endDate: { lt: date } },
+      where: { endDate: { lt: date }, resultStatus: "CALCULATED" },
       include: { choices: { include: { choiceTokens: true } } },
     });
     const response = [];
@@ -28,14 +28,12 @@ export async function POST() {
       const votes = await prisma.vote.findMany({
         where: { roundId: round.id },
       });
-      if (votes[0] && votes[0].isCorrect !== null && votes[0].payout !== null) {
-        return NextResponse.json({
-          message: `This round has been paid out`,
-        });
-      }
       const res = await prisma.$transaction(async (prisma) => {
         const updated = [];
         for (const vote of votes) {
+          if (vote.isCorrect !== null && vote.payout !== null) {
+            continue;
+          }
           const isCorrect = vote.choiceId === choice.id;
           const payout = isCorrect
             ? (vote.bet * BigInt(pointSum._sum.bet ?? 0)) /
@@ -54,6 +52,10 @@ export async function POST() {
           }
           updated.push({ vote: updatedVote, point: updatedPoint });
         }
+        await prisma.round.update({
+          where: { id: round.id },
+          data: { resultStatus: "PAID_OUT" },
+        });
         return updated;
       });
       response.push(res);

@@ -51,14 +51,15 @@ model Wallet {
 }
 
 model Round {
-  id          String   @id
-  title       String
-  startDate   DateTime @unique
-  endDate     DateTime @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now()) @updatedAt
-  choices     Choice[]
-  votes       Vote[]
+  id           String        @id
+  title        String
+  startDate    DateTime      @unique
+  endDate      DateTime      @unique
+  resultStatus RESULT_STATUS @default(NONE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @default(now()) @updatedAt
+  choices      Choice[]
+  votes        Vote[]
 }
 
 model Choice {
@@ -126,4 +127,10 @@ model Vote {
   
   @@index([roundId])
   @@index([choiceId])
+}
+
+enum RESULT_STATUS {
+  NONE
+  CALCULATED
+  PAID_OUT
 }

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Round` ADD COLUMN `resultStatus` ENUM('NONE', 'CALCULATED', 'PAID_OUT') NOT NULL DEFAULT 'NONE';

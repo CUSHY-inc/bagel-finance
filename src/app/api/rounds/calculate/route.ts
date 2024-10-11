@@ -7,7 +7,7 @@ export async function POST() {
   try {
     const date = new Date(new Date().getTime() - 2.5 * 60 * 1000);
     const rounds = await prisma.round.findMany({
-      where: { endDate: { lt: date } },
+      where: { endDate: { lt: date }, resultStatus: "NONE" },
       include: { choices: { include: { choiceTokens: true } } },
     });
     const response = [];
@@ -27,9 +27,7 @@ export async function POST() {
           choice.result !== null &&
           choice.voteRate !== null
         ) {
-          return NextResponse.json({
-            message: `This round has been calculated`,
-          });
+          continue;
         }
         let result = 0;
         for (const choiceToken of choice.choiceTokens) {
@@ -72,6 +70,10 @@ export async function POST() {
           });
           updated.push(choice);
         }
+        await prisma.round.update({
+          where: { id: round.id },
+          data: { resultStatus: "CALCULATED" },
+        });
         return updated;
       });
       response.push(res);
