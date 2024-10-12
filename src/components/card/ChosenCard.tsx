@@ -46,7 +46,6 @@ export default function ChosenCard({ vote }: { vote?: VoteWithDetails }) {
     vote && (
       <Card direction={"row"} overflow="hidden" w={"100%"}>
         <Image
-          borderRadius={8}
           boxSize={20}
           objectFit="cover"
           src={vote.choice.image}
