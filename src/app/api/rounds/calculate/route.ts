@@ -52,6 +52,9 @@ export async function POST() {
           voteRate: allVotes === 0 ? 0 : (voteCount / allVotes) * 100,
         });
       }
+      if (results.length === 0) {
+        continue;
+      }
       const max = results.reduce(
         (max, result) => (result.result > max.result ? result : max),
         results[0]
