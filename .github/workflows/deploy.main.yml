@@ -1,0 +1,114 @@
+name: Deploy bagel-finance to EC2
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create .env file with environment variables
+        run: |
+          echo "DATABASE_URL=${{ vars.DATABASE_URL_PROD }}" > .env
+          echo "NEXT_PUBLIC_MANIFEST_URL=${{ vars.NEXT_PUBLIC_MANIFEST_URL }}" >> .env
+          echo "COINGECKO_API_KEY=${{ vars.COINGECKO_API_KEY }}" >> .env
+
+      - name: Build project
+        run: |
+          npx prisma generate
+          npm run build
+
+      - name: Prepare artifacts
+        run: |
+          mkdir artifacts
+          mv .next artifacts/
+          mv .env artifacts/
+
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: artifacts/**/*
+          include-hidden-files: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./artifacts
+
+      - name: Delete build artifacts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: build-artifacts
+
+      - name: Setup SSH
+        run: |
+          echo "${{ secrets.SSH_KEY_PAIR }}" > ssh_key_pair.pem
+          chmod 600 ssh_key_pair.pem
+
+      - name: Stop application
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
+            forever stop "bagel-finance" || true
+            PID=$(fuser 3000/tcp 2>/dev/null)
+            if [ -n "$PID" ]; then
+              kill -9 $PID
+            fi
+          EOF
+
+      - name: Clean up remote directory
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
+            rm -rf /home/ec2-user/app/bagel-finance/.next
+            rm -rf /home/ec2-user/app/bagel-finance/.env
+          EOF
+
+      - name: Upload artifacts to EC2
+        run: |
+          scp -r -o StrictHostKeyChecking=no -i ssh_key_pair.pem ./artifacts/.next ec2-user@${{ vars.EC2_HOST_PROD }}:/home/ec2-user/app/bagel-finance/
+          scp -r -o StrictHostKeyChecking=no -i ssh_key_pair.pem ./artifacts/.env ec2-user@${{ vars.EC2_HOST_PROD }}:/home/ec2-user/app/bagel-finance/
+
+      - name: Checkout latest source code on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
+            cd /home/ec2-user/app/bagel-finance
+            git fetch origin ${{ github.ref_name }}
+            git checkout -B ${{ github.ref_name }} origin/${{ github.ref_name }}
+          EOF
+
+      - name: Run Prisma migrations on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
+            cd /home/ec2-user/app/bagel-finance
+            npm install
+            npx prisma migrate deploy
+            npx prisma generate
+          EOF
+
+      - name: Start application on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
+            cd /home/ec2-user/app/bagel-finance
+            mkdir -p /home/ec2-user/log/bagel-finance/
+            forever start --uid "bagel-finance" -l /home/ec2-user/log/bagel-finance/$(date +'%Y%m%d%H%M%S').log --append -c "npm start" ./
+          EOF
