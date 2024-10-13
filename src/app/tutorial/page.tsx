@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
 import Loading from "../loading";
 import Error from "../error";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { firstLogin } from "@/services/firstLogin";
 
 const bagel = 1000;
@@ -24,20 +24,22 @@ export default function Page() {
     userId ? `/api/users/${userId}/login` : null,
     fetcher
   );
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     if (data && data.bonusDay !== 0) {
-      router.replace("/");
+      router.push("/");
     }
   }, [data, router]);
 
   async function onClick() {
     await firstLogin({ userId: data!.userId, bagel });
     showAlert("success", `You've got ${bagel.toLocaleString()} $BAGEL`);
-    mutate(userId ? `/api/users/${userId}/login` : null);
+    setIsTransitioning(true);
+    await mutate(userId ? `/api/users/${userId}/login` : null);
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !data || isTransitioning) {
     return <Loading />;
   }
 

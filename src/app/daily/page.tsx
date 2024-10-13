@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import useSWR, { mutate } from "swr";
 import Loading from "../loading";
 import Error from "../error";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { dailyLogin } from "@/services/dailyLogin";
 
 const dailyBagels = [200, 500, 1000, 2000, 5000, 10000, 20000];
@@ -39,10 +39,11 @@ export default function Page() {
   const skipTime = new Date();
   skipTime.setUTCHours(0, 0, 0, 0);
   skipTime.setUTCDate(skipTime.getUTCDate() - 1);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     if (!isDaily) {
-      router.replace("/");
+      router.push("/");
     }
   }, [isDaily, router]);
 
@@ -56,10 +57,11 @@ export default function Page() {
       bonusDay: getNextBonusDay(day),
     });
     showAlert("success", `You've got ${dailyBagels[day - 1]} $BAGEL`);
-    mutate(userId ? `/api/users/${userId}/login` : null);
+    setIsTransitioning(true);
+    await mutate(userId ? `/api/users/${userId}/login` : null);
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !data || isTransitioning) {
     return <Loading />;
   }
 

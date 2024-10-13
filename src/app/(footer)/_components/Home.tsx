@@ -15,7 +15,8 @@ export default function Home() {
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<HomeInfo>(
     userId ? `/api/users/${userId}/votes/now` : null,
-    fetcher
+    fetcher,
+    { revalidateOnMount: true }
   );
 
   if (isLoading) {

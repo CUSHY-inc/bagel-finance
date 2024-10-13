@@ -83,8 +83,8 @@ export const AlertLayout = ({ children }: { children: React.ReactNode }) => {
     <AlertContext.Provider value={{ showAlert, closeAlert }}>
       {children}
       {alert && (
-        <Slide in={isVisible} style={{ zIndex: 9999 }} direction="left">
-          <Box position="fixed" top={4} left={0} right={0} px={4}>
+        <Slide in={isVisible} style={{ zIndex: 9999 }} direction="top">
+          <Box maxWidth="640px" mx="auto" p={4}>
             <Alert
               status={alert.status}
               variant="left-accent"

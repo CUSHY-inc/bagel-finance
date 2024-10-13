@@ -25,7 +25,7 @@ import { Point } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 
 function ConfirmationDialog({
   disclosure,
@@ -47,7 +47,6 @@ function ConfirmationDialog({
       choiceId: choice.id,
       bet: bagel,
     });
-    mutate(userId ? `/api/users/${userId}/votes/now` : null);
     router.push("/voted");
   }
 
