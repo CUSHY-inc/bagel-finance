@@ -11,7 +11,7 @@ export default function Layout({
   return (
     <CheckLogin>
       <CheckResult>
-        <Box h={"100%"} pb={24}>
+        <Box h={"100%"}>
           {children}
           <Footer />
         </Box>

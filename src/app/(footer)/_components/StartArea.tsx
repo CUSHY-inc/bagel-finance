@@ -19,7 +19,7 @@ export default function StartArea({ homeInfo }: { homeInfo?: HomeInfo }) {
 
   function onClick() {
     if (homeInfo?.point && homeInfo.point.bagel > BigInt(0)) {
-      router.push("/vote");
+      router.push("/vote/choices");
     } else {
       disclosure.onOpen();
     }

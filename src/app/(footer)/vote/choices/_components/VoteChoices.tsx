@@ -7,7 +7,7 @@ import { useInitData } from "@telegram-apps/sdk-react";
 import { fetcher } from "@/lib/swr";
 import { RoundInfo } from "@/types/prisma";
 
-function LoadingVote() {
+function LoadingVoteChoices() {
   return (
     <>
       <Box>
@@ -32,7 +32,7 @@ function NotOpen() {
   );
 }
 
-export default function Vote() {
+export default function VoteChoices() {
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<RoundInfo | null>(
@@ -50,7 +50,7 @@ export default function Vote() {
         Choose the most profitable index
       </Text>
       {isLoading ? (
-        <LoadingVote />
+        <LoadingVoteChoices />
       ) : data ? (
         <>
           <Box>

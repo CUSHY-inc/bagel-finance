@@ -4,7 +4,7 @@ import { LuUsers } from "react-icons/lu";
 
 export default function Page() {
   return (
-    <BaseScreen>
+    <BaseScreen hasBottomPadding>
       <VStack py={8}>
         <LuUsers size={64} />
         <Heading>Friends</Heading>

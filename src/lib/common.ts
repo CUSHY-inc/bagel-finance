@@ -21,12 +21,12 @@ export function getPeriodString(startDate?: Date, endDate?: Date) {
   const startTime = startDate?.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
   });
   const endTime = endDate?.toLocaleString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
   });
   return {
     date: `${startMonth}. ${startDay}`,

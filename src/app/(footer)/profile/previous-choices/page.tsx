@@ -3,7 +3,7 @@ import PreviousChoices from "./_components/PreviousChoices";
 
 export default function Page() {
   return (
-    <BaseScreen hasBackButton>
+    <BaseScreen hasBottomPadding hasBackButton>
       <PreviousChoices />
     </BaseScreen>
   );

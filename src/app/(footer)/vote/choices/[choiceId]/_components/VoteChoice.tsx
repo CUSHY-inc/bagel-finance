@@ -8,10 +8,13 @@ import VoteArea from "./VoteArea";
 import VoteChoiceTitle from "./VoteChoiceTitle";
 import TokenAllocation from "./TokenAllocation";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
+import { useInitData } from "@telegram-apps/sdk-react";
 
 export default function VoteChoice({ choiceId }: { choiceId: string }) {
+  const initData = useInitData();
+  const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<RoundChoiceWithDetails>(
-    `/api/choices/${choiceId}`,
+    userId ? `/api/votes/choices/${choiceId}?userId=${userId}` : null,
     fetcher
   );
 

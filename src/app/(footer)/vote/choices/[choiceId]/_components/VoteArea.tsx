@@ -138,6 +138,10 @@ export default function VoteArea({
   const [bagel, setBagel] = useState(0);
   const disclosure = useDisclosure();
 
+  if (isLoading || !choice) {
+    return <LoadingVoteArea />;
+  }
+
   if (error) {
     return (
       <Card>
@@ -148,9 +152,7 @@ export default function VoteArea({
     );
   }
 
-  return isLoading ? (
-    <LoadingVoteArea />
-  ) : (
+  return (
     <Card>
       <CardBody>
         <Text fontSize="xl" as="b">
@@ -162,7 +164,7 @@ export default function VoteArea({
           </Text>
           <Text color="gray">/ {userPoint.toLocaleString()} $BAGEL</Text>
         </HStack>
-        <HStack p={4} spacing={4}>
+        <HStack py={4} spacing={4}>
           <Box flex={1}>
             <Slider
               value={bagel}
@@ -196,9 +198,17 @@ export default function VoteArea({
           size="lg"
           colorScheme="blue"
           onClick={disclosure.onOpen}
-          isDisabled={bagel === 0}
+          isDisabled={
+            bagel === 0 ||
+            new Date(choice.round.endDate) < new Date() ||
+            choice.votes.length > 0
+          }
         >
-          Bet
+          {new Date(choice.round.endDate) < new Date()
+            ? "Not open"
+            : choice.votes.length > 0
+            ? "You've already voted"
+            : "Vote"}
         </Button>
       </CardBody>
       <ConfirmationDialog

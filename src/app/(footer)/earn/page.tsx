@@ -4,7 +4,7 @@ import { LuCoins } from "react-icons/lu";
 
 export default function Page() {
   return (
-    <BaseScreen>
+    <BaseScreen hasBottomPadding>
       <VStack py={8}>
         <LuCoins size={64} />
         <Heading>Earn</Heading>

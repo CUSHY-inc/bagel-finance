@@ -7,9 +7,9 @@ import {
   Text,
   Skeleton,
 } from "@chakra-ui/react";
-import TokenAllocationChart from "../chart/TokenAllocationChart";
 import { VoteWithDetails } from "@/types/prisma";
 import { getPeriodString } from "@/lib/common";
+import { useRouter } from "next/navigation";
 
 export function LoadingChosenCard() {
   return (
@@ -37,6 +37,7 @@ export function NoChosenCard() {
 }
 
 export default function ChosenCard({ vote }: { vote?: VoteWithDetails }) {
+  const router = useRouter();
   const periodString = getPeriodString(
     vote ? new Date(vote.round.startDate) : undefined,
     vote ? new Date(vote?.round.endDate) : undefined
@@ -44,7 +45,13 @@ export default function ChosenCard({ vote }: { vote?: VoteWithDetails }) {
 
   return (
     vote && (
-      <Card direction={"row"} overflow="hidden" w={"100%"}>
+      <Card
+        direction={"row"}
+        overflow="hidden"
+        w={"100%"}
+        cursor={"pointer"}
+        onClick={() => router.push(`/vote/choices/${vote.choiceId}`)}
+      >
         <Image
           boxSize={20}
           objectFit="cover"
@@ -53,23 +60,12 @@ export default function ChosenCard({ vote }: { vote?: VoteWithDetails }) {
         />
         <HStack justifyContent="space-between" flex={1} p={2}>
           <Box flex={1}>
-            <Text as="b">{vote.choice.title}</Text>
-            <Text fontSize="xs">
-              {`${periodString.date} ${periodString.time}`}
-            </Text>
+            <Text
+              fontSize="sm"
+              as="b"
+            >{`${periodString.date} ${periodString.time}`}</Text>
+            <Text fontSize="xs">{vote.choice.title}</Text>
             <Text fontSize="xs">{vote.bet} $BAGEL</Text>
-          </Box>
-          <Box w={16} h={16}>
-            <TokenAllocationChart
-              data={vote.choice.choiceTokens.map((choiceToken) => ({
-                id: choiceToken.token.symbol.toUpperCase(),
-                label: choiceToken.token.symbol.toUpperCase(),
-                value: choiceToken.proportion,
-              }))}
-              arcLabel="id"
-              enableArcLabels={false}
-              idx={vote.choice.idx}
-            />
           </Box>
         </HStack>
       </Card>

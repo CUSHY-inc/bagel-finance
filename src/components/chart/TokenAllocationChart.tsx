@@ -12,13 +12,11 @@ const colors: ("set1" | "tableau10" | "category10")[] = [
 export default function TokenAllocationChart({
   data,
   arcLabel,
-  enableArcLabels,
   hasRightLegends,
   idx,
 }: {
   data?: { id: string; label: string; value: number }[];
   arcLabel?: string;
-  enableArcLabels?: boolean;
   hasRightLegends?: boolean;
   idx?: number;
 }) {
@@ -28,7 +26,7 @@ export default function TokenAllocationChart({
     <ResponsivePie
       data={data ?? []}
       theme={{
-        text: { fontSize: 12, fill: color },
+        text: { fill: color },
         tooltip: {
           container: {
             fontSize: 12,
@@ -46,7 +44,6 @@ export default function TokenAllocationChart({
       sortByValue={true}
       borderWidth={1}
       arcLabel={arcLabel}
-      enableArcLabels={enableArcLabels}
       enableArcLinkLabels={false}
       legends={
         hasRightLegends
