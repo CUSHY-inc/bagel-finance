@@ -2,7 +2,7 @@
 
 import { fetcher } from "@/lib/swr";
 import { useInitData } from "@telegram-apps/sdk-react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useRouter } from "next/navigation";
 import { initUser } from "@/services/initUser";
 import { User } from "@prisma/client";
@@ -20,10 +20,15 @@ export default function CheckUser({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (data === null && initData?.user) {
-      initUser(initData.user);
+    async function initUserData() {
+      if (data === null && initData?.user) {
+        await initUser(initData.user);
+        await mutate(userId ? `/api/users/${userId}` : null);
+      }
     }
-  }, [data, initData, router]);
+
+    initUserData();
+  }, [data, initData, router, userId]);
 
   if (isLoading || !data) {
     return <Loading />;
