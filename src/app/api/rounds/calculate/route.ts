@@ -1,4 +1,4 @@
-import { fetchCoinGecko } from "@/lib/coinGecko";
+import { fetchCoinGecko } from "@/lib/coinGeckoApi";
 import { dateToTimestamp } from "@/lib/common";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";

@@ -1,4 +1,4 @@
-import { fetchCoinGecko } from "@/lib/coinGecko";
+import { fetchCoinGecko } from "@/lib/coinGeckoApi";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 

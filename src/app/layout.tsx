@@ -1,9 +1,10 @@
-import Providers from "@/app/_components/Providers";
 import { fonts } from "@/styles/fonts";
 import { Box } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { AlertLayout } from "./_components/AlertProvider";
 import CheckUser from "./_components/CheckUser";
+import ChakraUIProvider from "./_components/ChakraUIProvider";
+import TelegramAppProvider from "./_components/TelegramAppProvider";
 
 export const metadata: Metadata = {
   title: "Bagel Finance",
@@ -18,13 +19,15 @@ export default function Layout({
   return (
     <html lang="en" style={{ height: "100%" }}>
       <body className={fonts.poppins.className} style={{ height: "100%" }}>
-        <Providers>
+        <ChakraUIProvider>
           <Box maxW={640} mx="auto" h="100%" position="relative" bg={"black"}>
-            <AlertLayout>
-              <CheckUser>{children}</CheckUser>
-            </AlertLayout>
+            <TelegramAppProvider>
+              <AlertLayout>
+                <CheckUser>{children}</CheckUser>
+              </AlertLayout>
+            </TelegramAppProvider>
           </Box>
-        </Providers>
+        </ChakraUIProvider>
       </body>
     </html>
   );

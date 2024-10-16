@@ -1,5 +1,3 @@
-"use client";
-
 import { Image, Text, VStack } from "@chakra-ui/react";
 
 export default function Error() {
@@ -11,7 +9,7 @@ export default function Error() {
         alt=""
       />
       <Text fontSize="xl" as="b" textAlign="center">
-        Something went wrong...
+        404 Not Found
       </Text>
     </VStack>
   );

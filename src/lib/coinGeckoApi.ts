@@ -13,7 +13,7 @@ export async function fetchCoinGecko(endpoint: string, params = {}) {
       cache: "no-store",
     });
     if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw new Error(`${response.status} ${response.statusText}`);
     }
     return await response.json();
   } catch (e) {

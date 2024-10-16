@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { fetchCoinGecko } from "@/lib/coinGecko";
+import { fetchCoinGecko } from "@/lib/coinGeckoApi";
 
 type CreateRound = {
   id: string;
