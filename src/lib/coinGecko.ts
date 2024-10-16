@@ -9,8 +9,8 @@ export async function fetchCoinGecko(endpoint: string, params = {}) {
       headers: {
         accept: "application/json",
         "x-cg-demo-api-key": process.env.COINGECKO_API_KEY ?? "",
-        'Cache-Control': 'no-cache',
       },
+      cache: "no-store",
     });
     if (!response.ok) {
       throw new Error(`Error: ${response.status} ${response.statusText}`);
