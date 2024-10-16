@@ -1,4 +1,12 @@
-import { Round, Choice, Vote, ChoiceToken, Token } from "@prisma/client";
+import {
+  Round,
+  Choice,
+  Vote,
+  ChoiceToken,
+  Token,
+  User,
+  Login,
+} from "@prisma/client";
 
 type PreviousChoice = Round & { choices: Choice[]; votes: Vote[] };
 
@@ -30,4 +38,8 @@ type HomeInfo = {
   currentRound: RoundInfoWithVotesWithDetails;
   nextRound: RoundInfoWithVotesWithDetails;
   point: Point;
+};
+
+type UserWithLogin = User & {
+  login: Login;
 };
