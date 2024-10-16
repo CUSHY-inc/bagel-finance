@@ -4,11 +4,11 @@ import { fetcher } from "@/lib/swr";
 import { useInitData } from "@telegram-apps/sdk-react";
 import useSWR, { mutate } from "swr";
 import { useRouter } from "next/navigation";
-import { initUser } from "@/services/initUser";
 import { User } from "@prisma/client";
 import { useEffect } from "react";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
+import { initUser } from "./actions";
 
 export default function CheckUser({ children }: { children: React.ReactNode }) {
   const router = useRouter();

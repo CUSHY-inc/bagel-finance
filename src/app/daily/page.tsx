@@ -11,7 +11,7 @@ import useSWR, { mutate } from "swr";
 import Loading from "../loading";
 import Error from "../error";
 import { useEffect, useState } from "react";
-import { dailyLogin } from "@/services/dailyLogin";
+import { dailyLogin } from "./_components/actions";
 
 const dailyBagels = [200, 500, 1000, 2000, 5000, 10000, 20000];
 

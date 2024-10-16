@@ -3,7 +3,6 @@
 import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import { fetcher } from "@/lib/swr";
-import { bet } from "@/services/bet";
 import { RoundChoiceWithDetails } from "@/types/prisma";
 import {
   Box,
@@ -26,6 +25,7 @@ import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSWR from "swr";
+import { bet } from "./actions";
 
 function ConfirmationDialog({
   disclosure,

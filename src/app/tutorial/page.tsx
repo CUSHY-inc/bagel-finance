@@ -11,7 +11,7 @@ import useSWR, { mutate } from "swr";
 import Loading from "../loading";
 import Error from "../error";
 import { useEffect, useState } from "react";
-import { firstLogin } from "@/services/firstLogin";
+import { firstLogin } from "./_components/actions";
 
 const bagel = 1000;
 

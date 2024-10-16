@@ -1,7 +1,6 @@
 "use client";
 
 import { shortenStr } from "@/lib/common";
-import { upsertWallet } from "@/services/upsertWallet";
 import {
   HStack,
   VStack,
@@ -24,6 +23,7 @@ import {
 } from "@tonconnect/ui-react";
 import { useRef } from "react";
 import { LuWallet } from "react-icons/lu";
+import { upsertWallet } from "./actions";
 
 function DisconnectButton() {
   const [tonConnectUI] = useTonConnectUI();
@@ -75,7 +75,6 @@ export default function WalletConnect() {
   const walletConnectedRef = useRef(false);
 
   tonConnectUI.onStatusChange(async (wallet) => {
-    console.log(initData?.user?.id, wallet, address);
     if (initData?.user?.id && wallet) {
       if (walletConnectedRef.current) {
         return;

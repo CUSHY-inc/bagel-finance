@@ -6,13 +6,13 @@ import Loading from "@/app/loading";
 import ChosenCard from "@/components/card/ChosenCard";
 import BaseScreen from "@/components/layouts/BaseScreen";
 import { fetcher } from "@/lib/swr";
-import { checkResult } from "@/services/checkResult";
 import { VoteWithDetails } from "@/types/prisma";
 import { VStack, Button, Image, Text } from "@chakra-ui/react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
+import { checkResult } from "./_components/actions";
 
 export default function Page() {
   const router = useRouter();
