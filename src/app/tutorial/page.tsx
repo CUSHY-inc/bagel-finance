@@ -1,7 +1,6 @@
 "use client";
 
 import BaseScreen from "@/components/layouts/BaseScreen";
-import { useAlert } from "@/app/_components/AlertProvider";
 import { fetcher } from "@/lib/swr";
 import { Button, Image, Text, VStack } from "@chakra-ui/react";
 import { Login } from "@prisma/client";
@@ -17,7 +16,6 @@ const bagel = 1000;
 
 export default function Page() {
   const router = useRouter();
-  const { showAlert } = useAlert();
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<Login>(
@@ -34,7 +32,6 @@ export default function Page() {
 
   async function onClick() {
     await firstLogin({ userId: data!.userId, bagel });
-    showAlert("success", `You got ${bagel.toLocaleString()} $BAGEL`);
     setIsTransitioning(true);
     await mutate(userId ? `/api/users/${userId}/login` : null);
   }

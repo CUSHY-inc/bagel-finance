@@ -1,7 +1,6 @@
 "use client";
 
 import BaseScreen from "@/components/layouts/BaseScreen";
-import { useAlert } from "@/app/_components/AlertProvider";
 import { fetcher } from "@/lib/swr";
 import { Button, Image, Text, VStack } from "@chakra-ui/react";
 import { Login } from "@prisma/client";
@@ -25,7 +24,6 @@ function getNextBonusDay(day: number) {
 
 export default function Page() {
   const router = useRouter();
-  const { showAlert } = useAlert();
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<Login>(
@@ -56,7 +54,6 @@ export default function Page() {
       bagel: dailyBagels[day - 1],
       bonusDay: getNextBonusDay(day),
     });
-    showAlert("success", `You got ${dailyBagels[day - 1]} $BAGEL`);
     setIsTransitioning(true);
     await mutate(userId ? `/api/users/${userId}/login` : null);
   }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useAlert } from "@/app/_components/AlertProvider";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
 import BaseScreen from "@/components/layouts/BaseScreen";
@@ -16,7 +15,6 @@ import PickedCard from "@/components/card/PickedCard";
 
 export default function Page() {
   const router = useRouter();
-  const { showAlert } = useAlert();
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<VoteWithDetails>(
@@ -33,9 +31,6 @@ export default function Page() {
 
   async function onClick(userId: string, roundId: string) {
     await checkResult({ userId, roundId, isChecked: true });
-    if (data?.payout && data.payout > BigInt(0)) {
-      showAlert("success", `You got ${data?.payout?.toLocaleString()} $BAGEL`);
-    }
     setIsTransitioning(true);
     await mutate(userId ? `/api/users/${userId}/votes/result` : null);
     router.push("/profile/previous-choices");
