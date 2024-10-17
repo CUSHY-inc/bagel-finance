@@ -2,13 +2,14 @@
 
 import { Image, VStack } from "@chakra-ui/react";
 import BagelPoint from "./BagelPoint";
-import StartArea from "./StartArea";
+import PlayButton from "./PlayButton";
 import { fetcher } from "@/lib/swr";
 import { HomeInfo } from "@/types/prisma";
 import { useInitData } from "@telegram-apps/sdk-react";
 import useSWR from "swr";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
+import VoteInfo from "./VoteInfo";
 
 export default function Home() {
   const initData = useInitData();
@@ -19,7 +20,7 @@ export default function Home() {
     { revalidateOnMount: true }
   );
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return <Loading />;
   }
 
@@ -35,9 +36,11 @@ export default function Home() {
       h="100%"
       p={4}
     >
-      <BagelPoint point={data?.point} />
+      <BagelPoint point={data.point} />
       <Image boxSize={40} src="/images/tonny.gif" alt="" />
-      <StartArea homeInfo={data} />
+      <PlayButton nextRound={data.nextRound} point={data.point} />
+      <VoteInfo vote={data.currentRound?.votes[0]} />
+      <VoteInfo vote={data.nextRound?.votes[0]} />
     </VStack>
   );
 }

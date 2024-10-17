@@ -15,16 +15,18 @@ export function shortenStr(
   )}`;
 }
 
-export function getPeriodString(startDate?: Date, endDate?: Date) {
-  const startMonth = startDate?.toLocaleString("en-US", { month: "short" });
-  const startDay = startDate?.toLocaleString("en-US", { day: "numeric" });
-  const startTime = startDate?.toLocaleString("en-US", {
-    hour: "2-digit",
+export function getPeriodString(startDate: Date, endDate: Date) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const startMonth = start?.toLocaleString("en-US", { month: "short" });
+  const startDay = start?.toLocaleString("en-US", { day: "numeric" });
+  const startTime = start?.toLocaleString("en-US", {
+    hour: "numeric",
     minute: "2-digit",
     hour12: true,
   });
-  const endTime = endDate?.toLocaleString("en-US", {
-    hour: "2-digit",
+  const endTime = end?.toLocaleString("en-US", {
+    hour: "numeric",
     minute: "2-digit",
     hour12: true,
   });

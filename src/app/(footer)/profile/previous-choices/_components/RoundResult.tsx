@@ -66,8 +66,8 @@ export default function RoundResult({
   previousChoice: PreviousChoice;
 }) {
   const periodString = getPeriodString(
-    new Date(previousChoice.startDate),
-    new Date(previousChoice.endDate)
+    previousChoice.startDate,
+    previousChoice.endDate
   );
   const vote = previousChoice.votes[0];
 
