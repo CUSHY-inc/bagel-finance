@@ -54,8 +54,8 @@ function ConfirmationDialog({
     new Date(choice.round.endDate) > new Date() ? (
       <BaseAlertDialog
         disclosure={disclosure}
-        title={choice.title}
-        body="Are you sure you want to vote for this index?"
+        title={"Confirm your choice"}
+        body={`${choice.title} - ${bagel} $BAGEL`}
         yesButtonText="OK"
         noButtonText="Cancel"
         onClick={() => vote(choice)}

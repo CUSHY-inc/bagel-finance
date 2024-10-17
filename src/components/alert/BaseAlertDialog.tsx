@@ -22,7 +22,7 @@ export default function BaseAlertDialog({
 }: {
   disclosure: UseDisclosureReturn;
   title: string;
-  body: string;
+  body?: string;
   yesButtonText?: string;
   yesButtonColor?: string;
   noButtonText?: string;
@@ -42,7 +42,7 @@ export default function BaseAlertDialog({
       <AlertDialogContent>
         <AlertDialogHeader>{title}</AlertDialogHeader>
         <AlertDialogCloseButton />
-        <AlertDialogBody>{body}</AlertDialogBody>
+        {body && <AlertDialogBody>{body}</AlertDialogBody>}
         <AlertDialogFooter>
           {noButtonText && (
             <Button ref={cancelRef} onClick={disclosure.onClose}>

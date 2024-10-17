@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { fetcher } from "@/lib/swr";
 import { RoundInfo } from "@/types/prisma";
+import { getPeriodString } from "@/lib/common";
 
 function LoadingVoteChoices() {
   return (
@@ -46,8 +47,10 @@ export default function VoteChoices() {
 
   return (
     <VStack p={4} align="stretch" spacing={4}>
-      <Text fontSize="3xl" as="b" textAlign="center">
-        Pick the most profitable index
+      <Text fontSize="2xl" as="b" textAlign="center">
+        Predict and pick
+        <br />
+        the top-performing index
       </Text>
       {isLoading ? (
         <LoadingVoteChoices />
@@ -57,11 +60,7 @@ export default function VoteChoices() {
             <Text fontSize="sm" textAlign="center">
               The measurement period is
               <br />
-              {`next ${new Date(
-                data.startDate
-              ).toLocaleTimeString()} - ${new Date(
-                data.endDate
-              ).toLocaleTimeString()}`}
+              {`next ${getPeriodString(data.startDate, data.endDate).time}`}
             </Text>
           </Box>
           {data.choices.map((choice) => (
