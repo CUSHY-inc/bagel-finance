@@ -12,7 +12,7 @@ export default function Page() {
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
         <Image boxSize={64} src="/images/tonny.gif" alt="" />
         <Text fontSize="xl" as="b" textAlign="center">
-          Your choice has been accepted!
+          Your pick is complete!
         </Text>
         <Button
           size={"lg"}

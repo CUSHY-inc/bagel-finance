@@ -44,7 +44,7 @@ export default function PlayButton({
           ? nextRoundTime !== null
             ? `Play again in ${nextRoundTime} min`
             : "Next round not scheduled"
-          : "Play"}
+          : "Play!"}
       </Button>
       <BaseAlertDialog
         disclosure={disclosure}

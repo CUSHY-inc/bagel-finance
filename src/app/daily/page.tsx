@@ -56,7 +56,7 @@ export default function Page() {
       bagel: dailyBagels[day - 1],
       bonusDay: getNextBonusDay(day),
     });
-    showAlert("success", `You've got ${dailyBagels[day - 1]} $BAGEL`);
+    showAlert("success", `You got ${dailyBagels[day - 1]} $BAGEL`);
     setIsTransitioning(true);
     await mutate(userId ? `/api/users/${userId}/login` : null);
   }
@@ -79,11 +79,14 @@ export default function Page() {
     <BaseScreen color="blue.500">
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
         <VStack>
-          <Text fontSize="2xl" as="b" textAlign="center">
+          <Text fontSize="xl" as="b" textAlign="center">
             Daily bonus!
           </Text>
           <Text fontSize="5xl" as="b" textAlign="center">
             Day {day}
+          </Text>
+          <Text fontSize="2xl" as="b" textAlign="center">
+            You got {dailyBagels[day - 1]} $BAGEL
           </Text>
         </VStack>
         <Image boxSize={64} src="/images/tonny-happy.gif" alt="" />
@@ -93,7 +96,7 @@ export default function Page() {
           w={"100%"}
           onClick={() => onClick(day)}
         >
-          Get {dailyBagels[day - 1]} $BAGEL
+          Tasty!
         </Button>
       </VStack>
     </BaseScreen>

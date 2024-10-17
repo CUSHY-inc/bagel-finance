@@ -87,7 +87,7 @@ export default function RoundResult({
       </VStack>
       <VStack align="stretch">
         <Text fontSize="sm" color="gray">
-          YOUR PRIZES
+          You got
         </Text>
         <HStack>
           <LuDonut size={32} />

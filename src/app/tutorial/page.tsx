@@ -34,7 +34,7 @@ export default function Page() {
 
   async function onClick() {
     await firstLogin({ userId: data!.userId, bagel });
-    showAlert("success", `You've got ${bagel.toLocaleString()} $BAGEL`);
+    showAlert("success", `You got ${bagel.toLocaleString()} $BAGEL`);
     setIsTransitioning(true);
     await mutate(userId ? `/api/users/${userId}/login` : null);
   }
@@ -51,13 +51,14 @@ export default function Page() {
     <BaseScreen color="yellow.500">
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
         <Text fontSize="3xl" as="b" textAlign="center">
-          Welcome to
-          <br />
-          Bagel Finance!
+          Welcome!
+        </Text>
+        <Text fontSize="2xl" as="b" textAlign="center">
+          You got {bagel.toLocaleString()} $BAGEL
         </Text>
         <Image boxSize={64} src="/images/tonny-happy.gif" alt="" />
         <Button size={"lg"} colorScheme="yellow" w={"100%"} onClick={onClick}>
-          Get {bagel.toLocaleString()} $BAGEL
+          Yay!
         </Button>
       </VStack>
     </BaseScreen>

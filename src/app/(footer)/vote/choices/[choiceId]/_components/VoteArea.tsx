@@ -207,7 +207,7 @@ export default function VoteArea({
           {new Date(choice.round.endDate) < new Date()
             ? "Not open"
             : choice.votes.length > 0
-            ? "You've already voted"
+            ? "You already picked"
             : "Pick"}
         </Button>
       </CardBody>

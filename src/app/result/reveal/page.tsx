@@ -6,12 +6,7 @@ import Loading from "@/app/loading";
 import BaseScreen from "@/components/layouts/BaseScreen";
 import { fetcher } from "@/lib/swr";
 import { VoteWithDetails } from "@/types/prisma";
-import {
-  VStack,
-  Button,
-  Image,
-  Text,
-} from "@chakra-ui/react";
+import { VStack, Button, Image, Text } from "@chakra-ui/react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -39,10 +34,7 @@ export default function Page() {
   async function onClick(userId: string, roundId: string) {
     await checkResult({ userId, roundId, isChecked: true });
     if (data?.payout && data.payout > BigInt(0)) {
-      showAlert(
-        "success",
-        `You've got ${data?.payout?.toLocaleString()} $BAGEL`
-      );
+      showAlert("success", `You got ${data?.payout?.toLocaleString()} $BAGEL`);
     }
     setIsTransitioning(true);
     await mutate(userId ? `/api/users/${userId}/votes/result` : null);
@@ -70,7 +62,7 @@ export default function Page() {
         </Text>
         <VStack spacing={0}>
           <Text fontSize={"lg"} as="b" textAlign="center">
-            You&apos;ve got
+            You got
           </Text>
           <Text fontSize="2xl" as="b" textAlign="center">
             {data.payout?.toLocaleString()} $BAGEL
@@ -91,7 +83,7 @@ export default function Page() {
           w={"100%"}
           onClick={() => onClick(data.userId, data.roundId)}
         >
-          Continue
+          {data.isCorrect ? "Yay!" : "OK..."}
         </Button>
       </VStack>
     </BaseScreen>

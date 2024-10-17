@@ -1,16 +1,19 @@
 "use client";
 
-import { HStack, Text } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import { Point } from "@prisma/client";
 import { LuDonut } from "react-icons/lu";
 
 export default function BagelPoint({ point }: { point: Point }) {
   return (
-    <HStack justifyContent="center">
-      <LuDonut size={40} />
-      <Text fontSize="4xl" as="b">
-        {point ? point.bagel.toLocaleString() : "-"}
-      </Text>
-    </HStack>
+    <VStack spacing={0}>
+      <HStack justifyContent="center">
+        <LuDonut size={32} />
+        <Text fontSize="3xl" as="b">
+          {point ? point.bagel.toLocaleString() : "-"}
+        </Text>
+      </HStack>
+      <Text as={"b"}>$BAGEL</Text>
+    </VStack>
   );
 }
