@@ -3,16 +3,21 @@
 import { useAlert } from "@/app/_components/AlertProvider";
 import Error from "@/app/error";
 import Loading from "@/app/loading";
-import ChosenCard from "@/components/card/ChosenCard";
 import BaseScreen from "@/components/layouts/BaseScreen";
 import { fetcher } from "@/lib/swr";
 import { VoteWithDetails } from "@/types/prisma";
-import { VStack, Button, Image, Text } from "@chakra-ui/react";
+import {
+  VStack,
+  Button,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import useSWR, { mutate } from "swr";
 import { checkResult } from "./_components/actions";
+import PickedCard from "@/components/card/PickedCard";
 
 export default function Page() {
   const router = useRouter();
@@ -52,32 +57,43 @@ export default function Page() {
     return <Error />;
   }
 
+  const percentage =
+    Number(data.payout) !== 0
+      ? ((Number(data.payout) - Number(data.bet)) / Number(data.bet)) * 100
+      : 0;
+
   return (
-    data && (
-      <BaseScreen color={data.isCorrect ? "green.500" : "red.500"}>
-        <VStack h={"100%"} justifyContent={"center"} p={4}>
-          <Text fontSize="4xl" as="b" textAlign="center">
-            You {data.isCorrect ? "won!" : "lost..."}
+    <BaseScreen color={data.isCorrect ? "green.500" : "red.500"}>
+      <VStack h={"100%"} justifyContent={"center"} p={4}>
+        <Text fontSize="4xl" as="b" textAlign="center">
+          You {data.isCorrect ? "won!" : "lost..."}
+        </Text>
+        <VStack spacing={0}>
+          <Text fontSize={"lg"} as="b" textAlign="center">
+            You&apos;ve got
           </Text>
-          <Text fontSize="lg" as="b" textAlign="center">
-            You&apos;ve got {data.payout?.toLocaleString()} $BAGEL
+          <Text fontSize="2xl" as="b" textAlign="center">
+            {data.payout?.toLocaleString()} $BAGEL
           </Text>
-          <Image
-            boxSize={64}
-            src={`/images/tonny-${data.isCorrect ? "happy" : "sad"}.gif`}
-            alt=""
-          />
-          <ChosenCard vote={data} />
-          <Button
-            size={"lg"}
-            colorScheme={data.isCorrect ? "green" : "red"}
-            w={"100%"}
-            onClick={() => onClick(data.userId, data.roundId)}
-          >
-            Continue
-          </Button>
+          {percentage && (
+            <Text as={"b"}>({`+${percentage.toFixed(1)} %`})</Text>
+          )}
         </VStack>
-      </BaseScreen>
-    )
+        <Image
+          boxSize={64}
+          src={`/images/tonny-${data.isCorrect ? "happy" : "sad"}.gif`}
+          alt=""
+        />
+        <PickedCard vote={data} />
+        <Button
+          size={"lg"}
+          colorScheme={data.isCorrect ? "green" : "red"}
+          w={"100%"}
+          onClick={() => onClick(data.userId, data.roundId)}
+        >
+          Continue
+        </Button>
+      </VStack>
+    </BaseScreen>
   );
 }
