@@ -47,7 +47,7 @@ export default function VoteChoices() {
   return (
     <VStack p={4} align="stretch" spacing={4}>
       <Text fontSize="3xl" as="b" textAlign="center">
-        Choose the most profitable index
+        Pick the most profitable index
       </Text>
       {isLoading ? (
         <LoadingVoteChoices />

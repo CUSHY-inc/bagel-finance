@@ -52,7 +52,7 @@ export default function StartArea({ homeInfo }: { homeInfo?: HomeInfo }) {
             ? nextRoundTime !== null
               ? `Next round in ${nextRoundTime} min`
               : "Next round not scheduled"
-            : "Choose your way"}
+            : "Play"}
         </Button>
         <BaseAlertDialog
           disclosure={disclosure}

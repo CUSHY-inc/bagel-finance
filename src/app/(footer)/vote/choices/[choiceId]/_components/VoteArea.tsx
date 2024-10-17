@@ -56,7 +56,7 @@ function ConfirmationDialog({
         disclosure={disclosure}
         title={choice.title}
         body="Are you sure you want to vote for this index?"
-        yesButtonText="Vote"
+        yesButtonText="OK"
         noButtonText="Cancel"
         onClick={() => vote(choice)}
       />
@@ -81,7 +81,7 @@ function LoadingVoteArea() {
     <Card>
       <CardBody>
         <Skeleton fontSize="xl" as="b">
-          Vote with
+          Pick with
         </Skeleton>
         <HStack justifyContent="end" alignItems="end">
           <Skeleton fontSize="2xl" as="b">
@@ -116,7 +116,7 @@ function LoadingVoteArea() {
           </ButtonGroup>
         </HStack>
         <Button w="100%" size="lg">
-          <Skeleton>Bet</Skeleton>
+          <Skeleton>Pick</Skeleton>
         </Button>
       </CardBody>
     </Card>
@@ -156,7 +156,7 @@ export default function VoteArea({
     <Card>
       <CardBody>
         <Text fontSize="xl" as="b">
-          Vote with
+          Pick with
         </Text>
         <HStack justifyContent="end" alignItems="end">
           <Text fontSize="2xl" as="b">
@@ -208,7 +208,7 @@ export default function VoteArea({
             ? "Not open"
             : choice.votes.length > 0
             ? "You've already voted"
-            : "Vote"}
+            : "Pick"}
         </Button>
       </CardBody>
       <ConfirmationDialog
