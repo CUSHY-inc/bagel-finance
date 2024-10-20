@@ -8,6 +8,7 @@ import {
   HStack,
   Image,
   Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { getInvoiceLink } from "./_components/actions";
@@ -17,6 +18,8 @@ import Loading from "@/app/loading";
 import Error from "@/app/error";
 import { fetcher } from "@/lib/swr";
 import { formatNumber } from "@/lib/common";
+import BaseAlertDialog from "@/components/alert/BaseAlertDialog";
+import { useRouter } from "next/navigation";
 
 export type BagelPack = {
   id: string;
@@ -30,12 +33,14 @@ export type BagelPack = {
 };
 
 const sets = [
-  { image: "/images/tonny-fire-1.png", value: 1000 },
-  { image: "/images/tonny-happy-1.png", value: 100 },
-  { image: "/images/tonny-happy-1.png", value: 1 },
+  { image: "/images/tonny-fire-1.png", value: 1000, bonus: 1000000 },
+  { image: "/images/tonny-happy-1.png", value: 100, bonus: 50000 },
+  { image: "/images/tonny-happy-2.png", value: 1, bonus: 0 },
 ];
 
 export default function Page() {
+  const router = useRouter();
+  const disclosure = useDisclosure();
   const initData = useInitData();
   const invoice = useInvoice();
   const { data, error, isLoading } = useSWR<BagelPack>(
@@ -75,13 +80,13 @@ export default function Page() {
           Bagel Packs
         </Text>
         <Card direction={"row"} p={2} bg={"blue.500"}>
-          <VStack align={"stretch"} w={"100%"} spacing={0}>
+          <VStack align={"stretch"} w={"100%"}>
             <Text fontSize={"2xl"} as={"b"} textAlign={"center"}>
               Tasty Bagel Pack
             </Text>
             <HStack w={"100%"} align={"stretch"}>
-              <Image src="/images/bagel-pack.png" alt="" boxSize={24} />
-              <Box p={2} w={"100%"} my={"auto"}>
+              <Image src="/images/bagel-pack.png" alt="" boxSize={20} />
+              <Box m={"auto"}>
                 <Text fontSize={"sm"} as={"b"} display={"block"}>
                   🤖 Auto picking: {data.utility?.autoPick} days
                 </Text>
@@ -91,6 +96,9 @@ export default function Page() {
                 <Text fontSize={"sm"} as={"b"} display={"block"}>
                   ⭐️ Potential for ${data.utility?.airdrop} airdrop
                 </Text>
+                <Text fontSize={"sm"} textAlign={"right"}>
+                  / Pack
+                </Text>
               </Box>
             </HStack>
           </VStack>
@@ -98,21 +106,43 @@ export default function Page() {
         <VStack align={"stretch"}>
           {sets.map((set) => (
             <Card key={set.value}>
-              <HStack align={"stretch"} justifyContent={"center"}>
+              <HStack
+                align={"stretch"}
+                justifyContent={"start"}
+                alignItems={"center"}
+                p={2}
+              >
                 <Image src={set.image} alt="" boxSize={24} />
                 <VStack
+                  flex={1}
                   align={"stretch"}
-                  spacing={0}
                   justifyContent={"center"}
                   w={160}
                 >
-                  <Text fontSize={"2xl"} as={"b"} textAlign={"center"}>
-                    {set.value.toLocaleString()} Packs
-                  </Text>
+                  <VStack align={"stretch"} spacing={0}>
+                    <Text fontSize={"2xl"} as={"b"} textAlign={"center"}>
+                      {set.value.toLocaleString()} Packs
+                    </Text>
+                    {set.bonus && (
+                      <Text
+                        fontSize={"xs"}
+                        textAlign={"center"}
+                        color={"#EEC27D"}
+                      >
+                        +{formatNumber(set.bonus)} $BAGEL Bonus
+                      </Text>
+                    )}
+                  </VStack>
                   <Button
                     colorScheme="blue"
                     size={"sm"}
-                    onClick={() => onClick({ pack: data, quantity: set.value })}
+                    onClick={() => {
+                      if (set.value === 1000) {
+                        disclosure.onOpen();
+                      } else {
+                        onClick({ pack: data, quantity: set.value });
+                      }
+                    }}
                   >
                     ${formatNumber(data.usd * set.value)}
                   </Button>
@@ -122,6 +152,14 @@ export default function Page() {
           ))}
         </VStack>
       </VStack>
+      <BaseAlertDialog
+        disclosure={disclosure}
+        title={"Contact us"}
+        body="Contact us for 1,000 Tasty Bagel Packs"
+        yesButtonText="Contact"
+        noButtonText="Cancel"
+        onClick={() => router.push("https://t.me/Masashi_Ono0611")}
+      />
     </BaseScreen>
   );
 }

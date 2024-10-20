@@ -14,7 +14,6 @@ export default function ProfileSection() {
     <VStack align="stretch" p={2}>
       <BagelPoint />
       <WalletConnect />
-      <BagelPacks />
       <HStack
         p={2}
         spacing={4}
@@ -25,6 +24,7 @@ export default function ProfileSection() {
         <Text flex={1}>Your previous choices</Text>
         <LuChevronRight />
       </HStack>
+      <BagelPacks />
     </VStack>
   );
 }

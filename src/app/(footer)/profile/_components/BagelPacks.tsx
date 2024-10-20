@@ -1,8 +1,8 @@
 "use client";
 
 import { fetcher } from "@/lib/swr";
-import { Box, HStack, Image, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { Invoice, Point } from "@prisma/client";
+import { Box, HStack, Image, Skeleton, Text } from "@chakra-ui/react";
+import { Invoice } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
 import useSWR from "swr";
 
@@ -25,7 +25,7 @@ export default function BagelPacks() {
       >
         <Image src="/images/bagel-pack.png" alt="" objectFit={"cover"} />
       </Box>
-      <Text flex={1}>Tasty Bagel Packs</Text>
+      <Text flex={1}>Tasty Bagel Pack</Text>
       {isLoading ? (
         <Skeleton>1000</Skeleton>
       ) : (

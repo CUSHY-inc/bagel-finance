@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Image, VStack } from "@chakra-ui/react";
+import { Box, Image, VStack } from "@chakra-ui/react";
 import BagelPoint from "./BagelPoint";
 import PlayButton from "./PlayButton";
 import { fetcher } from "@/lib/swr";

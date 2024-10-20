@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const preCheckoutQuery = body.pre_checkout_query;
-    const successfulPayment = body.message.successful_payment;
+    const successfulPayment = body.message?.successful_payment;
     if (preCheckoutQuery) {
       const invoiceId = preCheckoutQuery.invoice_payload;
       const amount = preCheckoutQuery.total_amount;
