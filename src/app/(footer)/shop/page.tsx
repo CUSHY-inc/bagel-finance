@@ -35,7 +35,7 @@ export type BagelPack = {
 const sets = [
   { image: "/images/tonny-fire-1.png", value: 1000, bonus: 1000000 },
   { image: "/images/tonny-happy-1.png", value: 100, bonus: 50000 },
-  { image: "/images/tonny-happy-2.png", value: 1, bonus: 0 },
+  { image: "/images/tonny-happy-2.png", value: 10, bonus: 0 },
 ];
 
 export default function Page() {
@@ -94,7 +94,7 @@ export default function Page() {
                   🥯 Earning Multiplier: +{data.utility?.earningMultiplier} %
                 </Text>
                 <Text fontSize={"sm"} as={"b"} display={"block"}>
-                  ⭐️ Potential for ${data.utility?.airdrop} airdrop
+                  ⭐️ Potential for ${data.utility?.airdrop}+ airdrop
                 </Text>
                 <Text fontSize={"sm"} textAlign={"right"}>
                   / Pack
@@ -150,6 +150,9 @@ export default function Page() {
               </HStack>
             </Card>
           ))}
+          <Text fontSize={"sm"} color={"gray"} textAlign={"center"}>
+            These utilities are coming soon...
+          </Text>
         </VStack>
       </VStack>
       <BaseAlertDialog
