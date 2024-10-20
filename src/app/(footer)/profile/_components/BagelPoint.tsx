@@ -23,7 +23,7 @@ export default function BagelPoint() {
           <Skeleton>1000000</Skeleton>
         ) : (
           <Text as="b">
-            {error ? "Error" : data ? data.bagel.toLocaleString() : 0}
+            {error ? "Error" : data?.bagel ? data.bagel.toLocaleString() : 0}
           </Text>
         )}
       </HStack>
