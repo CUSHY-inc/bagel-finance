@@ -23,6 +23,7 @@ model User {
   point           Point?
   wallet          Wallet?
   votes           Vote[]
+  invoices        Invoice[]
 }
 
 model Login {
@@ -130,8 +131,41 @@ model Vote {
   @@index([choiceId])
 }
 
+model Pack {
+  id          String   @id
+  title       String
+  description String
+  usd         Float
+  stars       Int
+  utility     Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+  invoices    Invoice[]
+}
+
+model Invoice {
+  id                      String         @id @default(cuid())
+  status                  INVOICE_STATUS @default(DRAFT)
+  userId                  String
+  packId                  String
+  quantity                Int
+  telegramPaymentChargeId String?
+  providerPaymentChargeId String?
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @default(now()) @updatedAt
+  user                    User           @relation(fields: [userId], references: [id])
+  pack                    Pack           @relation(fields: [packId], references: [id])
+}
+
 enum RESULT_STATUS {
   NONE
   CALCULATED
   PAID_OUT
+}
+
+enum INVOICE_STATUS {
+  DRAFT
+  PENDING
+  PAID
+  REFUNDED
 }
