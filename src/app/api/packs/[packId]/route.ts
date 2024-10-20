@@ -3,15 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   _: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: { packId: string } }
 ) {
   try {
-    const userId = params.userId;
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      include: { login: true },
+    const pack = await prisma.pack.findUnique({
+      where: { id: params.packId },
     });
-    return NextResponse.json(user);
+    if (!pack) {
+      return NextResponse.json(
+        { error: `The pack with ID ${params.packId} was not found` },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json(pack);
   } catch (e) {
     console.error("Unexpected error:", e);
     return NextResponse.json(

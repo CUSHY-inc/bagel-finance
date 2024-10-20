@@ -2,11 +2,14 @@ const baseUrl = `https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}`;
 
 export async function postTelegramApi(endpoint: string, params = {}) {
   try {
-    const queryParams = new URLSearchParams(params).toString();
+    let queryParams = new URLSearchParams(params).toString();
+    queryParams = queryParams.replace(/\+/g, "%20");
     const url = `${baseUrl}${endpoint}${queryParams ? `?${queryParams}` : ""}`;
     const response = await fetch(url, { method: "POST" });
     if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`);
+      console.log(url);
+      const json = await response.json();
+      throw new Error(`${json.error_code} ${json.description}`);
     }
     return await response.json();
   } catch (e) {
