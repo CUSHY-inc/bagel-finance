@@ -8,7 +8,7 @@ generator client {
 }
 
 model User {
-  id              String   @id
+  id              String    @id
   username        String?
   firstName       String
   lastName        String?
@@ -17,13 +17,16 @@ model User {
   isPremium       Boolean?
   isBot           Boolean?
   allowsWriteToPm Boolean?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @default(now()) @updatedAt
   login           Login?
   point           Point?
   wallet          Wallet?
   votes           Vote[]
   invoices        Invoice[]
+  invite          Invite?
+  frens           Fren[]    @relation("Frens")
+  frensOf         Fren[]    @relation("FrensOf")
 }
 
 model Login {
@@ -155,6 +158,26 @@ model Invoice {
   updatedAt               DateTime       @default(now()) @updatedAt
   user                    User           @relation(fields: [userId], references: [id])
   pack                    Pack           @relation(fields: [packId], references: [id])
+}
+
+model Invite {
+  userId     String   @id
+  inviteCode String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Fren {
+  id        String   @id @default(cuid())
+  userId    String
+  frenId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  user      User     @relation("Frens", fields: [userId], references: [id], onDelete: Cascade)
+  fren      User     @relation("FrensOf", fields: [frenId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, frenId])
 }
 
 enum RESULT_STATUS {
