@@ -85,11 +85,7 @@ export const AlertLayout = ({ children }: { children: React.ReactNode }) => {
       {alert && (
         <Slide in={isVisible} style={{ zIndex: 9999 }} direction="top">
           <Box maxWidth="640px" mx="auto" p={4}>
-            <Alert
-              status={alert.status}
-              variant="left-accent"
-              borderRadius="md"
-            >
+            <Alert status={alert.status} variant="solid" borderRadius="md">
               <AlertIcon />
               <Box flex={1}>
                 <AlertTitle>{alert.title}</AlertTitle>

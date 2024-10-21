@@ -8,7 +8,8 @@ import TelegramAppProvider from "./_components/TelegramAppProvider";
 
 export const metadata: Metadata = {
   title: "Bagel Finance",
-  description: "Bagel Finance",
+  description:
+    "🥯 Pick your choice, earn $BAGEL, and get airdrop rewards!\n😸 Your cat will love having more $BAGEL.\n🎁 Play now to get airdrop rewards!",
 };
 
 export default function Layout({

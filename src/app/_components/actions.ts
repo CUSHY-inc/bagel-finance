@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { postTelegramApi } from "@/lib/telegramApi";
 import { User } from "@telegram-apps/sdk-react";
 
-export async function initUser(tgUser: User) {
+export async function initUser(tgUser: User, inviteCode?: string) {
   const res = await prisma.$transaction(async (prisma) => {
     const user = await prisma.user.create({
       data: {
@@ -25,9 +25,39 @@ export async function initUser(tgUser: User) {
     const point = await prisma.point.create({
       data: { userId: tgUser.id.toString() },
     });
-    return { user, login, point };
+    if (inviteCode) {
+      const invite = await prisma.invite.findFirst({
+        where: { inviteCode },
+      });
+      if (!invite) {
+        return;
+      }
+      const fren = await prisma.fren.create({
+        data: { userId: invite.userId, frenId: tgUser.id.toString() },
+      });
+      return { user, login, point, fren };
+    } else {
+      return { user, login, point };
+    }
   });
   return res;
+}
+
+export async function updateUser(tgUser: User) {
+  const user = await prisma.user.update({
+    where: { id: tgUser.id.toString() },
+    data: {
+      username: tgUser.username,
+      firstName: tgUser.firstName,
+      lastName: tgUser.lastName,
+      photoUrl: tgUser.photoUrl,
+      languageCode: tgUser.languageCode,
+      isPremium: tgUser.isPremium,
+      isBot: tgUser.isBot,
+      allowsWriteToPm: tgUser.allowsWriteToPm,
+    },
+  });
+  return user;
 }
 
 export async function sendFirstMessage(userId: string) {

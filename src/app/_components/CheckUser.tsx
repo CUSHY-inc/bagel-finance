@@ -7,32 +7,37 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
-import { initUser, sendFirstMessage } from "./actions";
+import { initUser, sendFirstMessage, updateUser } from "./actions";
 import { UserWithLogin } from "@/types/prisma";
 
 export default function CheckUser({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const initData = useInitData();
-  const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<UserWithLogin>(
-    userId ? `/api/users/${userId}` : null,
+    initData?.user?.id ? `/api/users/${initData.user.id}` : null,
     fetcher
   );
 
   useEffect(() => {
-    async function initialize() {
+    async function process() {
       if (data === null && initData?.user) {
-        await initUser(initData.user);
-        await mutate(userId ? `/api/users/${userId}` : null);
+        await initUser(initData.user, initData.startParam);
+        await mutate(
+          initData.user?.id ? `/api/users/${initData.user?.id}` : null
+        );
+      } else if (data && initData?.user) {
+        await updateUser(initData.user);
       }
-      if (data && !data.login.sentWelcomeMsg && initData?.user) {
+      if (data && !data.login.sentWelcomeMsg && initData?.user?.id) {
         await sendFirstMessage(initData.user.id.toString());
-        await mutate(userId ? `/api/users/${userId}` : null);
+        await mutate(
+          initData.user?.id ? `/api/users/${initData.user?.id}` : null
+        );
       }
     }
 
-    initialize();
-  }, [data, initData, router, userId]);
+    process();
+  }, [data, initData, router]);
 
   if (isLoading || !data) {
     return <Loading />;

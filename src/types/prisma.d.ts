@@ -6,6 +6,7 @@ import {
   Token,
   User,
   Login,
+  Point,
 } from "@prisma/client";
 
 type PreviousChoice = Round & { choices: Choice[]; votes: Vote[] };
@@ -42,4 +43,8 @@ type HomeInfo = {
 
 type UserWithLogin = User & {
   login: Login;
+};
+
+type FrenWithUser = Fren & {
+  fren: User;
 };
