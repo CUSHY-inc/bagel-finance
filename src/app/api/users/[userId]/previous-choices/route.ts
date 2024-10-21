@@ -15,7 +15,9 @@ export async function GET(
       );
     }
     const rounds = await prisma.round.findMany({
-      where: { endDate: { lt: new Date() } },
+      where: {
+        endDate: { lt: new Date(new Date().getTime() - 5 * 60 * 1000) },
+      },
       orderBy: { startDate: "desc" },
       include: {
         votes: { where: { userId } },

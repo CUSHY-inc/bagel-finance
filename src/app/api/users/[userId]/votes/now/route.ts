@@ -9,7 +9,10 @@ export async function GET(
   try {
     const now = new Date();
     const currentRound = await prisma.round.findFirst({
-      where: { startDate: { lte: now }, endDate: { gt: now } },
+      where: {
+        startDate: { lte: now },
+        endDate: { gt: new Date(now.getTime() - 5 * 60 * 1000) },
+      },
       include: {
         votes: {
           where: { userId: params.userId },
