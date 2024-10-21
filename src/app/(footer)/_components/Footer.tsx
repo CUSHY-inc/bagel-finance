@@ -63,9 +63,7 @@ export default function Footer() {
             flex={1}
             color={
               item.href === "/"
-                ? pathname === "/" ||
-                  pathname.startsWith("/vote") ||
-                  pathname.startsWith("/shop")
+                ? pathname === "/" || pathname.startsWith("/vote")
                   ? mainColor
                   : ""
                 : pathname.startsWith(item.href)

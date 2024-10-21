@@ -1,4 +1,4 @@
-import Footer from "@/components/layouts/Footer";
+import Footer from "@/app/(footer)/_components/Footer";
 import CheckLogin from "./_components/CheckLogin";
 import CheckResult from "./_components/CheckResult";
 
