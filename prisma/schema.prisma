@@ -27,6 +27,7 @@ model User {
   invite          Invite?
   frens           Fren[]    @relation("Frens")
   frensOf         Fren[]    @relation("FrensOf")
+  userTasks       UserTask[]
 }
 
 model Login {
@@ -172,13 +173,37 @@ model Fren {
   id        String   @id @default(cuid())
   userId    String
   frenId    String
-  bagel     BigInt
+  bagel     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   user      User     @relation("Frens", fields: [userId], references: [id], onDelete: Cascade)
   fren      User     @relation("FrensOf", fields: [frenId], references: [id], onDelete: Cascade)
 
   @@unique([userId, frenId])
+}
+
+model Task {
+  id        Int        @id
+  title     String
+  bagel     Int
+  url       String?
+  isDeleted Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @default(now()) @updatedAt
+  userTasks UserTask[]
+}
+
+model UserTask {
+  id        String      @id @default(cuid())
+  userId    String
+  taskId    Int
+  status    TASK_STATUS @default(NONE)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt
+  user      User        @relation(fields: [userId], references: [id])
+  task      Task        @relation(fields: [taskId], references: [id])
+
+  @@unique([userId, taskId])
 }
 
 enum RESULT_STATUS {
@@ -192,4 +217,16 @@ enum INVOICE_STATUS {
   PENDING
   PAID
   REFUNDED
+}
+
+enum TASK_TYPE {
+  REPEAT
+  ONCE
+  SPECIAL
+}
+
+enum TASK_STATUS {
+  NONE
+  COMPLETED
+  CLAIMED
 }

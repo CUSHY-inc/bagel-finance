@@ -8,6 +8,7 @@ import { vote } from "./vote";
 import { point } from "./point";
 import { login } from "./login";
 import { pack } from "./pack";
+import { task } from "./task";
 
 export const prisma = new PrismaClient();
 
@@ -23,6 +24,7 @@ const main = async () => {
     point(),
     login(),
     pack(),
+    task(),
   ]);
   console.log(`Seeding finished.`);
 };
