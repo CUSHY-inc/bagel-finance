@@ -7,6 +7,8 @@ import {
   User,
   Login,
   Point,
+  Task,
+  UserTask,
 } from "@prisma/client";
 
 type PreviousChoice = Round & { choices: Choice[]; votes: Vote[] };
@@ -47,4 +49,8 @@ type UserWithLogin = User & {
 
 type FrenWithUser = Fren & {
   fren: User;
+};
+
+type TaskWithUserTasks = Task & {
+  userTasks: UserTask[];
 };

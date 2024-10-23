@@ -1,6 +1,7 @@
 import BaseScreen from "@/components/layouts/BaseScreen";
-import { Heading, Text, VStack } from "@chakra-ui/react";
+import { Heading, VStack } from "@chakra-ui/react";
 import { LuCoins } from "react-icons/lu";
+import Tasks from "./_components/Tasks";
 
 export default function Page() {
   return (
@@ -9,7 +10,9 @@ export default function Page() {
         <LuCoins size={64} />
         <Heading>Earn</Heading>
       </VStack>
-      <Text textAlign="center">Coming soon...</Text>
+      <VStack align={"stretch"} p={4}>
+        <Tasks />
+      </VStack>
     </BaseScreen>
   );
 }
