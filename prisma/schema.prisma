@@ -57,7 +57,7 @@ model Wallet {
 }
 
 model Round {
-  id           String        @id
+  id           String        @id @default(cuid())
   title        String
   startDate    DateTime      @unique
   endDate      DateTime      @unique
@@ -69,7 +69,7 @@ model Round {
 }
 
 model Choice {
-  id           String        @id
+  id           String        @id @default(cuid())
   roundId      String        
   idx          Int
   title        String
