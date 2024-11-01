@@ -3,7 +3,8 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Box, HStack, StackDivider, Text, VStack } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { LuCoins, LuHome, LuUserCircle, LuUsers } from "react-icons/lu";
+import { LuCoins, LuGamepad, LuUserCircle, LuUsers } from "react-icons/lu";
+import { MdCurrencyExchange } from "react-icons/md";
 
 export default function Footer() {
   const router = useRouter();
@@ -12,9 +13,14 @@ export default function Footer() {
 
   const navItems = [
     {
-      label: "Home",
-      icon: <LuHome size={24} />,
-      href: "/",
+      label: "Exchange",
+      icon: <MdCurrencyExchange size={24} />,
+      href: "/exchange",
+    },
+    {
+      label: "Game",
+      icon: <LuGamepad size={24} />,
+      href: "/game",
     },
     {
       label: "Earn",
@@ -61,15 +67,7 @@ export default function Footer() {
             cursor="pointer"
             onClick={() => router.push(item.href)}
             flex={1}
-            color={
-              item.href === "/"
-                ? pathname === "/" || pathname.startsWith("/vote")
-                  ? mainColor
-                  : ""
-                : pathname.startsWith(item.href)
-                ? mainColor
-                : ""
-            }
+            color={pathname.startsWith(item.href) ? mainColor : undefined}
             borderRadius={8}
           >
             {item.icon}

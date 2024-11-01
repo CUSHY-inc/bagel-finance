@@ -1,18 +1,18 @@
 "use client";
 
 import { Box, Image, VStack } from "@chakra-ui/react";
-import BagelPoint from "./BagelPoint";
-import PlayButton from "./PlayButton";
 import { fetcher } from "@/lib/swr";
 import { HomeInfo } from "@/types/prisma";
 import { useInitData } from "@telegram-apps/sdk-react";
 import useSWR from "swr";
 import Loading from "@/app/loading";
 import Error from "@/app/error";
-import VoteInfo from "./VoteInfo";
 import { useRouter } from "next/navigation";
+import BagelPoint from "./BagelPoint";
+import PlayButton from "./PlayButton";
+import VoteInfo from "./VoteInfo";
 
-export default function Home() {
+export default function Game() {
   const router = useRouter();
   const initData = useInitData();
   const userId = initData?.user?.id;

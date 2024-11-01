@@ -1,10 +1,10 @@
 import BaseScreen from "@/components/layouts/BaseScreen";
-import Home from "./_components/Home";
+import Game from "./_components/Game";
 
 export default function Page() {
   return (
     <BaseScreen hasBottomPadding>
-      <Home />
+      <Game />
     </BaseScreen>
   );
 }
