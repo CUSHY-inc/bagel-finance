@@ -15,15 +15,10 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
-import { useInitData } from "@telegram-apps/sdk-react";
-import {
-  useIsConnectionRestored,
-  useTonAddress,
-  useTonConnectUI,
-} from "@tonconnect/ui-react";
+import { useTonConnectUI } from "@tonconnect/ui-react";
 import { useRef } from "react";
 import { LuWallet } from "react-icons/lu";
-import { upsertWallet } from "./actions";
+import { useTonConnect } from "@/hooks/useTonConnect";
 
 function DisconnectButton() {
   const [tonConnectUI] = useTonConnectUI();
@@ -68,24 +63,8 @@ function DisconnectButton() {
 }
 
 export default function WalletConnect() {
-  const isConnectionRestored = useIsConnectionRestored();
-  const [tonConnectUI] = useTonConnectUI();
-  const address = useTonAddress();
-  const initData = useInitData();
-  const walletConnectedRef = useRef(false);
-
-  tonConnectUI.onStatusChange(async (wallet) => {
-    if (initData?.user?.id && wallet) {
-      if (walletConnectedRef.current) {
-        return;
-      }
-      upsertWallet({
-        userId: initData.user.id.toString(),
-        address: wallet.account.address,
-      });
-      walletConnectedRef.current = true;
-    }
-  });
+  const { tonConnectUI, isConnectionRestored, isConnected, address } =
+    useTonConnect();
 
   return (
     <HStack p={2} spacing={4}>
@@ -93,7 +72,7 @@ export default function WalletConnect() {
       <VStack flex={1} alignItems="start" spacing={0}>
         {isConnectionRestored ? (
           <>
-            <Text>{address ? "Connected wallet" : "Wallet connect"}</Text>
+            <Text>{isConnected ? "Connected wallet" : "Wallet connect"}</Text>
             <Text fontSize="sm" color="gray">
               {shortenStr(address, 6, 4)}
             </Text>
@@ -104,7 +83,7 @@ export default function WalletConnect() {
       </VStack>
       {isConnectionRestored ? (
         <>
-          {address ? (
+          {isConnected ? (
             <DisconnectButton />
           ) : (
             <Button
