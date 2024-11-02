@@ -16,7 +16,7 @@ export default function BaseAlertDialog({
   title,
   body,
   yesButtonText,
-  yesButtonColor,
+  yesButtonColorScheme,
   noButtonText,
   onClick,
 }: {
@@ -24,7 +24,7 @@ export default function BaseAlertDialog({
   title: string;
   body?: string;
   yesButtonText?: string;
-  yesButtonColor?: string;
+  yesButtonColorScheme?: string;
   noButtonText?: string;
   onClick?: () => void;
 }) {
@@ -51,7 +51,7 @@ export default function BaseAlertDialog({
           )}
           {yesButtonText && (
             <Button
-              colorScheme={yesButtonColor ?? "blue"}
+              colorScheme={yesButtonColorScheme ?? "blue"}
               ml={3}
               onClick={onClick}
             >

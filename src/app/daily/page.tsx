@@ -41,7 +41,7 @@ export default function Page() {
 
   useEffect(() => {
     if (!isDaily) {
-      router.push("/");
+      router.push("/game");
     }
   }, [isDaily, router]);
 

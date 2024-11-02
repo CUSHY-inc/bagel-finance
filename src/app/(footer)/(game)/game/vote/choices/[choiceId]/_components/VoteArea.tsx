@@ -63,8 +63,9 @@ function ConfirmationDialog({
     ) : (
       <BaseAlertDialog
         disclosure={disclosure}
-        title="Oops! Voting's Closed"
-        body="Looks like the voting period is over. Catch us next time for your chance to vote!"
+        title="Oops! Picking's Closed"
+        body="Looks like the picking period is over. Catch us next time for your chance to vote!"
+        yesButtonText="OK"
       />
     )
   ) : (

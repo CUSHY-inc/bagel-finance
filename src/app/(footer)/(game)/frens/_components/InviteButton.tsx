@@ -1,6 +1,6 @@
 "use client";
 
-import { useAlert } from "@/app/_components/AlertProvider";
+import { useCopy } from "@/hooks/useCopy";
 import { fetcher } from "@/lib/swr";
 import { Button, HStack, IconButton, Skeleton, VStack } from "@chakra-ui/react";
 import { Invite } from "@prisma/client";
@@ -12,22 +12,12 @@ export default function InviteButton() {
   const initData = useInitData();
   const userId = initData?.user?.id;
   const utils = useUtils();
-  const { showAlert } = useAlert();
   const { data, error, isLoading } = useSWR<Invite>(
     userId ? `/api/users/${userId}/invite` : null,
     fetcher
   );
   const inviteUrl = `https://t.me/bagel_fi_bot/app?startapp=${data?.inviteCode}`;
-
-  async function copyToClipboard() {
-    try {
-      await navigator.clipboard.writeText(inviteUrl);
-      showAlert("success", "Copied!");
-    } catch (e) {
-      console.log(e);
-      showAlert("error", "Something went wrong...");
-    }
-  }
+  const { onCopy } = useCopy(inviteUrl);
 
   if (error) {
     throw error;
@@ -49,7 +39,7 @@ export default function InviteButton() {
           colorScheme="blue"
           icon={<LuCopy />}
           isDisabled={isLoading}
-          onClick={copyToClipboard}
+          onClick={onCopy}
         />
       </HStack>
     </VStack>

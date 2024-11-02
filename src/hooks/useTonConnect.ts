@@ -1,4 +1,3 @@
-import { upsertWallet } from "@/app/(footer)/profile/_components/actions";
 import { useInitData } from "@telegram-apps/sdk-react";
 import {
   useIsConnectionRestored,
@@ -8,6 +7,7 @@ import {
 } from "@tonconnect/ui-react";
 import { useRef } from "react";
 import { Address, SenderArguments } from "ton-core";
+import { upsertWallet } from "./actions";
 
 export function useTonConnect() {
   const initData = useInitData();

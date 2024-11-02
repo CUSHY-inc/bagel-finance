@@ -28,7 +28,7 @@ function LoadingVoteChoices() {
 function NotOpen() {
   return (
     <Text my={16} fontSize="xl" textAlign="center">
-      Voting is not currently open...
+      Picking is not currently open...
     </Text>
   );
 }
