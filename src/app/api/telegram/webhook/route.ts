@@ -19,36 +19,39 @@ async function processPreCheckoutQuery(preCheckoutQuery: {
   const exchange = await prisma.exchange.findUnique({
     where: { id: invoiceId, status: "DRAFT" },
   });
-  if (exchange) {
-    if (exchange.stars === totalAmount && exchange.userId === userId) {
-      await postTelegramApi("/answerPreCheckoutQuery", {
-        pre_checkout_query_id: preCheckoutQuery.id,
-        ok: true,
-      });
-      await prisma.exchange.update({
-        where: { id: invoiceId },
-        data: { status: "PENDING" },
-      });
-    }
+  if (
+    exchange &&
+    exchange.stars === totalAmount &&
+    exchange.userId === userId
+  ) {
+    await postTelegramApi("/answerPreCheckoutQuery", {
+      pre_checkout_query_id: preCheckoutQuery.id,
+      ok: true,
+    });
+    await prisma.exchange.update({
+      where: { id: invoiceId },
+      data: { status: "PENDING" },
+    });
+    return;
   }
   const invoice = await prisma.invoice.findUnique({
     where: { id: invoiceId, status: "DRAFT" },
     include: { pack: true },
   });
-  if (invoice) {
-    if (
-      invoice.pack.stars * invoice.quantity === totalAmount &&
-      invoice.userId === userId
-    ) {
-      await postTelegramApi("/answerPreCheckoutQuery", {
-        pre_checkout_query_id: preCheckoutQuery.id,
-        ok: true,
-      });
-      await prisma.invoice.update({
-        where: { id: invoiceId },
-        data: { status: "PENDING" },
-      });
-    }
+  if (
+    invoice &&
+    invoice.pack.stars * invoice.quantity === totalAmount &&
+    invoice.userId === userId
+  ) {
+    await postTelegramApi("/answerPreCheckoutQuery", {
+      pre_checkout_query_id: preCheckoutQuery.id,
+      ok: true,
+    });
+    await prisma.invoice.update({
+      where: { id: invoiceId },
+      data: { status: "PENDING" },
+    });
+    return;
   }
 }
 
@@ -62,7 +65,7 @@ async function processSuccessfulPayment(successfulPayment: {
     return;
   }
   const exchange = await prisma.exchange.findUnique({
-    where: { id: invoiceId, status: "DRAFT" },
+    where: { id: invoiceId, status: "PENDING" },
   });
   if (exchange) {
     const exchange = await prisma.exchange.update({
@@ -74,9 +77,10 @@ async function processSuccessfulPayment(successfulPayment: {
       },
     });
     await transferToken(exchange);
+    return;
   }
   const invoice = await prisma.invoice.findUnique({
-    where: { id: invoiceId, status: "DRAFT" },
+    where: { id: invoiceId, status: "PENDING" },
   });
   if (invoice) {
     await prisma.invoice.update({
@@ -87,6 +91,7 @@ async function processSuccessfulPayment(successfulPayment: {
         providerPaymentChargeId: successfulPayment.provider_payment_charge_id,
       },
     });
+    return;
   }
 }
 

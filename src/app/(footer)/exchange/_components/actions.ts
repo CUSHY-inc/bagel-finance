@@ -20,12 +20,12 @@ export async function getExchangeLink({
     data: { userId, stars, coin, amount, toAddress },
   });
   const data = await postTelegramApi("/createInvoiceLink", {
-    title: `${coin} exchange`,
+    title: `${amount} ${coin}`,
     description: `Exchange Telegram Stars to ${coin}`,
     payload: exchange.id,
     provider_token: "",
     currency: "XTR",
-    prices: JSON.stringify([{ label: `${coin} exchange`, amount: stars }]),
+    prices: JSON.stringify([{ label: `${amount} ${coin}`, amount: stars }]),
   });
   return data.result;
 }
