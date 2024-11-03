@@ -28,6 +28,7 @@ model User {
   frens           Fren[]    @relation("Frens")
   frensOf         Fren[]    @relation("FrensOf")
   userTasks       UserTask[]
+  exchanges       Exchange[]
 }
 
 model Login {
@@ -206,6 +207,22 @@ model UserTask {
   @@unique([userId, taskId])
 }
 
+model Exchange {
+  id                      String          @id @default(cuid())
+  status                  EXCHANGE_STATUS @default(DRAFT)
+  userId                  String
+  stars                   Int
+  coin                    COIN
+  amount                  Float
+  toAddress               String
+  telegramPaymentChargeId String?
+  providerPaymentChargeId String?
+  hash                    String?
+  createdAt               DateTime        @default(now())
+  updatedAt               DateTime        @default(now()) @updatedAt
+  user                    User            @relation(fields: [userId], references: [id])
+}
+
 enum RESULT_STATUS {
   NONE
   CALCULATED
@@ -229,4 +246,17 @@ enum TASK_STATUS {
   NONE
   COMPLETED
   CLAIMED
+}
+
+enum EXCHANGE_STATUS {
+  DRAFT
+  PENDING
+  PAID
+  TRANSFERED
+  REFUNDED
+}
+
+enum COIN {
+  TON
+  USDT
 }

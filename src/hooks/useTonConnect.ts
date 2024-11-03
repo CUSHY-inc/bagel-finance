@@ -1,7 +1,6 @@
 import { useInitData } from "@telegram-apps/sdk-react";
 import {
   useIsConnectionRestored,
-  useTonAddress,
   useTonConnectUI,
   useTonWallet,
 } from "@tonconnect/ui-react";
@@ -14,7 +13,6 @@ export function useTonConnect() {
   const [tonConnectUI] = useTonConnectUI();
   const isConnectionRestored = useIsConnectionRestored();
   const wallet = useTonWallet();
-  const address = useTonAddress();
   const walletConnectedRef = useRef(false);
 
   tonConnectUI.onStatusChange(async (wallet) => {
@@ -33,8 +31,10 @@ export function useTonConnect() {
   return {
     tonConnectUI,
     isConnectionRestored,
-    isConnected: !!address,
-    address,
+    isConnected: !!wallet?.account.address,
+    address: wallet?.account.address
+      ? Address.parse(wallet?.account.address)
+      : undefined,
     network: wallet?.account.chain ?? null,
     sender: {
       send: async (args: SenderArguments) => {
@@ -49,9 +49,6 @@ export function useTonConnect() {
           validUntil: Date.now() + 5 * 60 * 1000,
         });
       },
-      address: wallet?.account.address
-        ? Address.parse(wallet.account.address as string)
-        : undefined,
     },
   };
 }

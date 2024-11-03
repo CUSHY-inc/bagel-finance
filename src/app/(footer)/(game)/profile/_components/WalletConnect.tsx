@@ -5,9 +5,10 @@ import { HStack, VStack, Button, Text, Skeleton } from "@chakra-ui/react";
 import { LuWallet } from "react-icons/lu";
 import { useTonConnect } from "@/hooks/useTonConnect";
 import DisconnectButton from "@/components/button/DisconnectButton";
+import { CHAIN } from "@tonconnect/ui-react";
 
 export default function WalletConnect() {
-  const { tonConnectUI, isConnectionRestored, isConnected, address } =
+  const { tonConnectUI, isConnectionRestored, isConnected, address, network } =
     useTonConnect();
 
   return (
@@ -18,7 +19,14 @@ export default function WalletConnect() {
           <>
             <Text>{isConnected ? "Connected wallet" : "Wallet connect"}</Text>
             <Text fontSize="sm" color="gray">
-              {shortenStr(address, 6, 4)}
+              {shortenStr(
+                address?.toString({
+                  bounceable: false,
+                  testOnly: network === CHAIN.TESTNET,
+                }),
+                6,
+                4
+              )}
             </Text>
           </>
         ) : (
