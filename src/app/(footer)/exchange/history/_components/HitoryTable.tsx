@@ -19,9 +19,9 @@ import {
 } from "@chakra-ui/react";
 import { Exchange } from "@prisma/client";
 import { useInitData } from "@telegram-apps/sdk-react";
+import { Address } from "@ton/ton";
 import { LuCopy } from "react-icons/lu";
 import useSWR from "swr";
-import { Address } from "ton-core";
 
 function ToAddress({ address }: { address: string }) {
   const displayAddress = Address.parse(address).toString({ bounceable: false });
@@ -95,7 +95,7 @@ export default function HistoryTable() {
               <Td>{exchange.status}</Td>
               <Td isNumeric>{exchange.stars}</Td>
               <Td>
-                {exchange.coin}: {exchange.amount.toPrecision(4)}
+                {exchange.coin}: {exchange.amount}
               </Td>
               <Td>
                 <ToAddress address={exchange.toAddress} />

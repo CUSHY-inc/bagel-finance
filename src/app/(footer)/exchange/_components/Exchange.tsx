@@ -79,7 +79,7 @@ export default function Exchange() {
       return;
     }
     const starsUsd = (stars / 50) * 0.99;
-    setAmount(Number(((starsUsd / data.usd) * 0.6).toPrecision(4)));
+    setAmount(Number(((starsUsd / data.usd) * 0.6).toPrecision(6)));
   }, [stars, isLoading, isValidating, data, error]);
 
   async function onClick() {
@@ -139,7 +139,7 @@ export default function Exchange() {
           <HStack>
             {amount ? (
               <Text flex={1} fontSize={"xl"} as={"b"}>
-                {amount.toPrecision(4)}
+                {amount}
               </Text>
             ) : (
               <Box flex={1}>

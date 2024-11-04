@@ -5,7 +5,7 @@ import {
   useTonWallet,
 } from "@tonconnect/ui-react";
 import { useRef } from "react";
-import { Address, SenderArguments } from "ton-core";
+import { Address, SenderArguments } from "@ton/ton";
 import { upsertWallet } from "./actions";
 
 export function useTonConnect() {

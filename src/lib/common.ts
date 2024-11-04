@@ -55,3 +55,11 @@ export function formatNumber(value: number): string {
 export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export function getRandomUint64(): bigint {
+  const maxUint64 = BigInt("0xFFFFFFFFFFFFFFFF");
+  return BigInt.asUintN(
+    64,
+    BigInt(Math.floor(Math.random() * Number(maxUint64)))
+  );
+}
