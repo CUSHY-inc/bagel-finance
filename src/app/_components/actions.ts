@@ -77,11 +77,11 @@ export async function sendFirstMessage(userId: string) {
         [
           {
             text: "🥯 Game",
-            web_app: { url: "https://finance.0xbagel.com/game" },
+            web_app: { url: `${process.env.WEB_URL}/game` },
           },
           {
             text: "⭐️ Exchange",
-            web_app: { url: "https://finance.0xbagel.com/exchange" },
+            web_app: { url: `${process.env.WEB_URL}/exchange` },
           },
         ],
       ],

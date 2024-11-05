@@ -16,7 +16,7 @@ export default function InviteButton() {
     userId ? `/api/users/${userId}/invite` : null,
     fetcher
   );
-  const inviteUrl = `https://t.me/bagel_fi_bot/app?startapp=${data?.inviteCode}`;
+  const inviteUrl = `https://t.me/${process.env.BOT_NAME}/app?startapp=${data?.inviteCode}`;
   const { onCopy } = useCopy(inviteUrl);
 
   if (error) {
