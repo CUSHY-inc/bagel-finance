@@ -15,7 +15,6 @@ export default function Page() {
           <UnorderedList pl={2}>
             <ListItem>Apple/Google: 35%</ListItem>
             <ListItem>Bagel Finance: 5%</ListItem>
-            <ListItem>No gas fee</ListItem>
           </UnorderedList>
         </UnorderedList>
       </VStack>

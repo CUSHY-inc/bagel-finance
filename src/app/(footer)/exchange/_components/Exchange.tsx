@@ -59,7 +59,7 @@ export default function Exchange() {
     bounceable: false,
     testOnly: network === CHAIN.TESTNET,
   });
-  const [stars, setStars] = useState(1000);
+  const [stars, setStars] = useState(500);
   const [amount, setAmount] = useState<number | null>(null);
   const [coin, setCoin] = useState(coins[0]);
   const { onCopy } = useCopy(displayAddress as string);
@@ -118,14 +118,15 @@ export default function Exchange() {
               value={stars}
               onChange={(e) => setStars(Number(e.target.value))}
             >
+              <option value="100">100</option>
+              <option value="150">150</option>
+              <option value="250">250</option>
+              <option value="350">350</option>
+              <option value="500">500</option>
+              <option value="750">750</option>
               <option value="1000">1000</option>
               <option value="3000">3000</option>
               <option value="5000">5000</option>
-              <option value="10000">10000</option>
-              <option value="20000">20000</option>
-              <option value="30000">30000</option>
-              <option value="50000">50000</option>
-              <option value="100000">100000</option>
             </Select>
             <Text as={"b"} whiteSpace={"nowrap"} p={2}>
               ⭐️ Stars
