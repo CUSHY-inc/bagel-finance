@@ -158,8 +158,8 @@ model Invoice {
   providerPaymentChargeId String?
   createdAt               DateTime       @default(now())
   updatedAt               DateTime       @default(now()) @updatedAt
-  user                    User           @relation(fields: [userId], references: [id])
-  pack                    Pack           @relation(fields: [packId], references: [id])
+  user                    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pack                    Pack           @relation(fields: [packId], references: [id], onDelete: Cascade)
 }
 
 model Invite {
@@ -201,8 +201,8 @@ model UserTask {
   status    TASK_STATUS @default(NONE)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @default(now()) @updatedAt
-  user      User        @relation(fields: [userId], references: [id])
-  task      Task        @relation(fields: [taskId], references: [id])
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  task      Task        @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@unique([userId, taskId])
 }
@@ -220,7 +220,7 @@ model Exchange {
   hash                    String?
   createdAt               DateTime        @default(now())
   updatedAt               DateTime        @default(now()) @updatedAt
-  user                    User            @relation(fields: [userId], references: [id])
+  user                    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum RESULT_STATUS {
