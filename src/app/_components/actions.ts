@@ -72,8 +72,23 @@ export async function sendFirstMessage(userId: string) {
       "https://bagel-finance.s3.ap-northeast-1.amazonaws.com/images/icons/bagel-finance-welcome-message.png",
     caption:
       "🥯 Pick your choice, earn $BAGEL, and get airdrop rewards!\n😸 Your cat will love having more $BAGEL.\n🎁 Play now to get airdrop rewards!",
-    reply_markup:
-      '{"inline_keyboard":[[{"text":"Play for Airdrop 🥯","url":"https://t.me/bagel_fi_bot/app"}]]}',
+    reply_markup: JSON.stringify({
+      keyboard: [
+        [
+          {
+            text: "🥯 Game",
+            web_app: { url: "https://finance.0xbagel.com/game" },
+          },
+          {
+            text: "⭐️ Exchange",
+            web_app: { url: "https://finance.0xbagel.com/exchange" },
+          },
+        ],
+      ],
+      resize_keyboard: true,
+      one_time_keyboard: false,
+      is_persistent: true,
+    }),
   });
   await prisma.login.update({
     where: { userId },
