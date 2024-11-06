@@ -90,10 +90,11 @@ export async function transferToken(exchange: Exchange) {
     const signedTransaction = externalMessageCell.toBoc();
     const hash = externalMessageCell.hash().toString("hex");
     await client.sendFile(signedTransaction);
-    await prisma.exchange.update({
+    const result = await prisma.exchange.update({
       where: { id: exchange.id },
       data: { status: "SENT", hash },
     });
+    return result;
   } else if (exchange.coin === "TON") {
     const internalMessage = internal({
       to: toAddress,
@@ -116,9 +117,11 @@ export async function transferToken(exchange: Exchange) {
     const signedTransaction = externalMessageCell.toBoc();
     const hash = externalMessageCell.hash().toString("hex");
     await client.sendFile(signedTransaction);
-    await prisma.exchange.update({
+    const result = await prisma.exchange.update({
       where: { id: exchange.id },
       data: { status: "SENT", hash },
     });
+    return result;
   }
+  return null;
 }
