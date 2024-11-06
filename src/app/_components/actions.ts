@@ -73,7 +73,7 @@ export async function sendFirstMessage(userId: string) {
     caption:
       "🥯 Pick your choice, earn $BAGEL, and get airdrop rewards!\n😸 Your cat will love having more $BAGEL.\n🎁 Play now to get airdrop rewards!",
     reply_markup: JSON.stringify({
-      keyboard: [
+      inline_keyboard: [
         [
           {
             text: "🥯 Game",
