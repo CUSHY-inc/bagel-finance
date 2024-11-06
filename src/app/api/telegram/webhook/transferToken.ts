@@ -106,7 +106,7 @@ export async function transferToken(exchange: Exchange) {
       body: wallet.createTransfer({
         seqno,
         secretKey: keyPair.secretKey,
-        sendMode: SendMode.IGNORE_ERRORS,
+        sendMode: SendMode.IGNORE_ERRORS + SendMode.PAY_GAS_SEPARATELY,
         messages: [internalMessage],
       }),
     });
