@@ -3,8 +3,9 @@
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { Box, HStack, StackDivider, Text, VStack } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
-import { LuCoins, LuGamepad, LuUserCircle, LuUsers } from "react-icons/lu";
+import { LuCoins, LuUserCircle, LuUsers } from "react-icons/lu";
 import { MdCurrencyExchange } from "react-icons/md";
+import { IoGameControllerOutline } from "react-icons/io5";
 
 export default function Footer() {
   const router = useRouter();
@@ -18,14 +19,14 @@ export default function Footer() {
       href: "/exchange",
     },
     {
-      label: "Game",
-      icon: <LuGamepad size={24} />,
-      href: "/game",
+      label: "Tasks",
+      icon: <LuCoins size={24} />,
+      href: "/tasks",
     },
     {
-      label: "Earn",
-      icon: <LuCoins size={24} />,
-      href: "/earn",
+      label: "Game",
+      icon: <IoGameControllerOutline size={24} />,
+      href: "/game",
     },
     {
       label: "Frens",

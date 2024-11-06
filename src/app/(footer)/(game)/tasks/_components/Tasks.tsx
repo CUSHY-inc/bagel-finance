@@ -88,17 +88,12 @@ export default function Tasks() {
   }
 
   return (
-    <VStack align={"stretch"}>
-      <Text as={"b"} textAlign={"left"}>
-        Tasks
-      </Text>
-      <VStack align={"stretch"} divider={<StackDivider />}>
-        {isLoading || !data ? (
-          <></>
-        ) : (
-          data.map((task) => <Task key={task.id} task={task} />)
-        )}
-      </VStack>
+    <VStack align={"stretch"} divider={<StackDivider />}>
+      {isLoading || !data ? (
+        <></>
+      ) : (
+        data.map((task) => <Task key={task.id} task={task} />)
+      )}
     </VStack>
   );
 }

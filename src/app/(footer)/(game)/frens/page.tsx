@@ -7,7 +7,7 @@ import Frens from "./_components/Frens";
 export default function Page() {
   return (
     <BaseScreen hasBottomPadding>
-      <VStack py={8}>
+      <VStack py={6}>
         <LuUsers size={64} />
         <Heading>Frens</Heading>
       </VStack>

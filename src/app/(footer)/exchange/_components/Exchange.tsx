@@ -97,7 +97,20 @@ export default function Exchange() {
 
   return (
     <VStack align={"stretch"}>
-      <HStack justifyContent={"end"}>
+      <HStack justifyContent={"space-between"}>
+        {displayAddress ? (
+          <HStack justifyContent={"center"}>
+            <Text fontSize={"sm"}>To: {shortenStr(displayAddress, 6, 4)}</Text>
+            <IconButton
+              size={"xs"}
+              icon={<LuCopy />}
+              aria-label={"Copy"}
+              onClick={onCopy}
+            />
+          </HStack>
+        ) : (
+          <Box></Box>
+        )}
         <Button
           size={"sm"}
           leftIcon={<LuHistory />}
@@ -168,17 +181,6 @@ export default function Exchange() {
       {isConnectionRestored ? (
         isConnected ? (
           <>
-            <HStack>
-              <Text fontSize={"sm"}>
-                To: {shortenStr(displayAddress, 6, 4)}
-              </Text>
-              <IconButton
-                size={"xs"}
-                icon={<LuCopy />}
-                aria-label={"Copy"}
-                onClick={onCopy}
-              />
-            </HStack>
             <Button colorScheme="blue" isDisabled={!amount} onClick={onClick}>
               Exchange
             </Button>

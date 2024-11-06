@@ -8,7 +8,7 @@ export default function Page() {
     <BaseScreen hasBottomPadding>
       <VStack py={8}>
         <LuCoins size={64} />
-        <Heading>Earn</Heading>
+        <Heading>Tasks</Heading>
       </VStack>
       <VStack align={"stretch"} p={4}>
         <Tasks />

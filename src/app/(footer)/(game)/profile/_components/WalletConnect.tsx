@@ -18,7 +18,7 @@ export default function WalletConnect() {
         {isConnectionRestored ? (
           <>
             <Text>{isConnected ? "Connected wallet" : "Wallet connect"}</Text>
-            <Text fontSize="sm" color="gray">
+            <Text fontSize="xs" color="gray">
               {shortenStr(
                 address?.toString({
                   bounceable: false,

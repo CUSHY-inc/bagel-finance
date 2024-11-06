@@ -6,7 +6,7 @@ import { LuUserCircle } from "react-icons/lu";
 export default function Page() {
   return (
     <BaseScreen hasBottomPadding>
-      <VStack py={8}>
+      <VStack py={6}>
         <LuUserCircle size={64} />
         <Heading>Profile</Heading>
       </VStack>

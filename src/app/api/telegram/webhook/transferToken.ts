@@ -68,7 +68,7 @@ export async function transferToken(exchange: Exchange) {
   const { client, wallet, seqno, keyPair, jettonWalletAddress } =
     await getBasicTools();
   if (exchange.coin === "USDT") {
-    const amount = exchange.amount * 10 ** 6;
+    const amount = Math.round(exchange.amount * 10 ** 6);
     const internalMessage = internal({
       to: jettonWalletAddress,
       value: toNano("0.1"),
