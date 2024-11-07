@@ -201,14 +201,14 @@ export default function VoteArea({
           onClick={disclosure.onOpen}
           isDisabled={
             bagel === 0 ||
-            new Date(choice.round.endDate) < new Date() ||
+            new Date(choice.round.startDate) < new Date() ||
             choice.votes.length > 0
           }
         >
-          {new Date(choice.round.endDate) < new Date()
-            ? "Not open"
-            : choice.votes.length > 0
+          {choice.votes.length > 0
             ? "You already picked"
+            : new Date(choice.round.startDate) < new Date()
+            ? "Not open"
             : "Pick"}
         </Button>
       </CardBody>

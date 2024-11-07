@@ -24,7 +24,7 @@ export default function PlayButton({
 
   function onClick() {
     if (point && point.bagel > BigInt(0)) {
-      router.push("/game/vote/choices");
+      router.push(`/rounds/${nextRound?.id}/choices`);
     } else {
       disclosure.onOpen();
     }

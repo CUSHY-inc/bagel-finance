@@ -18,7 +18,7 @@ export default function Page() {
           size={"lg"}
           colorScheme="yellow"
           w={"100%"}
-          onClick={() => router.push("/game")}
+          onClick={() => router.push("/")}
         >
           Close
         </Button>

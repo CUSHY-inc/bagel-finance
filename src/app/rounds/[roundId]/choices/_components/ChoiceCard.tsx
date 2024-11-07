@@ -79,7 +79,9 @@ export default function ChoiceCard({ choice }: { choice: ChoiceWithDetails }) {
     <Card
       overflow="hidden"
       cursor="pointer"
-      onClick={() => router.push(`/game/vote/choices/${choice.id}`)}
+      onClick={() =>
+        router.push(`/rounds/${choice.roundId}/choices/${choice.id}`)
+      }
     >
       <Image
         width="100%"

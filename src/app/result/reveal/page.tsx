@@ -25,7 +25,7 @@ export default function Page() {
 
   useEffect(() => {
     if (data === null) {
-      router.push("/game");
+      router.push("/");
     }
   }, [data, router]);
 

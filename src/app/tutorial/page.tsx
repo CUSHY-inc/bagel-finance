@@ -26,7 +26,7 @@ export default function Page() {
 
   useEffect(() => {
     if (data && data.bonusDay !== 0) {
-      router.push("/game");
+      router.push("/");
     }
   }, [data, router]);
 

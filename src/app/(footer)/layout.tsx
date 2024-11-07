@@ -1,4 +1,6 @@
 import Footer from "@/app/(footer)/_components/Footer";
+import CheckResult from "./_components/CheckResult";
+import CheckLogin from "./_components/CheckLogin";
 
 export default function Layout({
   children,
@@ -6,9 +8,11 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      {children}
-      <Footer />
-    </>
+    <CheckLogin>
+      <CheckResult>
+        {children}
+        <Footer />
+      </CheckResult>
+    </CheckLogin>
   );
 }

@@ -26,7 +26,7 @@ export default function Footer() {
     {
       label: "Game",
       icon: <IoGameControllerOutline size={24} />,
-      href: "/game",
+      href: "/",
     },
     {
       label: "Frens",
@@ -68,7 +68,15 @@ export default function Footer() {
             cursor="pointer"
             onClick={() => router.push(item.href)}
             flex={1}
-            color={pathname.startsWith(item.href) ? mainColor : undefined}
+            color={
+              item.href === "/"
+                ? pathname === "/"
+                  ? mainColor
+                  : undefined
+                : pathname.startsWith(item.href)
+                ? mainColor
+                : undefined
+            }
             borderRadius={8}
           >
             {item.icon}

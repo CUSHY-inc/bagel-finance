@@ -1,10 +1,10 @@
 import BaseScreen from "@/components/layouts/BaseScreen";
-import VoteChoices from "./_components/VoteChoices";
+import Choices from "./_components/Choices";
 
 export default function Page() {
   return (
     <BaseScreen hasBottomPadding hasBackButton>
-      <VoteChoices />
+      <Choices />
     </BaseScreen>
   );
 }

@@ -7,6 +7,7 @@ import { useInitData } from "@telegram-apps/sdk-react";
 import { fetcher } from "@/lib/swr";
 import { RoundInfo } from "@/types/prisma";
 import { getPeriodString } from "@/lib/common";
+import { useParams } from "next/navigation";
 
 function LoadingVoteChoices() {
   return (
@@ -33,11 +34,12 @@ function NotOpen() {
   );
 }
 
-export default function VoteChoices() {
+export default function Choices() {
+  const params = useParams();
   const initData = useInitData();
   const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<RoundInfo | null>(
-    userId ? `/api/rounds/now` : null,
+    userId ? `/api/rounds/${params.roundId}` : null,
     fetcher
   );
 

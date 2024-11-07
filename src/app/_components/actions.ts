@@ -77,7 +77,7 @@ export async function sendFirstMessage(userId: string) {
         [
           {
             text: "🥯 Game",
-            web_app: { url: `${process.env.WEB_URL}/game` },
+            web_app: { url: `${process.env.WEB_URL}/` },
           },
           {
             text: "⭐️ Exchange",
