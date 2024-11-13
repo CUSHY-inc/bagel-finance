@@ -1,6 +1,6 @@
 {
   "name": "bagel-finance",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed/index.ts"
