@@ -24,7 +24,7 @@ jobs:
       - name: Create .env file with environment variables
         run: |
           echo "WEB_URL=${{ vars.WEB_URL_DEV }}" > .env
-          echo "BOT_NAME=${{ vars.BOT_NAME_DEV }}" >> .env
+          echo "NEXT_PUBLIC_BOT_NAME=${{ vars.NEXT_PUBLIC_BOT_NAME_DEV }}" >> .env
           echo "DATABASE_URL=${{ vars.DATABASE_URL_DEV }}" >> .env
           echo "NEXT_PUBLIC_MANIFEST_URL=${{ vars.NEXT_PUBLIC_MANIFEST_URL }}" >> .env
           echo "COINGECKO_API_KEY=${{ vars.COINGECKO_API_KEY }}" >> .env
