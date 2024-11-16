@@ -17,17 +17,21 @@ function Task({ task }: { task: TaskWithUserTasks }) {
   const userTask = task.userTasks[0];
   const { showAlert } = useAlert();
 
+  async function openUrl(url: string | null) {
+    if (url) {
+      if (url.startsWith("https://t.me")) {
+        utils.openTelegramLink(url);
+      } else {
+        utils.openLink(url);
+      }
+    }
+  }
+
   async function onClickGo(task: TaskWithUserTasks) {
     setIsLoading(true);
     const userTask = task.userTasks[0];
-    if (task.url) {
-      if (task.url.startsWith("https://t.me")) {
-        utils.openTelegramLink(task.url);
-      } else {
-        utils.openLink(task.url);
-      }
-    }
-    await delay(3000);
+    await openUrl(task.url);
+    await delay(5000);
     await completeTask(userTask);
     await mutate(`/api/users/${userTask.userId}/tasks`);
     setIsLoading(false);
@@ -60,15 +64,22 @@ function Task({ task }: { task: TaskWithUserTasks }) {
         >
           Go
         </Button>
-      ) : (
+      ) : userTask.status === "COMPLETED" ? (
         <Button
-          colorScheme="green"
+          colorScheme="blue"
           size={"sm"}
           onClick={() => onClickClaim(task)}
           isLoading={isLoading}
-          isDisabled={userTask.status === "CLAIMED"}
         >
-          {userTask.status === "COMPLETED" ? "Claim" : <LuCheckCircle />}
+          Claim
+        </Button>
+      ) : (
+        <Button
+          size={"sm"}
+          onClick={() => openUrl(task.url)}
+          isLoading={isLoading}
+        >
+          <LuCheckCircle />
         </Button>
       )}
     </HStack>

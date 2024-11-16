@@ -29,13 +29,14 @@ export default function VoteChoiceTitle({
   }
 
   return (
-    <VStack px={4} pt={4} spacing={4}>
+    <VStack px={4} pt={4} spacing={4} align={"stretch"}>
       <Image
         src={choice?.image}
         alt={choice?.title}
         boxSize={32}
         objectFit="cover"
         borderRadius="full"
+        mx={"auto"}
       />
       <Box>
         <Text fontSize="2xl" as="b">
