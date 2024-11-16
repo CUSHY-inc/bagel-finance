@@ -40,10 +40,10 @@ const coins = [
   { label: COIN.USDT, image: "/images/tether-logo.png", coinGeckoId: "tether" },
 ];
 
-function Item({ image, label }: { image: string; label: string }) {
+function Item({ image, label }: { image?: string; label: string }) {
   return (
     <HStack>
-      <Image src={image} alt="" boxSize={6} />
+      {image && <Image src={image} alt="" boxSize={6} />}
       <Text>{label}</Text>
     </HStack>
   );
@@ -173,6 +173,12 @@ export default function Exchange() {
                     <Item image={option.image} label={option.label} />
                   </MenuItem>
                 ))}
+                <MenuItem>
+                  <Item label={"TON+ (Coming soon)"} />
+                </MenuItem>
+                <MenuItem>
+                  <Item label={"Meme Index (Coming soon)"} />
+                </MenuItem>
               </MenuList>
             </Menu>
           </HStack>

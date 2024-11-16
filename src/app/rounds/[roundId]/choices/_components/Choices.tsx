@@ -50,7 +50,7 @@ export default function Choices() {
   return (
     <VStack p={4} align="stretch" spacing={4}>
       <Text fontSize="2xl" as="b" textAlign="center">
-        Predict and pick
+        Predict & pick
         <br />
         the top-performing index
       </Text>

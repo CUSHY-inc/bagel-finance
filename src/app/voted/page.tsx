@@ -8,15 +8,15 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <BaseScreen color={"yellow.500"}>
+    <BaseScreen>
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
-        <Image boxSize={64} src="/images/tonny.gif" alt="" />
         <Text fontSize="xl" as="b" textAlign="center">
           Your pick is complete!
         </Text>
+        <Image boxSize={64} src="/images/tonny.gif" alt="" />
         <Button
           size={"lg"}
-          colorScheme="yellow"
+          colorScheme="blue"
           w={"100%"}
           onClick={() => router.push("/")}
         >

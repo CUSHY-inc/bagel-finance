@@ -12,7 +12,7 @@ import Error from "../error";
 import { useEffect, useState } from "react";
 import { firstLogin } from "./_components/actions";
 
-const bagel = 1000;
+const bagel = 1200;
 
 export default function Page() {
   const router = useRouter();
@@ -45,7 +45,7 @@ export default function Page() {
   }
 
   return (
-    <BaseScreen color="yellow.500">
+    <BaseScreen>
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
         <Text fontSize="3xl" as="b" textAlign="center">
           Welcome!
@@ -54,7 +54,7 @@ export default function Page() {
           You got {bagel.toLocaleString()} $BAGEL
         </Text>
         <Image boxSize={64} src="/images/tonny-happy.gif" alt="" />
-        <Button size={"lg"} colorScheme="yellow" w={"100%"} onClick={onClick}>
+        <Button size={"lg"} colorScheme="blue" w={"100%"} onClick={onClick}>
           Yay!
         </Button>
       </VStack>

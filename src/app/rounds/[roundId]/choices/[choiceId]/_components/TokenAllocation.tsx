@@ -1,11 +1,84 @@
 import { ChoiceChangePercentage } from "@/app/api/coinGecko/choices/[choiceId]/route";
-import TokenAllocationChart from "@/components/chart/TokenAllocationChart";
 import SomethingWentWrong from "@/components/error/SomethingWentWrong";
 import ChangePercentage from "@/components/text/ChangePercentage";
 import { fetcher } from "@/lib/swr";
 import { ChoiceWithDetails } from "@/types/prisma";
-import { Box, Grid, GridItem, Skeleton, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Grid,
+  GridItem,
+  HStack,
+  Image,
+  Skeleton,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import { useUtils } from "@telegram-apps/sdk-react";
 import useSWR from "swr";
+
+function AllocationTable({ choice }: { choice?: ChoiceWithDetails }) {
+  const utils = useUtils();
+
+  return (
+    <VStack align={"stretch"} spacing={4}>
+      {choice?.choiceTokens?.map((choiceToken) => (
+        <Grid
+          key={choiceToken.id}
+          templateRows="repeat(2, auto)"
+          templateColumns="1fr 1fr"
+          gap={2}
+        >
+          <GridItem colSpan={2}>
+            <HStack justifyContent={"center"}>
+              <Image src={choiceToken.token.image} alt="" />
+              <Text as={"b"} fontSize={"sm"}>
+                {choiceToken.token.symbol.toUpperCase()} (
+                {choiceToken.proportion.toFixed(1)} %)
+              </Text>
+            </HStack>
+          </GridItem>
+          <Button
+            size={"sm"}
+            colorScheme="blue"
+            onClick={() =>
+              utils.openLink(
+                `https://www.coingecko.com/coins/${choiceToken.token.webSlug}`
+              )
+            }
+          >
+            Chart
+          </Button>
+          <Button
+            size={"sm"}
+            colorScheme="blue"
+            onClick={() =>
+              utils.openLink(
+                `https://dedust.io/swap/TON/${choiceToken.token.symbol}`
+              )
+            }
+          >
+            Swap
+          </Button>
+        </Grid>
+      ))}
+      <Grid templateRows="repeat(2, auto)" templateColumns="1fr 1fr" gap={2}>
+        <GridItem colSpan={2}>
+          <HStack justifyContent={"center"}>
+            <Text as={"b"} fontSize={"sm"}>
+              {choice?.title} (Coming soon)
+            </Text>
+          </HStack>
+        </GridItem>
+        <Button size={"sm"} colorScheme="blue" isDisabled>
+          Chart
+        </Button>
+        <Button size={"sm"} colorScheme="blue" isDisabled>
+          Swap
+        </Button>
+      </Grid>
+    </VStack>
+  );
+}
 
 export default function TokenAllocation({
   choice,
@@ -18,9 +91,9 @@ export default function TokenAllocation({
   );
 
   return (
-    <VStack align="stretch" spacing={4} p={4}>
-      <Text fontSize="xl" as="b" textAlign="center">
-        Index info
+    <VStack align="stretch" p={4}>
+      <Text fontSize="lg" as="b" textAlign="center">
+        P/L History
       </Text>
       {error ? (
         <SomethingWentWrong />
@@ -68,17 +141,10 @@ export default function TokenAllocation({
           </GridItem>
         </Grid>
       )}
-      <Box w="100%" h={160}>
-        <TokenAllocationChart
-          data={choice?.choiceTokens.map((choiceToken) => ({
-            id: choiceToken.token.symbol.toUpperCase(),
-            label: choiceToken.token.symbol.toUpperCase(),
-            value: choiceToken.proportion,
-          }))}
-          hasRightLegends
-          idx={choice?.idx}
-        />
-      </Box>
+      <Text fontSize={"lg"} as={"b"} textAlign={"center"} pt={8}>
+        Token Allocation
+      </Text>
+      <AllocationTable choice={choice} />
     </VStack>
   );
 }

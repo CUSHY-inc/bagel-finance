@@ -73,7 +73,7 @@ export default function Page() {
     : 1;
 
   return (
-    <BaseScreen color="blue.500">
+    <BaseScreen>
       <VStack h={"100%"} justifyContent={"center"} p={6} spacing={4}>
         <VStack>
           <Text fontSize="xl" as="b" textAlign="center">
@@ -93,7 +93,7 @@ export default function Page() {
           w={"100%"}
           onClick={() => onClick(day)}
         >
-          Tasty!
+          Awesome!
         </Button>
       </VStack>
     </BaseScreen>

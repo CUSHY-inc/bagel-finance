@@ -79,7 +79,7 @@ export default function Page() {
         <Text fontSize={"2xl"} as={"b"} textAlign={"center"}>
           Bagel Packs
         </Text>
-        <Card direction={"row"} p={2} bg={"blue.500"}>
+        <Card direction={"row"} p={2} bg={"blue.200"} color={"black"}>
           <VStack align={"stretch"} w={"100%"}>
             <Text fontSize={"2xl"} as={"b"} textAlign={"center"}>
               Tasty Bagel Pack

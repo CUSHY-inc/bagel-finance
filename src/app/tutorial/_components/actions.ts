@@ -12,7 +12,7 @@ export async function firstLogin({
   const res = await prisma.$transaction(async (prisma) => {
     const login = await prisma.login.update({
       where: { userId },
-      data: { bonusDay: 1 },
+      data: { bonusDay: 2, lastBonusDate: new Date() },
     });
     const point = await prisma.point.update({
       where: { userId },
