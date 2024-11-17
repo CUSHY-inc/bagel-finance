@@ -10,23 +10,16 @@ export async function GET(
     const tasks = await prisma.task.findMany({
       where: { isDeleted: false },
       include: { userTasks: { where: { userId } } },
-      orderBy: { id: "asc" },
     });
-    const tasksWithUserTask = await Promise.all(
-      tasks.map(async (task) => {
-        if (task.userTasks.length === 0) {
-          const newUserTask = await prisma.userTask.create({
-            data: { userId, taskId: task.id },
-          });
-          return {
-            ...task,
-            userTasks: [newUserTask],
-          };
-        }
-        return task;
-      })
-    );
-    return NextResponse.json(tasksWithUserTask);
+    for (const task of tasks) {
+      if (task.userTasks.length === 0) {
+        return NextResponse.json(true);
+      }
+      if (task.userTasks[0].status !== "CLAIMED") {
+        return NextResponse.json(true);
+      }
+    }
+    return NextResponse.json(false);
   } catch (e) {
     console.error("Unexpected error:", e);
     return NextResponse.json(e, { status: 500 });

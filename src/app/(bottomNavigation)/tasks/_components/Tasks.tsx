@@ -44,6 +44,7 @@ function Task({ task }: { task: TaskWithUserTasks }) {
     await claimTask(userTask, task.bagel);
     showAlert("success", `You got ${task.bagel.toLocaleString()} $BAGEL`);
     await mutate(`/api/users/${userTask.userId}/tasks`);
+    await mutate(`/api/users/${userTask.userId}/tasks/new`);
     setIsLoading(false);
   }
 
