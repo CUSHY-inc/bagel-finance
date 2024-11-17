@@ -7,7 +7,7 @@ import { LuCoins, LuUserCircle, LuUsers } from "react-icons/lu";
 import { MdCurrencyExchange } from "react-icons/md";
 import { IoGameControllerOutline } from "react-icons/io5";
 
-export default function Footer() {
+export default function BottomNavigation() {
   const router = useRouter();
   const pathname = usePathname();
   const { mainColor } = useThemeColor();

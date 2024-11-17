@@ -1,4 +1,4 @@
-import Footer from "@/app/(footer)/_components/Footer";
+import BottomNavigation from "@/app/(bottomNavigation)/_components/BottomNavigation";
 import CheckResult from "./_components/CheckResult";
 import CheckLogin from "./_components/CheckLogin";
 
@@ -11,7 +11,7 @@ export default function Layout({
     <CheckLogin>
       <CheckResult>
         {children}
-        <Footer />
+        <BottomNavigation />
       </CheckResult>
     </CheckLogin>
   );
