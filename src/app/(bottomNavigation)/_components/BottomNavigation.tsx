@@ -60,61 +60,55 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <Box
+    <HStack
       position="absolute"
-      left={0}
-      right={0}
+      w={"100%"}
       bottom={0}
       zIndex={1}
-      p={4}
-      pb={8}
+      justifyContent="space-around"
+      alignItems="center"
+      bg={"black"}
+      p={2}
+      pb={6}
+      borderTop={"1px"}
+      borderColor="gray.600"
+      boxShadow="md"
+      divider={<StackDivider />}
     >
-      <HStack
-        justify="space-around"
-        align="center"
-        bgColor="gray.800"
-        p={2}
-        borderRadius={8}
-        border="1px"
-        borderColor="gray.600"
-        boxShadow="md"
-        divider={<StackDivider />}
-      >
-        {navItems.map((item) => (
-          <VStack
-            spacing={0}
-            key={item.label}
-            cursor="pointer"
-            onClick={() => router.push(item.href)}
-            flex={1}
-            position={"relative"}
-            color={
-              item.href === "/"
-                ? pathname === "/"
-                  ? mainColor
-                  : undefined
-                : pathname.startsWith(item.href)
+      {navItems.map((item) => (
+        <VStack
+          spacing={0}
+          key={item.label}
+          cursor="pointer"
+          onClick={() => router.push(item.href)}
+          flex={1}
+          position={"relative"}
+          color={
+            item.href === "/"
+              ? pathname === "/"
                 ? mainColor
                 : undefined
-            }
-            borderRadius={8}
-          >
-            {item.hasUpdate && (
-              <Box
-                w={1}
-                h={1}
-                top={0}
-                right={0}
-                bg={"red.500"}
-                borderRadius={"full"}
-                position={"absolute"}
-              />
-            )}
-            {item.icon}
-            <Text fontSize="xs">{item.label}</Text>
-          </VStack>
-        ))}
-      </HStack>
-    </Box>
+              : pathname.startsWith(item.href)
+              ? mainColor
+              : undefined
+          }
+          borderRadius={8}
+        >
+          {item.hasUpdate && (
+            <Box
+              w={1}
+              h={1}
+              top={0}
+              right={0}
+              bg={"red.500"}
+              borderRadius={"full"}
+              position={"absolute"}
+            />
+          )}
+          {item.icon}
+          <Text fontSize="xs">{item.label}</Text>
+        </VStack>
+      ))}
+    </HStack>
   );
 }
