@@ -33,16 +33,21 @@ export default function Frens() {
         )}
         <VStack align={"stretch"} spacing={0}>
           {isLoading || !data ? (
-            <HStack>
-              <Skeleton w={8} h={8} borderRadius="full" />
-              <Skeleton>Ryo Fujita</Skeleton>
-            </HStack>
+            <VStack align={"stretch"}>
+              {[0, 1, 2].map((idx) => (
+                <HStack key={idx}>
+                  <Skeleton w={8} h={8} borderRadius="full" />
+                  <Skeleton flex={1}>Ryo Fujita</Skeleton>
+                </HStack>
+              ))}
+            </VStack>
           ) : (
-            <>
+            <VStack align={"stretch"}>
               {data.frens.map((fren) => (
                 <HStack key={fren.id}>
                   <Avatar
                     size={"sm"}
+                    src={fren.fren.photoUrl}
                     name={`${fren.fren.firstName} ${fren.fren.lastName}`}
                   />
                   <Text flex={1}>
@@ -50,7 +55,7 @@ export default function Frens() {
                   </Text>
                 </HStack>
               ))}
-            </>
+            </VStack>
           )}
         </VStack>
       </VStack>
