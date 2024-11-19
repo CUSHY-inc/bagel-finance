@@ -9,6 +9,41 @@ import { IoGameControllerOutline } from "react-icons/io5";
 import useSWR from "swr";
 import { useInitData } from "@telegram-apps/sdk-react";
 import { fetcher } from "@/lib/swr";
+import { HomeInfo, TaskWithUserTasks } from "@/types/prisma";
+
+function useHasTaskUpdate(userId?: number) {
+  const { data, error, isLoading } = useSWR<TaskWithUserTasks[]>(
+    userId ? `/api/users/${userId}/tasks` : null,
+    fetcher
+  );
+  if (isLoading || !data) {
+    return false;
+  }
+  if (error) {
+    throw error;
+  }
+  for (const task of data) {
+    if (task.userTasks[0].status !== "CLAIMED") {
+      return true;
+    }
+  }
+  return false;
+}
+
+function useHasGameUpdate(userId?: number) {
+  const { data, error, isLoading } = useSWR<HomeInfo>(
+    userId ? `/api/users/${userId}/votes/now` : null,
+    fetcher,
+    { revalidateOnMount: true }
+  );
+  if (isLoading || !data) {
+    return false;
+  }
+  if (error) {
+    throw error;
+  }
+  return data.nextRound && !data.nextRound.votes[0];
+}
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -16,15 +51,8 @@ export default function BottomNavigation() {
   const { mainColor } = useThemeColor();
   const initData = useInitData();
   const userId = initData?.user?.id;
-  const { data, error, isLoading } = useSWR<boolean>(
-    userId ? `/api/users/${userId}/tasks/new` : null,
-    fetcher
-  );
-  const hasTaskUpdate = !isLoading && data;
-
-  if (error) {
-    throw error;
-  }
+  const hasTaskUpdate = useHasTaskUpdate(userId);
+  const hasGameUpdate = useHasGameUpdate(userId);
 
   const navItems = [
     {
@@ -43,7 +71,7 @@ export default function BottomNavigation() {
       label: "Game",
       icon: <IoGameControllerOutline size={24} />,
       href: "/",
-      hasUpdate: false,
+      hasUpdate: hasGameUpdate,
     },
     {
       label: "Frens",
