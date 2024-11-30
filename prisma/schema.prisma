@@ -184,14 +184,15 @@ model Fren {
 }
 
 model Task {
-  id        Int        @id
-  title     String
-  bagel     Int
-  url       String?
-  isDeleted Boolean    @default(false)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @default(now()) @updatedAt
-  userTasks UserTask[]
+  id              Int        @id
+  title           String
+  bagel           Int
+  url             String?
+  isDeleted       Boolean    @default(false)
+  hideWhenClaimed Boolean    @default(true)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @default(now()) @updatedAt
+  userTasks       UserTask[]
 }
 
 model UserTask {

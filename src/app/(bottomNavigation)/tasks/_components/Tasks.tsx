@@ -104,7 +104,13 @@ export default function Tasks() {
       {isLoading || !data ? (
         <></>
       ) : (
-        data.map((task) => <Task key={task.id} task={task} />)
+        data.map(
+          (task) =>
+            !(task.hideWhenClaimed &&
+            task.userTasks[0].status === "CLAIMED") && (
+              <Task key={task.id} task={task} />
+            )
+        )
       )}
       <OfferWall />
     </VStack>
