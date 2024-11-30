@@ -20,3 +20,10 @@ export async function claimTask(userTask: UserTask, bagel: number) {
     data: { status: "CLAIMED" },
   });
 }
+
+export async function addPoint(userId: string, bagel: number) {
+  await prisma.point.update({
+    where: { userId },
+    data: { bagel: { increment: bagel } },
+  });
+}

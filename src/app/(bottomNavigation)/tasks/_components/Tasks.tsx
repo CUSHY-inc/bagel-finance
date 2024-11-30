@@ -10,6 +10,7 @@ import { LuCheckCircle } from "react-icons/lu";
 import useSWR, { mutate } from "swr";
 import { claimTask, completeTask } from "./actions";
 import { useAlert } from "@/app/_components/AlertProvider";
+import { OfferWall } from "./OfferWall";
 
 function Task({ task }: { task: TaskWithUserTasks }) {
   const utils = useUtils();
@@ -105,6 +106,7 @@ export default function Tasks() {
       ) : (
         data.map((task) => <Task key={task.id} task={task} />)
       )}
+      <OfferWall />
     </VStack>
   );
 }

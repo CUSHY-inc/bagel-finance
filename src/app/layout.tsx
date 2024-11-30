@@ -5,6 +5,7 @@ import { AlertLayout } from "./_components/AlertProvider";
 import CheckUser from "./_components/CheckUser";
 import ChakraUIProvider from "./_components/ChakraUIProvider";
 import TelegramAppProvider from "./_components/TelegramAppProvider";
+import BecScript from "./_components/BecScript";
 
 export const metadata: Metadata = {
   title: "Bagel Finance",
@@ -29,6 +30,8 @@ export default function Layout({
             </TelegramAppProvider>
           </Box>
         </ChakraUIProvider>
+        <BecScript />
+        <div id="exchangeBanner" style={{ display: "none" }}></div>
       </body>
     </html>
   );
