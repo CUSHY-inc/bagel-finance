@@ -10,7 +10,7 @@ import { LuCheckCircle } from "react-icons/lu";
 import useSWR, { mutate } from "swr";
 import { claimTask, completeTask } from "./actions";
 import { useAlert } from "@/app/_components/AlertProvider";
-import { OfferWall } from "./OfferWall";
+// import { OfferWall } from "./OfferWall";
 
 function Task({ task }: { task: TaskWithUserTasks }) {
   const utils = useUtils();
@@ -112,7 +112,7 @@ export default function Tasks() {
             )
         )
       )}
-      <OfferWall />
+      {/* <OfferWall /> */}
     </VStack>
   );
 }
