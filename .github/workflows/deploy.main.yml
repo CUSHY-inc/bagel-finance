@@ -71,49 +71,48 @@ jobs:
           echo "${{ secrets.SSH_KEY_PAIR }}" > ssh_key_pair.pem
           chmod 600 ssh_key_pair.pem
 
-      - name: Stop application
+      - name: Deploy to multiple EC2 instances
+        env:
+          USER: ec2-user
+          HOSTS: ${{ vars.EC2_HOSTS_PROD }}
         run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
-            forever stop "bagel-finance" || true
-            PID=$(fuser 3000/tcp 2>/dev/null)
-            if [ -n "$PID" ]; then
-              kill -9 $PID
-            fi
+          IFS=',' read -ra HOST_ARRAY <<< "$HOSTS"
+
+          for HOST in "${HOST_ARRAY[@]}"; do
+            echo "Deploying to $HOST..."
+
+            ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem "$USER@$HOST" << 'EOF'
+              echo "Stopping application..."
+              forever stop "bagel-finance" || true
+              PID=$(fuser 3000/tcp 2>/dev/null)
+              if [ -n "$PID" ]; then
+                kill -9 $PID
+              fi
+
+              echo "Cleaning up old build..."
+              rm -rf /home/ec2-user/app/bagel-finance/.next
+              rm -rf /home/ec2-user/app/bagel-finance/.env
           EOF
 
-      - name: Clean up remote directory
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
-            rm -rf /home/ec2-user/app/bagel-finance/.next
-            rm -rf /home/ec2-user/app/bagel-finance/.env
+            echo "Uploading artifacts to $HOST..."
+            scp -r -o StrictHostKeyChecking=no -i ssh_key_pair.pem ./artifacts/.next "$USER@$HOST:/home/ec2-user/app/bagel-finance/"
+            scp -r -o StrictHostKeyChecking=no -i ssh_key_pair.pem ./artifacts/.env "$USER@$HOST:/home/ec2-user/app/bagel-finance/"
+
+            ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem "$USER@$HOST" << 'EOF'
+              echo "Fetching latest source code..."
+              cd /home/ec2-user/app/bagel-finance
+              git fetch origin ${{ github.ref_name }}
+              git checkout -B ${{ github.ref_name }} origin/${{ github.ref_name }}
+
+              echo "Running migrations and installing dependencies..."
+              npm install
+              npx prisma migrate deploy
+              npx prisma generate
+
+              echo "Starting application..."
+              mkdir -p /home/ec2-user/log/bagel-finance/
+              forever start --uid "bagel-finance" -l /home/ec2-user/log/bagel-finance/$(date +'%Y%m%d%H%M%S').log --append -c "npm start" ./
           EOF
 
-      - name: Upload artifacts to EC2
-        run: |
-          scp -r -o StrictHostKeyChecking=no -i ssh_key_pair.pem ./artifacts/.next ec2-user@${{ vars.EC2_HOST_PROD }}:/home/ec2-user/app/bagel-finance/
-          scp -r -o StrictHostKeyChecking=no -i ssh_key_pair.pem ./artifacts/.env ec2-user@${{ vars.EC2_HOST_PROD }}:/home/ec2-user/app/bagel-finance/
-
-      - name: Checkout latest source code on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
-            cd /home/ec2-user/app/bagel-finance
-            git fetch origin ${{ github.ref_name }}
-            git checkout -B ${{ github.ref_name }} origin/${{ github.ref_name }}
-          EOF
-
-      - name: Run Prisma migrations on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
-            cd /home/ec2-user/app/bagel-finance
-            npm install
-            npx prisma migrate deploy
-            npx prisma generate
-          EOF
-
-      - name: Start application on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ssh_key_pair.pem ec2-user@${{ vars.EC2_HOST_PROD }} << 'EOF'
-            cd /home/ec2-user/app/bagel-finance
-            mkdir -p /home/ec2-user/log/bagel-finance/
-            forever start --uid "bagel-finance" -l /home/ec2-user/log/bagel-finance/$(date +'%Y%m%d%H%M%S').log --append -c "npm start" ./
-          EOF
+            echo "Deployment to $HOST completed."
+          done
