@@ -1,4 +1,4 @@
-import { getRandomUint64 } from "@/lib/common";
+import { delay, getRandomUint64 } from "@/lib/common";
 import { initializeTonClient } from "@/lib/tonClient";
 import { Network } from "@orbs-network/ton-access";
 import { Exchange } from "@prisma/client";
@@ -12,6 +12,7 @@ import {
   beginCell,
   SendMode,
   storeMessage,
+  TonClient,
 } from "@ton/ton";
 import { mnemonicToWalletKey } from "@ton/crypto";
 import { prisma } from "@/lib/prisma";
@@ -24,8 +25,41 @@ const usdtMasterAddress = Address.parse(
     : "kQD0GKBM8ZbryVk2aESmzfU6b9b_8era_IkvBSELujFZPsyy"
 );
 
+async function retryInitializeTonClient(network: Network, retries = 5) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const client = await initializeTonClient(network);
+      return client;
+    } catch (e) {
+      console.error(`Attempt ${i + 1} to initialize TON client failed:`, e);
+      if (i === retries - 1) throw e;
+      await delay(1000);
+    }
+  }
+}
+
+async function retrySendFile(
+  client: TonClient,
+  signedTransaction: Buffer,
+  retries = 5
+) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      await client.sendFile(signedTransaction);
+      return;
+    } catch (error) {
+      console.error(`Attempt ${i + 1} to send transaction failed:`, error);
+      if (i === retries - 1) throw error;
+      await delay(1000);
+    }
+  }
+}
+
 async function getBasicTools() {
-  const client = await initializeTonClient(network);
+  const client = await retryInitializeTonClient(network);
+  if (!client) {
+    throw new Error("Initializing TON client was failed");
+  }
   const keyPair = await mnemonicToWalletKey(secretPhrase);
   const wallet = WalletContractV4.create({
     workchain: 0,
@@ -68,6 +102,7 @@ export async function transferToken(exchange: Exchange) {
   const { client, wallet, seqno, keyPair, jettonWalletAddress } =
     await getBasicTools();
   let hash;
+  let signedTransaction;
   if (exchange.coin === "USDT") {
     const amount = Math.round(exchange.amount * 10 ** 6);
     const internalMessage = internal({
@@ -88,8 +123,7 @@ export async function transferToken(exchange: Exchange) {
     const externalMessageCell = beginCell()
       .store(storeMessage(externalMessage))
       .endCell();
-    const signedTransaction = externalMessageCell.toBoc();
-    await client.sendFile(signedTransaction);
+    signedTransaction = externalMessageCell.toBoc();
     hash = externalMessageCell.hash().toString("hex");
   } else if (exchange.coin === "TON") {
     const internalMessage = internal({
@@ -110,10 +144,13 @@ export async function transferToken(exchange: Exchange) {
     const externalMessageCell = beginCell()
       .store(storeMessage(externalMessage))
       .endCell();
-    const signedTransaction = externalMessageCell.toBoc();
-    await client.sendFile(signedTransaction);
+    signedTransaction = externalMessageCell.toBoc();
     hash = externalMessageCell.hash().toString("hex");
   }
+  if (!signedTransaction) {
+    throw new Error("Transaction not created");
+  }
+  await retrySendFile(client, signedTransaction);
   const result = await prisma.exchange.update({
     where: { id: exchange.id },
     data: { status: "SENT", hash },

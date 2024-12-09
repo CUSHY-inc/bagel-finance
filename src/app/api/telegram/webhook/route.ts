@@ -76,7 +76,11 @@ async function processSuccessfulPayment(successfulPayment: {
         providerPaymentChargeId: successfulPayment.provider_payment_charge_id,
       },
     });
-    await transferToken(exchange);
+    try {
+      await transferToken(exchange);
+    } catch (e) {
+      console.error(e);
+    }
     return;
   }
   const invoice = await prisma.invoice.findUnique({
