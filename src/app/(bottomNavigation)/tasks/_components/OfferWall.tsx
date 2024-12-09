@@ -33,6 +33,9 @@ export function OfferWall() {
   }
 
   async function checkAndRewardUser() {
+    if (!userId) {
+      return;
+    }
     const apiUrl = `https://click.dmtp.tech/banners/events?wa=KOv0WbOcK194peIdQNvWd0nt2sfzjug6vpwyC2F%2BNVE%3D&offset=0&limit=10&tui=${userId}`;
     try {
       const response = await fetch(apiUrl);
@@ -49,7 +52,7 @@ export function OfferWall() {
           console.log(
             `Rewarding user with ${rewardPoints} points for ${data.items.length} events`
           );
-          await addPoint(userId!.toString(), rewardPoints);
+          await addPoint(userId.toString(), rewardPoints);
           showAlert(
             "success",
             `You got ${rewardPoints.toLocaleString()} $BAGEL`

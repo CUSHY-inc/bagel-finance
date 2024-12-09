@@ -67,6 +67,7 @@ export async function transferToken(exchange: Exchange) {
   const toAddress = Address.parse(exchange.toAddress);
   const { client, wallet, seqno, keyPair, jettonWalletAddress } =
     await getBasicTools();
+  let hash;
   if (exchange.coin === "USDT") {
     const amount = Math.round(exchange.amount * 10 ** 6);
     const internalMessage = internal({
@@ -88,13 +89,8 @@ export async function transferToken(exchange: Exchange) {
       .store(storeMessage(externalMessage))
       .endCell();
     const signedTransaction = externalMessageCell.toBoc();
-    const hash = externalMessageCell.hash().toString("hex");
     await client.sendFile(signedTransaction);
-    const result = await prisma.exchange.update({
-      where: { id: exchange.id },
-      data: { status: "SENT", hash },
-    });
-    return result;
+    hash = externalMessageCell.hash().toString("hex");
   } else if (exchange.coin === "TON") {
     const internalMessage = internal({
       to: toAddress,
@@ -115,13 +111,12 @@ export async function transferToken(exchange: Exchange) {
       .store(storeMessage(externalMessage))
       .endCell();
     const signedTransaction = externalMessageCell.toBoc();
-    const hash = externalMessageCell.hash().toString("hex");
     await client.sendFile(signedTransaction);
-    const result = await prisma.exchange.update({
-      where: { id: exchange.id },
-      data: { status: "SENT", hash },
-    });
-    return result;
+    hash = externalMessageCell.hash().toString("hex");
   }
-  return null;
+  const result = await prisma.exchange.update({
+    where: { id: exchange.id },
+    data: { status: "SENT", hash },
+  });
+  return result;
 }
