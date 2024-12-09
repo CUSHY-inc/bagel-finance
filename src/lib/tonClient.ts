@@ -1,12 +1,18 @@
 import { TonClient } from "@ton/ton";
-import { getHttpEndpoint, Network } from "@orbs-network/ton-access";
 
 let client: TonClient | null = null;
 
-export const initializeTonClient = async (network: Network = "mainnet") => {
+export const initializeTonClient = async (
+  network: "mainnet" | "testnet" = "mainnet"
+) => {
   if (!client) {
-    const endpoint = await getHttpEndpoint({ network });
-    client = new TonClient({ endpoint });
+    client = new TonClient({
+      endpoint:
+        network === "mainnet"
+          ? "https://toncenter.com/api/v2/jsonRPC"
+          : "https://testnet.toncenter.com/api/v2/jsonRPC",
+      apiKey: process.env.TONCENTER_API_KEY,
+    });
   }
   return client;
 };

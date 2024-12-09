@@ -1,6 +1,5 @@
 import { delay, getRandomUint64 } from "@/lib/common";
 import { initializeTonClient } from "@/lib/tonClient";
-import { Network } from "@orbs-network/ton-access";
 import { Exchange } from "@prisma/client";
 import {
   JettonMaster,
@@ -17,6 +16,8 @@ import {
 import { mnemonicToWalletKey } from "@ton/crypto";
 import { prisma } from "@/lib/prisma";
 
+type Network = "mainnet" | "testnet";
+
 const secretPhrase = (process.env.SECRET_PHRASES as string).split(" ");
 const network = process.env.NETWORK as Network;
 const usdtMasterAddress = Address.parse(
@@ -24,19 +25,6 @@ const usdtMasterAddress = Address.parse(
     ? "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs"
     : "kQD0GKBM8ZbryVk2aESmzfU6b9b_8era_IkvBSELujFZPsyy"
 );
-
-async function retryInitializeTonClient(network: Network, retries = 5) {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const client = await initializeTonClient(network);
-      return client;
-    } catch (e) {
-      console.error(`Attempt ${i + 1} to initialize TON client failed:`, e);
-      if (i === retries - 1) throw e;
-      await delay(1000);
-    }
-  }
-}
 
 async function retrySendFile(
   client: TonClient,
@@ -48,7 +36,7 @@ async function retrySendFile(
       await client.sendFile(signedTransaction);
       return;
     } catch (error) {
-      console.error(`Attempt ${i + 1} to send transaction failed:`, error);
+      console.error(`Attempt ${i + 1} to send transaction failed:`);
       if (i === retries - 1) throw error;
       await delay(1000);
     }
@@ -56,10 +44,7 @@ async function retrySendFile(
 }
 
 async function getBasicTools() {
-  const client = await retryInitializeTonClient(network);
-  if (!client) {
-    throw new Error("Initializing TON client was failed");
-  }
+  const client = await initializeTonClient(network);
   const keyPair = await mnemonicToWalletKey(secretPhrase);
   const wallet = WalletContractV4.create({
     workchain: 0,
@@ -72,6 +57,19 @@ async function getBasicTools() {
     wallet.address
   );
   return { client, wallet, seqno, keyPair, jettonWalletAddress };
+}
+
+async function retryGetBasicTools(retries = 5) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const basicTools = await getBasicTools();
+      return basicTools;
+    } catch (error) {
+      console.error(`Attempt ${i + 1} to get basic tools failed:`);
+      if (i === retries - 1) throw error;
+      await delay(1000);
+    }
+  }
 }
 
 function getInternalMessageCell(
@@ -99,8 +97,11 @@ function getInternalMessageCell(
 
 export async function transferToken(exchange: Exchange) {
   const toAddress = Address.parse(exchange.toAddress);
-  const { client, wallet, seqno, keyPair, jettonWalletAddress } =
-    await getBasicTools();
+  const basicTools = await retryGetBasicTools();
+  if (!basicTools) {
+    throw new Error("Getting basic tools failed");
+  }
+  const { client, wallet, seqno, keyPair, jettonWalletAddress } = basicTools;
   let hash;
   let signedTransaction;
   if (exchange.coin === "USDT") {
