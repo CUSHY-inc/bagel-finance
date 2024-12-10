@@ -41,13 +41,15 @@ function ConfirmationDialog({
   const userId = initData?.user?.id;
 
   async function vote(choice: RoundChoiceWithDetails) {
-    await bet({
-      userId: userId!.toString(),
-      roundId: choice.roundId,
-      choiceId: choice.id,
-      bet: bagel,
-    });
-    router.push("/voted");
+    if (userId) {
+      await bet({
+        userId: userId.toString(),
+        roundId: choice.roundId,
+        choiceId: choice.id,
+        bet: bagel,
+      });
+      router.push("/voted");
+    }
   }
 
   return choice ? (
@@ -64,7 +66,7 @@ function ConfirmationDialog({
       <BaseAlertDialog
         disclosure={disclosure}
         title="Oops! Picking's Closed"
-        body="Looks like the picking period is over. Catch us next time for your chance to vote!"
+        body="Looks like the picking period is over. Catch us next time for your chance to pick!"
         yesButtonText="OK"
       />
     )

@@ -31,9 +31,11 @@ export default function Page() {
   }, [data, router]);
 
   async function onClick() {
-    await firstLogin({ userId: data!.userId, bagel });
-    setIsTransitioning(true);
-    await mutate(userId ? `/api/users/${userId}/login` : null);
+    if (data) {
+      await firstLogin({ userId: data.userId, bagel });
+      setIsTransitioning(true);
+      await mutate(userId ? `/api/users/${userId}/login` : null);
+    }
   }
 
   if (isLoading || !data || isTransitioning) {

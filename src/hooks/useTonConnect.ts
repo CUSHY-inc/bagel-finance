@@ -10,18 +10,19 @@ import { upsertWallet } from "./actions";
 
 export function useTonConnect() {
   const initData = useInitData();
+  const userId = initData?.user?.id;
   const [tonConnectUI] = useTonConnectUI();
   const isConnectionRestored = useIsConnectionRestored();
   const wallet = useTonWallet();
   const walletConnectedRef = useRef(false);
 
   tonConnectUI.onStatusChange(async (wallet) => {
-    if (initData?.user?.id && wallet) {
+    if (userId && wallet) {
       if (walletConnectedRef.current) {
         return;
       }
       upsertWallet({
-        userId: initData.user.id.toString(),
+        userId: userId.toString(),
         address: wallet.account.address,
       });
       walletConnectedRef.current = true;

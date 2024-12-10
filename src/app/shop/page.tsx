@@ -42,6 +42,7 @@ export default function Page() {
   const router = useRouter();
   const disclosure = useDisclosure();
   const initData = useInitData();
+  const userId = initData?.user?.id;
   const invoice = useInvoice();
   const { data, error, isLoading } = useSWR<BagelPack>(
     "/api/packs/tasty-bagel-pack",
@@ -55,9 +56,9 @@ export default function Page() {
     pack: BagelPack;
     quantity: number;
   }) {
-    if (initData?.user?.id) {
+    if (userId) {
       const invoiceLink = await getInvoiceLink({
-        userId: initData?.user?.id!.toString(),
+        userId: userId.toString(),
         pack,
         quantity,
       });

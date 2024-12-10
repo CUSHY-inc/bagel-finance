@@ -52,6 +52,7 @@ function Item({ image, label }: { image?: string; label: string }) {
 export default function Exchange() {
   const router = useRouter();
   const initData = useInitData();
+  const userId = initData?.user?.id;
   const invoice = useInvoice();
   const { isConnectionRestored, tonConnectUI, isConnected, address, network } =
     useTonConnect();
@@ -83,9 +84,9 @@ export default function Exchange() {
   }, [stars, isLoading, isValidating, data, error]);
 
   async function onClick() {
-    if (initData?.user?.id && amount && address) {
+    if (userId && amount && address) {
       const invoiceLink = await getExchangeLink({
-        userId: initData.user.id.toString(),
+        userId: userId.toString(),
         stars,
         coin: coin.label,
         amount,

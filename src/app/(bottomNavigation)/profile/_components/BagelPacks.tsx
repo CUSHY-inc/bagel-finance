@@ -8,8 +8,9 @@ import useSWR from "swr";
 
 export default function BagelPacks() {
   const initData = useInitData();
+  const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<Invoice[]>(
-    initData?.user?.id ? `/api/users/${initData?.user?.id}/invoices` : null,
+    userId ? `/api/users/${userId}/invoices` : null,
     fetcher
   );
 

@@ -9,8 +9,9 @@ import useSWR from "swr";
 
 export default function BagelPoint() {
   const initData = useInitData();
+  const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<Point>(
-    initData?.user?.id ? `/api/users/${initData?.user?.id}/point` : null,
+    userId ? `/api/users/${userId}/point` : null,
     fetcher
   );
 

@@ -46,16 +46,15 @@ export default function Page() {
   }, [isDaily, router]);
 
   async function onClick(day: number) {
-    if (!data) {
-      return;
+    if (data) {
+      await dailyLogin({
+        userId: data.userId,
+        bagel: dailyBagels[day - 1],
+        bonusDay: getNextBonusDay(day),
+      });
+      setIsTransitioning(true);
+      await mutate(userId ? `/api/users/${userId}/login` : null);
     }
-    await dailyLogin({
-      userId: data!.userId,
-      bagel: dailyBagels[day - 1],
-      bonusDay: getNextBonusDay(day),
-    });
-    setIsTransitioning(true);
-    await mutate(userId ? `/api/users/${userId}/login` : null);
   }
 
   if (isLoading || !data || isTransitioning) {

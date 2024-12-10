@@ -13,8 +13,9 @@ import { UserWithLogin } from "@/types/prisma";
 export default function CheckUser({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const initData = useInitData();
+  const userId = initData?.user?.id;
   const { data, error, isLoading } = useSWR<UserWithLogin>(
-    initData?.user?.id ? `/api/users/${initData.user.id}` : null,
+    userId ? `/api/users/${userId}` : null,
     fetcher
   );
 
