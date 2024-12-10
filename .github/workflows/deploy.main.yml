@@ -30,6 +30,7 @@ jobs:
           echo "COINGECKO_API_KEY=${{ vars.COINGECKO_API_KEY }}" >> .env
           echo "TELEGRAM_BOT_TOKEN=${{ vars.TELEGRAM_BOT_TOKEN_PROD }}" >> .env
           echo "NETWORK=${{ vars.NETWORK_PROD }}" >> .env
+          echo "TONCENTER_API_KEY=${{ vars.TONCENTER_API_KEY_PROD }}" >> .env
           echo "SECRET_PHRASES=${{ secrets.SECRET_PHRASES }}" >> .env
 
       - name: Build project
