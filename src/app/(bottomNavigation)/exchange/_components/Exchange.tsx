@@ -140,7 +140,6 @@ export default function Exchange() {
               <option value="750">750</option>
               <option value="1000">1000</option>
               <option value="3000">3000</option>
-              <option value="5000">5000</option>
             </Select>
             <Text as={"b"} whiteSpace={"nowrap"} p={2}>
               ⭐️ Stars
