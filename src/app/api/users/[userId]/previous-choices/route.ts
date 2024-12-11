@@ -23,6 +23,7 @@ export async function GET(
         votes: { where: { userId } },
         choices: true,
       },
+      take: 24,
     });
     return new Response(JSONBig.stringify(rounds), {
       headers: { "Content-Type": "application/json" },
